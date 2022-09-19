@@ -7,11 +7,11 @@ namespace stage0
         static void Main(string[] args)
         {
             Welcome8063();
-            Welcome4406();
+            Welcome1205();
 
         }
 
-        static partial void Welcome4406();
+        static partial void Welcome1205();
         private static void Welcome8063()
         {
             Console.WriteLine("Please Enter Your Name:");
