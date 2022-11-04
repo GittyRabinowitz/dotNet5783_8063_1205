@@ -10,6 +10,8 @@ using Dal.UseObjects;
 
 
 int choice;
+
+
 do
 {
     Console.WriteLine("enter your choice:" +
@@ -82,6 +84,8 @@ void UpdateProduct()
 
     if (p.ID != null)
     {
+        Console.WriteLine("the product's details of the product you want to update:");
+        Console.WriteLine(p);
         string name;
         Console.WriteLine("enter new name for the Product");
         name = Console.ReadLine();
@@ -207,6 +211,8 @@ void UpdateOrder()
     Order o = DalOrder.ReadSingle(id);
     if (o.ID != null)
     {
+        Console.WriteLine("the order's details of the order you want to update:");
+        Console.WriteLine(o);
         string customerName;
         string customerEmail;
         string customerAdress;
@@ -374,6 +380,9 @@ void UpdateOrderItem()
 
     if (currentOrderItem.ID != null)
     {
+        Console.WriteLine("the order item's details of the order item you want to update:");
+        Console.WriteLine(currentOrderItem);
+
         Console.WriteLine("enter new order id for the order item");
         string orderId1 = Console.ReadLine();
         if (!string.IsNullOrEmpty(orderId1))

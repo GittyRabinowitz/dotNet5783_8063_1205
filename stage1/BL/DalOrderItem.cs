@@ -157,8 +157,16 @@ public class DalOrderItem
     /// <exception cref="NotImplementedException"></exception>
     public static OrderItem[] ReadOrderItemByOrderId(int orderId)
     {
+        int counter = 0;
+        for (int i = 0; i < DataSource.Config.orderItemIdx; i++)
+        {
+            if (DataSource.OrderItemList[i].OrderID == orderId)
+            {
+                counter++;
+            }
+        }
         int index = 0;
-        OrderItem[] OrderItemList = new OrderItem[DataSource.Config.orderItemIdx];
+        OrderItem[] OrderItemList = new OrderItem[counter];
         for (int i = 0; i < DataSource.Config.orderItemIdx; i++)
         {
             if (DataSource.OrderItemList[i].OrderID == orderId)
