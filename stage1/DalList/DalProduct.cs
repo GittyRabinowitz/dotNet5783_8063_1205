@@ -1,12 +1,13 @@
 ﻿
 using Dal.DO;
+using DalApi;
 namespace Dal.UseObjects;
-
 /// <summary>
 /// class for crud actions for a product
 /// </summary>
 
-public class DalProduct
+
+internal class DalProduct:IProduct
 {
 
     /// <summary>
@@ -15,22 +16,18 @@ public class DalProduct
     /// <param name="obj"></param>
     /// <returns>the object's id</returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static int Create(Product obj)
+    public int Add(Product obj)
     {
-        if (DataSource.Config.productIdx >= DataSource.maxNumOfProducts)
-        {
-            throw new Exception("There is no space available for your Product");
-
-        }
-        for (int i = 0; i < DataSource.Config.productIdx; i++)
+        int temp = DataSource.ProductList.Count();
+        for (int i = 0; i < temp; i++)
         {
             if (DataSource.ProductList[i].ID == obj.ID)
             {
-                throw new Exception("this Product already exist");
+                throw new EntityAlreadyExistException("this Product already exist");
 
             }
         }
-        DataSource.ProductList[DataSource.Config.productIdx++] = obj;
+        DataSource.ProductList.Add(obj);
         return obj.ID;
     }
 
@@ -40,24 +37,19 @@ public class DalProduct
     /// </summary>
     /// <param name="Id"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public static void Delete(int Id)
+    public void Delete(int Id)
     {
         bool flag = true;
-        for (int i = 0; i < DataSource.Config.productIdx; i++)
+        for (int i = 0; i < DataSource.ProductList.Count(); i++)
         {
             if (DataSource.ProductList[i].ID == Id)
             {
-                for (int j = i; j < DataSource.Config.productIdx; j++)
-                {
-                    DataSource.ProductList[j] = DataSource.ProductList[j + 1];
-
-                }
-                DataSource.Config.productIdx--;
+                DataSource.ProductList.Remove(DataSource.ProductList[i]);
                 flag = false;
             }
         }
         if (flag)
-            throw new Exception("this Product does not exist");
+            throw new EntityNotFoundException("this Product does not exist");
     }
 
 
@@ -66,15 +58,14 @@ public class DalProduct
     /// </summary>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static Product[] Read()
+    public IEnumerable<Product> Get()
     {
-        Product[] ProductList = new Product[DataSource.Config.productIdx];
-        for (int i = 0; i < DataSource.Config.productIdx; i++)
+        List<Product> ProductList = new List<Product>();
+        for (int i = 0; i < DataSource.ProductList.Count(); i++)
         {
-            ProductList[i] = DataSource.ProductList[i];
+            ProductList.Add(DataSource.ProductList[i]);
         }
         return ProductList;
-        throw new Exception();
     }
 
 
@@ -84,11 +75,11 @@ public class DalProduct
     /// <param name="Id"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static Product ReadSingle(int Id)
+    public Product GetSingle(int Id)
     {
         bool flag = true;
         int i;
-        for (i = 0; i < DataSource.Config.productIdx; i++)
+        for (i = 0; i < DataSource.ProductList.Count(); i++)
         {
             if (DataSource.ProductList[i].ID == Id)
             {
@@ -97,7 +88,7 @@ public class DalProduct
             }
         }
         if (flag)
-            throw new Exception("this Product does not exist");
+            throw new EntityNotFoundException("this Product does not exist");
         return DataSource.ProductList[i];
     }
 
@@ -107,11 +98,11 @@ public class DalProduct
     /// </summary>
     /// <param name="obj"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public static void Update(Product obj)
+    public void Update(Product obj)
     {
         bool flag = true;
 
-        for (int i = 0; i < DataSource.Config.productIdx; i++)
+        for (int i = 0; i < DataSource.ProductList.Count(); i++)
         {
             if (DataSource.ProductList[i].ID == obj.ID)
             {
@@ -120,7 +111,7 @@ public class DalProduct
             }
         }
         if (flag)
-            throw new Exception("this Product does not exist");
+            throw new EntityNotFoundException("this Product does not exist");
     }
 
 
@@ -129,15 +120,17 @@ public class DalProduct
     /// </summary>
     /// <param name="id"></param>
     /// <param name="amount"></param>
-    public static void decreaseInStock(int id, int amount)
+    public void decreaseInStock(int id, int amount)
     {
 
-        for (int i = 0; i < DataSource.Config.productIdx; i++)
+        for (int i = 0; i < DataSource.ProductList.Count(); i++)
         {
             if (DataSource.ProductList[i].ID == id)
             {
-                DataSource.ProductList[i].InStock -= amount;
-            }
+                Product p = DataSource.ProductList[i];
+                p.InStock -= amount;
+                DataSource.ProductList[i] = p;
+;            }
         }
     }
 }

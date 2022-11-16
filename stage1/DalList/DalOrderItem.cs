@@ -1,12 +1,13 @@
 ﻿
 using Dal.DO;
+using DalApi;
 namespace Dal.UseObjects;
 
 /// <summary>
 /// class for crud actions for an order item
 /// </summary>
 /// 
-public class DalOrderItem
+internal class DalOrderItem:IOrderItem
 {
 
     /// <summary>
@@ -15,20 +16,16 @@ public class DalOrderItem
     /// <param name="obj"></param>
     /// <returns>the object's id</returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static int Create(OrderItem obj)
+    public int Add(OrderItem obj)
     {
-        if (DataSource.Config.orderItemIdx >= DataSource.maxNumOfOrderItems)
-        {
-            throw new NotImplementedException("There is no space available for your order item");
-        }
-        for (int i = 0; i < DataSource.Config.orderItemIdx; i++)
+        for (int i = 0; i < DataSource.OrderItemList.Count(); i++)
         {
             if (DataSource.OrderItemList[i].ID == obj.ID)
             {
-                throw new Exception("this order item already exist");
+                throw new EntityAlreadyExistException("this order item already exist");
             }
         }
-        DataSource.OrderItemList[DataSource.Config.orderItemIdx++] = obj;
+        DataSource.OrderItemList.Add(obj);
         return obj.ID;
         throw new Exception();
     }
@@ -39,24 +36,19 @@ public class DalOrderItem
     /// </summary>
     /// <param name="Id"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public static void Delete(int Id)
+    public void Delete(int Id)
     {
         bool flag = true;
-        for (int i = 0; i < DataSource.Config.orderItemIdx; i++)
+        for (int i = 0; i < DataSource.OrderItemList.Count(); i++)
         {
             if (DataSource.OrderItemList[i].ID == Id)
             {
-                for (int j = i; j < DataSource.Config.orderItemIdx; j++)
-                {
-                    DataSource.OrderItemList[j] = DataSource.OrderItemList[j + 1];
-
-                }
-                DataSource.Config.orderItemIdx--;
+                DataSource.OrderItemList.Remove(DataSource.OrderItemList[i]);
                 flag = false;
             }
         }
         if (flag)
-            throw new Exception("this order item does not exist");
+            throw new EntityNotFoundException("this order item does not exist");
 
     }
 
@@ -66,15 +58,14 @@ public class DalOrderItem
     /// </summary>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static OrderItem[] Read()
+    public IEnumerable<OrderItem> Get()
     {
-        OrderItem[] OrderItemList = new OrderItem[DataSource.Config.orderItemIdx];
-        for (int i = 0; i < DataSource.Config.orderItemIdx; i++)
+        List<OrderItem> OrderItemList = new List<OrderItem>();
+        for (int i = 0; i < DataSource.OrderItemList.Count(); i++)
         {
-            OrderItemList[i] = DataSource.OrderItemList[i];
+            OrderItemList.Add(DataSource.OrderItemList[i]);
         }
         return OrderItemList;
-        throw new Exception();
     }
 
 
@@ -84,11 +75,11 @@ public class DalOrderItem
     /// <param name="Id"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static OrderItem ReadSingle(int Id)
+    public OrderItem GetSingle(int Id)
     {
         bool flag = true;
         int i;
-        for (i = 0; i < DataSource.Config.orderItemIdx; i++)
+        for (i = 0; i < DataSource.OrderItemList.Count(); i++)
         {
             if (DataSource.OrderItemList[i].ID == Id)
             {
@@ -97,7 +88,7 @@ public class DalOrderItem
             }
         }
         if (flag)
-            throw new Exception("this order item does not exist");
+            throw new EntityNotFoundException("this order item does not exist");
         return DataSource.OrderItemList[i];
     }
 
@@ -107,10 +98,10 @@ public class DalOrderItem
     /// </summary>
     /// <param name="obj"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public static void Update(OrderItem obj)
+    public void Update(OrderItem obj)
     {
         bool flag = true;
-        for (int i = 0; i < DataSource.Config.orderItemIdx; i++)
+        for (int i = 0; i < DataSource.OrderItemList.Count(); i++)
         {
             if (DataSource.OrderItemList[i].ID == obj.ID)
             {
@@ -119,22 +110,22 @@ public class DalOrderItem
             }
         }
         if (flag)
-            throw new Exception("this order item does not exist");
+            throw new EntityNotFoundException("this order item does not exist");
 
     }
 
 
     /// <summary>
-    /// ReadOrderItemByOrderIdAndProductId function gets an order id and product id of the order item requested and returns it (if it's exist) 
+    /// GetOrderItemByOrderIdAndProductId function gets an order id and product id of the order item requested and returns it (if it's exist) 
     /// </summary>
     /// <param name="Id"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static OrderItem ReadOrderItemByOrderIdAndProductId(int orderId, int productId)
+    public OrderItem GetOrderItemByOrderIdAndProductId(int orderId, int productId)
     {
         bool flag = true;
         int i;
-        for (i = 0; i < DataSource.Config.orderItemIdx; i++)
+        for (i = 0; i < DataSource.OrderItemList.Count(); i++)
         {
             if (DataSource.OrderItemList[i].OrderID == orderId &&
                 DataSource.OrderItemList[i].ProductID == productId)
@@ -144,39 +135,31 @@ public class DalOrderItem
             }
         }
         if (flag)
-            throw new Exception("there is no any order item with this order id and Product id");
+            throw new EntityNotFoundException("there is no any order item with this order id and Product id");
         return DataSource.OrderItemList[i];
     }
 
 
     /// <summary>
-    /// ReadOrderItemByOrderId function gets an order id of the order items requested and returns it (it can be more than one) 
+    /// GetOrderItemByOrderId function gets an order id of the order items requested and returns it (it can be more than one) 
     /// </summary>
     /// <param name="Id"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static OrderItem[] ReadOrderItemByOrderId(int orderId)
+    public IEnumerable<OrderItem> GetOrderItemByOrderId(int orderId)
     {
-        int counter = 0;
-        for (int i = 0; i < DataSource.Config.orderItemIdx; i++)
+        bool flag = true;
+        List<OrderItem> OrderItemList = new List<OrderItem>();
+        for (int i = 0; i < DataSource.OrderItemList.Count(); i++)
         {
             if (DataSource.OrderItemList[i].OrderID == orderId)
             {
-                counter++;
+                OrderItemList.Add(DataSource.OrderItemList[i]);
+                flag = false;
             }
         }
-        int index = 0;
-        OrderItem[] OrderItemList = new OrderItem[counter];
-        for (int i = 0; i < DataSource.Config.orderItemIdx; i++)
-        {
-            if (DataSource.OrderItemList[i].OrderID == orderId)
-            {
-                OrderItemList[index++] = DataSource.OrderItemList[i];
-            }
-
-        }
-        if (index == 0)
-            throw new Exception("there are no order items with this order id");
+        if (flag)
+            throw new EntityNotFoundException("there are no order items with this order id");
         return OrderItemList;
     }
 }

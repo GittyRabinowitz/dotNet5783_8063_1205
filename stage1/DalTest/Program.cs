@@ -1,6 +1,6 @@
 ﻿using Dal;
 using Dal.DO;
-using Dal.UseObjects;
+using DalApi;
 
 /// <summary>
 /// The main program offers the user to manage products, orders and order items in each of them,
@@ -9,7 +9,9 @@ using Dal.UseObjects;
 /// 
 
 
+IDal DalListEntity = new DalList();
 int choice;
+DataSource ds = new DataSource();
 
 
 do
@@ -66,7 +68,7 @@ void AddProduct()
     currentProduct.Category = (eCategory)choice;
     Console.WriteLine("enter amount in stock");
     currentProduct.InStock = Convert.ToInt32(Console.ReadLine());
-    DalProduct.Create(currentProduct);
+    DalListEntity.Product.Add(currentProduct);
 }
 
 
@@ -80,7 +82,7 @@ void UpdateProduct()
     bool flag = true;
     Console.WriteLine("enter the id of the Product you want to Update");
     int id = Convert.ToInt32(Console.ReadLine());
-    Product p = DalProduct.ReadSingle(id);
+    Product p = DalListEntity.Product.GetSingle(id);
 
     if (p.ID != null)
     {
@@ -117,7 +119,7 @@ void UpdateProduct()
             p.InStock = inStock2;
         }
 
-        DalProduct.Update(p);
+        DalListEntity.Product.Update(p);
         flag = false;
     }
     if (flag)
@@ -150,11 +152,11 @@ void productCrud()
             case (int)eCrudOptions.ViewById:
                 Console.WriteLine("Enter Product id to view");
                 id = Convert.ToInt32(Console.ReadLine());
-                Product p = DalProduct.ReadSingle(id);
+                Product p = DalListEntity.Product.GetSingle(id);
                 Console.WriteLine(p);
                 break;
             case (int)eCrudOptions.ViewAll:
-                Product[] ProductList = DalProduct.Read();
+                IEnumerable<Product> ProductList = DalListEntity.Product.Get();
                 foreach (Product product in ProductList)
                 { Console.WriteLine(product); }
                 break;
@@ -164,7 +166,7 @@ void productCrud()
             case (int)eCrudOptions.Delete:
                 Console.WriteLine("Enter Product id to Delete");
                 id = Convert.ToInt32(Console.ReadLine());
-                DalProduct.Delete(id);
+                DalListEntity.Product.Delete(id);
                 break;
             default:
                 break;
@@ -194,7 +196,7 @@ void AddOrder()
     currentOrder.OrderDate = DateTime.Now;
     currentOrder.ShipDate = currentOrder.OrderDate + TimeSpan.FromDays(10);
     currentOrder.DeliveryDate = currentOrder.ShipDate + TimeSpan.FromDays(20);
-    DalOrder.Create(currentOrder);
+  DalListEntity.Order.Add(currentOrder);
 }
 
 
@@ -208,7 +210,7 @@ void UpdateOrder()
     bool flag = true;
     Console.WriteLine("enter the id of the order you want to Update");
     int id = Convert.ToInt32(Console.ReadLine());
-    Order o = DalOrder.ReadSingle(id);
+    Order o = DalListEntity.Order.GetSingle(id);
     if (o.ID != null)
     {
         Console.WriteLine("the order's details of the order you want to update:");
@@ -265,7 +267,7 @@ void UpdateOrder()
             else
                 throw new Exception("you haven't entered a valid datetime value");
         }
-        DalOrder.Update(o);
+        DalListEntity.Order.Update(o);
         flag = false;
     }
     if (flag)
@@ -298,11 +300,11 @@ void orderCrud()
             case (int)eCrudOptions.ViewById:
                 Console.WriteLine("Enter order id to view");
                 id = Convert.ToInt32(Console.ReadLine());
-                Order currentOrder = DalOrder.ReadSingle(id);
+                Order currentOrder = DalListEntity.Order.GetSingle(id);
                 Console.WriteLine(currentOrder);
                 break;
             case (int)eCrudOptions.ViewAll:
-                Order[] OrderList = DalOrder.Read();
+                IEnumerable<Order> OrderList = DalListEntity.Order.Get();
                 foreach (Order order in OrderList)
                 { Console.WriteLine(order); }
                 break;
@@ -312,7 +314,7 @@ void orderCrud()
             case (int)eCrudOptions.Delete:
                 Console.WriteLine("Enter order id to Delete");
                 id = Convert.ToInt32(Console.ReadLine());
-                DalOrder.Delete(id);
+                DalListEntity.Order.Delete(id);
                 break;
             default:
                 break;
@@ -335,12 +337,12 @@ void AddOrderItem()
     OrderItem currentOrderItem = new OrderItem();
     Console.WriteLine("enter order id for the new order item");
     currentOrderItem.OrderID = Convert.ToInt32(Console.ReadLine());
-    OrderItem oi = DalOrderItem.ReadSingle(currentOrderItem.OrderID);
+    OrderItem oi = DalListEntity.OrderItem.GetSingle(currentOrderItem.OrderID);
     if (oi.ID != null)
     {
         Console.WriteLine("enter Product id for the new order item");
         currentOrderItem.ProductID = Convert.ToInt32(Console.ReadLine());
-        Product p = DalProduct.ReadSingle(currentOrderItem.ProductID);
+        Product p =  DalListEntity.Product.GetSingle(currentOrderItem.ProductID);
 
         if (p.ID != null)
         {
@@ -349,11 +351,11 @@ void AddOrderItem()
             if (amount <= p.InStock)
             {
                 currentOrderItem.Amount = amount;
-                DalProduct.decreaseInStock(p.ID, currentOrderItem.Amount);
+                DalListEntity.Product.decreaseInStock(p.ID, currentOrderItem.Amount);
                 Console.WriteLine("enter price for the new order item");
                 currentOrderItem.Price = Convert.ToInt32(Console.ReadLine());
                 currentOrderItem.ID = DataSource.Config.OrderItemId;
-                DalOrderItem.Create(currentOrderItem);
+               DalListEntity.OrderItem.Add(currentOrderItem);
             }
             else
             {
@@ -376,7 +378,7 @@ void UpdateOrderItem()
     bool flag = true;
     Console.WriteLine("enter the id of the order item you want to Update");
     id = Convert.ToInt32(Console.ReadLine());
-    OrderItem currentOrderItem = DalOrderItem.ReadSingle(id);
+    OrderItem currentOrderItem = DalListEntity.OrderItem.GetSingle(id);
 
     if (currentOrderItem.ID != null)
     {
@@ -388,7 +390,7 @@ void UpdateOrderItem()
         if (!string.IsNullOrEmpty(orderId1))
         {
             int orderId2 = Convert.ToInt32(orderId1);
-            Order o = DalOrder.ReadSingle(orderId2);
+            Order o = DalListEntity.Order.GetSingle(orderId2);
             if (o.ID != null)
                 currentOrderItem.OrderID = orderId2;
             else
@@ -400,7 +402,7 @@ void UpdateOrderItem()
         if (!string.IsNullOrEmpty(productId1))
         {
             int productId = Convert.ToInt32(productId1);
-            Product p = DalProduct.ReadSingle(productId);
+            Product p = DalListEntity.Product.GetSingle(productId);
             if (p.ID != null)
                 currentOrderItem.ProductID = productId;
             else
@@ -423,7 +425,7 @@ void UpdateOrderItem()
             currentOrderItem.Amount = Convert.ToInt32(amount);
         }
 
-        DalOrderItem.Update(currentOrderItem);
+       DalListEntity.OrderItem.Update(currentOrderItem);
         flag = false;
     }
     if (flag)
@@ -452,7 +454,7 @@ void orderItemCrud()
     int orderId;
     int productId;
     OrderItem currentOrderItem;
-    OrderItem[] orderItemList;
+    IEnumerable<OrderItem> orderItemList;
     try
     {
         switch (choice)
@@ -463,11 +465,11 @@ void orderItemCrud()
             case (int)eOrderItemOptions.ViewById:
                 Console.WriteLine("Enter order item id to view");
                 id = Convert.ToInt32(Console.ReadLine());
-                currentOrderItem = DalOrderItem.ReadSingle(id);
+                currentOrderItem =DalListEntity.OrderItem.GetSingle(id);
                 Console.WriteLine(currentOrderItem);
                 break;
             case (int)eOrderItemOptions.ViewAll:
-                orderItemList = DalOrderItem.Read();
+                orderItemList = DalListEntity.OrderItem.Get();
                 foreach (OrderItem orderItem in orderItemList)
                 { Console.WriteLine(orderItem); }
                 break;
@@ -477,20 +479,20 @@ void orderItemCrud()
             case (int)eOrderItemOptions.Delete:
                 Console.WriteLine("Enter order item id to Delete");
                 id = Convert.ToInt32(Console.ReadLine());
-                DalOrderItem.Delete(id);
+               DalListEntity.OrderItem.Delete(id);
                 break;
             case (int)eOrderItemOptions.ViewByorderIdAndProductId:
                 Console.WriteLine("Enter order id of the order item to view");
                 orderId = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Enter Product id of the order item to view");
                 productId = Convert.ToInt32(Console.ReadLine());
-                currentOrderItem = DalOrderItem.ReadOrderItemByOrderIdAndProductId(orderId, productId);
+                currentOrderItem = DalListEntity.OrderItem.GetOrderItemByOrderIdAndProductId(orderId, productId);
                 Console.WriteLine(currentOrderItem);
                 break;
             case (int)eOrderItemOptions.ViewByOrderId:
                 Console.WriteLine("Enter order id of the order item to view");
                 orderId = Convert.ToInt32(Console.ReadLine());
-                orderItemList = DalOrderItem.ReadOrderItemByOrderId(orderId);
+                orderItemList = DalListEntity.OrderItem.GetOrderItemByOrderId(orderId);
                 foreach (OrderItem orderItem in orderItemList)
                 { if (orderItem.ID != 0) Console.WriteLine(orderItem); }
                 break;

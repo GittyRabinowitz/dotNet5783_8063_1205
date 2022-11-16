@@ -1,12 +1,13 @@
 ﻿
 using Dal.DO;
+using DalApi;
 namespace Dal.UseObjects;
 
 /// <summary>
 /// class for crud actions for an order
 /// </summary>
 
-public class DalOrder
+internal class DalOrder:IOrder
 {
 
     /// <summary>
@@ -15,23 +16,16 @@ public class DalOrder
     /// <param name="obj"></param>
     /// <returns>the object's id</returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static int Create(Order obj)
+    public int Add(Order obj)
     {
-        if (DataSource.Config.orderIdx >= DataSource.maxNumOfOrders)
-        {
-            throw new Exception("There is no space available for your order");
-
-        }
-
-        for (int i = 0; i < DataSource.Config.orderIdx; i++)
+        for (int i = 0; i < DataSource.OrderList.Count(); i++)
         {
             if (DataSource.OrderList[i].ID == obj.ID)
             {
-                throw new Exception("this order already exist");
+                throw new EntityAlreadyExistException("this order already exist");
             }
         }
-
-        DataSource.OrderList[DataSource.Config.orderIdx++] = obj;
+        DataSource.OrderList.Add(obj);
         return obj.ID;
     }
 
@@ -41,26 +35,21 @@ public class DalOrder
     /// </summary>
     /// <param name="Id"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public static void Delete(int Id)
+    public void Delete(int Id)
     {
         bool flag = true;
 
-        for (int i = 0; i < DataSource.Config.orderIdx; i++)
+        for (int i = 0; i < DataSource.OrderList.Count(); i++)
         {
             if (DataSource.OrderList[i].ID == Id)
             {
-
-                for (int j = i; j < DataSource.Config.orderIdx; j++)
-                {
-                    DataSource.OrderList[j] = DataSource.OrderList[j + 1];
-                }
-                DataSource.Config.orderIdx--;
+                DataSource.OrderList.Remove(DataSource.OrderList[i]);
                 flag = false;
             }
         }
 
         if (flag)
-            throw new Exception("this order does not exist");
+            throw new EntityNotFoundException("this order does not exist");
     }
 
 
@@ -69,17 +58,15 @@ public class DalOrder
     /// </summary>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static Order[] Read()
+    public IEnumerable<Order> Get()
     {
-        Order[] OrderList = new Order[DataSource.Config.orderIdx];
-
-        for (int i = 0; i < DataSource.Config.orderIdx; i++)
+        List<Order> OrderList = new List<Order>();
+        for (int i = 0; i < DataSource.OrderList.Count(); i++)
         {
-            OrderList[i] = DataSource.OrderList[i];
+            OrderList.Add(DataSource.OrderList[i]);
         }
 
         return OrderList;
-        throw new Exception();
     }
 
 
@@ -89,11 +76,11 @@ public class DalOrder
     /// <param name="Id"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public static Order ReadSingle(int Id)
+    public Order GetSingle(int Id)
     {
         bool flag = true;
         int i;
-        for (i = 0; i < DataSource.Config.orderIdx; i++)
+        for (i = 0; i < DataSource.OrderList.Count(); i++)
         {
             if (DataSource.OrderList[i].ID == Id)
             {
@@ -102,7 +89,7 @@ public class DalOrder
             }
         }
         if (flag)
-            throw new Exception("this order does not exist");
+            throw new EntityNotFoundException("this order does not exist");
         return DataSource.OrderList[i];
 
     }
@@ -113,10 +100,10 @@ public class DalOrder
     /// </summary>
     /// <param name="obj"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public static void Update(Order obj)
+    public void Update(Order obj)
     {
         bool flag = true;
-        for (int i = 0; i < DataSource.Config.orderIdx; i++)
+        for (int i = 0; i < DataSource.OrderList.Count(); i++)
         {
             if (DataSource.OrderList[i].ID == obj.ID)
             {
@@ -125,7 +112,7 @@ public class DalOrder
             }
         }
         if (flag)
-            throw new Exception("this order does not exist");
+            throw new EntityNotFoundException("this order does not exist");
     }
 }
 

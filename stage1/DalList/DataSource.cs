@@ -2,13 +2,9 @@
 using Dal.DO;
 namespace Dal;
 
-static public class DataSource
+public class DataSource
 {
     public static readonly int Rand;
-
-    public const int maxNumOfProducts = 50;
-    public const int maxNumOfOrders = 100;
-    public const int maxNumOfOrderItems = 200;
 
 
     public const int minNumOfProducts = 10;
@@ -16,9 +12,9 @@ static public class DataSource
     public const int minNumOfOrderItems = 40;
 
 
-    internal static Product[] ProductList = new Product[maxNumOfProducts];
-    internal static Order[] OrderList = new Order[maxNumOfOrders];
-    internal static OrderItem[] OrderItemList = new OrderItem[maxNumOfOrderItems];
+    internal static List<Product> ProductList = new List<Product>();
+    internal static List<Order> OrderList = new List<Order>();
+    internal static List<OrderItem> OrderItemList = new List<OrderItem>();
 
     static Random rand = new Random();
 
@@ -42,14 +38,14 @@ static public class DataSource
 
         for (int i = 0; i < minNumOfProducts; i++)
         {
-            ProductList[i] = new Product();
+            Product p = new Product();
             int number = (int)rand.NextInt64(namesCategoryArr.Length);
-            ProductList[i].ID = Config.ProductID;
-            ProductList[i].Name = namesCategoryArr[number].Item1;
-            ProductList[i].Price = (int)rand.NextInt64(350, 3000);
-            ProductList[i].Category = namesCategoryArr[number].Item2;
-            ProductList[i].InStock = (int)rand.NextInt64(0, 200);
-            Config.productIdx++;
+            p.ID = Config.ProductID;
+            p.Name = namesCategoryArr[number].Item1;
+            p.Price = (int)rand.NextInt64(350, 3000);
+            p.Category = namesCategoryArr[number].Item2;
+            p.InStock = (int)rand.NextInt64(0, 200);
+            ProductList.Add(p);
         }
     }
 
@@ -59,6 +55,7 @@ static public class DataSource
     /// </summary>
     static private void CreateOrderList()
     {
+
         (string, string, string)[] customerDetailsArr = {
             ("Gitty", "g@g.com", "Achinoam"),
             ("Tova","t@t.com","Eidelson") ,
@@ -70,16 +67,17 @@ static public class DataSource
 
         for (int i = 0; i < minNumOfOrders; i++)
         {
-            OrderList[i] = new Order();
+            Order o = new Order();
             int index = (int)rand.NextInt64(customerDetailsArr.Length);
-            OrderList[i].ID = Config.OrderID;
-            OrderList[i].CustomerName = customerDetailsArr[index].Item1;
-            OrderList[i].CustomerEmail = customerDetailsArr[index].Item2;
-            OrderList[i].CustomerAdress = customerDetailsArr[index].Item3;
-            OrderList[i].OrderDate = DateTime.MinValue;
-            OrderList[i].ShipDate = OrderList[i].OrderDate + TimeSpan.FromDays(10);
-            OrderList[i].DeliveryDate = OrderList[i].ShipDate + TimeSpan.FromDays(20);
-            Config.orderIdx++;
+            o.ID = Config.OrderID;
+            o.CustomerName = customerDetailsArr[index].Item1;
+            o.CustomerEmail = customerDetailsArr[index].Item2;
+            o.CustomerAdress = customerDetailsArr[index].Item3;
+            o.OrderDate = DateTime.MinValue;
+            o.ShipDate = o.OrderDate + TimeSpan.FromDays(10);
+            o.DeliveryDate = o.ShipDate + TimeSpan.FromDays(20);
+
+            OrderList.Add(o);
         }
     }
 
@@ -91,21 +89,21 @@ static public class DataSource
     {
         for (int i = 0; i < minNumOfOrderItems;)
         {
-            int OrderIndex = (int)rand.NextInt64(Config.orderIdx);
+            int OrderIndex = (int)rand.NextInt64(OrderList.Count());
             int numOfProducts = (int)rand.NextInt64(1, 4);
             for (int j = 0; j < numOfProducts; j++)
             {
-                int ProductIndex = (int)rand.NextInt64(Config.productIdx);
+                int ProductIndex = (int)rand.NextInt64(ProductList.Count());
                 if (ProductList[ProductIndex].InStock == 0)
                     continue;
-                OrderItemList[Config.orderItemIdx] = new OrderItem();
-                OrderItemList[Config.orderItemIdx].ID = Config.OrderItemId;
-                OrderItemList[Config.orderItemIdx].ProductID = ProductList[ProductIndex].ID;
-                OrderItemList[Config.orderItemIdx].OrderID = OrderList[OrderIndex].ID;
-                OrderItemList[Config.orderItemIdx].Amount = (int)rand.NextInt64(1, ProductList[ProductIndex].InStock);
-                ProductList[ProductIndex].InStock -= OrderItemList[i].Amount;
-                OrderItemList[Config.orderItemIdx].Price = OrderItemList[i].Amount * ProductList[ProductIndex].Price;
-                Config.orderItemIdx++;
+                OrderItem oi = new OrderItem();
+
+                oi.ID = Config.OrderItemId;
+                oi.ProductID = ProductList[ProductIndex].ID;
+                oi.OrderID = OrderList[OrderIndex].ID;
+                oi.Amount = (int)rand.NextInt64(1, ProductList[ProductIndex].InStock);
+                oi.Price = oi.Amount * ProductList[ProductIndex].Price;
+                OrderItemList.Add(oi);
                 i++;
             }
         }
@@ -128,6 +126,7 @@ static public class DataSource
     /// </summary>
     static DataSource()
     {
+
         s_Initialize();
     }
 
@@ -138,15 +137,11 @@ static public class DataSource
     public static class Config
     {
         private static int productID = 99999;
-        public static int ProductID { get { productID++; return productID; }  }
+        public static int ProductID { get { productID++; return productID; } }
         private static int orderID = 99999;
-        public static int OrderID { get { orderID++; return orderID;  }  }
+        public static int OrderID { get { orderID++; return orderID; } }
         private static int orderItemId = 99999;
-        public static int OrderItemId { get { orderItemId++; return orderItemId; }  }
+        public static int OrderItemId { get { orderItemId++; return orderItemId; } }
 
-
-        internal static int productIdx = 0;
-        internal static int orderIdx = 0;
-        internal static int orderItemIdx = 0;
     }
 }
