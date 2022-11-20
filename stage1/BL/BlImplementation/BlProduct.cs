@@ -16,7 +16,7 @@ namespace BlImplementation
         public void Add(Product p)
         {
             //Id,name,price,category
-            IEnumerable<Product> j = Dal.Product.Get();
+            IEnumerable<Dal.DO.Product> j = Dal.Product.Get();
             var jh =  Dal.Product.Get();
             throw new NotImplementedException();
         }
