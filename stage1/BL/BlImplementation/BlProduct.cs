@@ -15,9 +15,7 @@ namespace BlImplementation
 
         public void Add(Product p)
         {
-            //Id,name,price,category
-            IEnumerable<Product> j = Dal.Product.Get();
-            var jh =  Dal.Product.Get();
+
             throw new NotImplementedException();
         }
 
@@ -26,14 +24,49 @@ namespace BlImplementation
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ProductForList> Get()
+        public IEnumerable<ProductForList> GetProductList()
         {
-            throw new NotImplementedException();
+            IEnumerable<Dal.DO.Product> existingProductsList = Dal.Product.Get();
+
+            List<ProductForList> productList=new List<ProductForList>();
+            foreach (var item in existingProductsList)
+            {
+                ProductForList p=new ProductForList();
+                p.ID = item.ID;
+                p.Name = item.Name;
+                p.Price = item.Price;
+                p.Category = (eCategory)item.Category;
+                productList.Add(p);
+            }
+
+            if(productList.Count()==0)
+                throw new NoEntitiesFound("No products found");
+            return productList;
+
         }
+
 
         public IEnumerable<ProductItem> GetCatalog()
         {
-            throw new NotImplementedException();
+            IEnumerable<Dal.DO.Product> existingProductsList = Dal.Product.Get();
+
+            List<ProductItem> productList = new List<ProductItem>();
+            foreach (var item in existingProductsList)
+            {
+                ProductItem p = new ProductItem();
+                
+                p.ID = item.ID;
+                p.Name = item.Name;
+                p.Price = item.Price;
+                p.Category = (eCategory)item.Category;
+                //p.Amount = 1; במה לאתחל????
+                p.InStock = item.InStock;
+                productList.Add(p);
+            }
+
+            if (productList.Count() == 0)
+                throw new NoEntitiesFound("No products found");
+            return productList;
         }
 
         public Product GetProductCustomer(int id)
@@ -43,7 +76,23 @@ namespace BlImplementation
 
         public Product GetProductManager(int id)
         {
-            throw new NotImplementedException();
+            Product localProduct=new Product();
+            if (id > 0)
+            {
+                Dal.DO.Product product =  Dal.Product.GetSingle(id);
+                localProduct.ID = product.ID;
+                localProduct.Name = product.Name;
+                localProduct.Price = product.Price;
+                localProduct.Category = (eCategory)product.Category;
+                localProduct.InStock = product.InStock;
+                return localProduct;
+            }
+            else
+            {
+                throw new BO.EntityNotFoundException("this product does not exist");
+            }
+            
+            
         }
 
         public void Update(Product p)

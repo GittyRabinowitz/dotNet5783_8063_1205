@@ -24,4 +24,13 @@ namespace BO
         }
 
     }
+
+    public class NoEntitiesFound : Exception
+    {
+        public NoEntitiesFound(string message) :
+                                        base(message)
+        {
+        }
+
+    }
 }
