@@ -9,13 +9,11 @@ namespace BlApi
 {
     public interface IOrder
     {
-        public IEnumerable<Order> GetOrderList();
-        public Order GetOrderDetails(int id);
-        public Order updateSentOrder(int id);
-        public Order updateOrderDelivery(int id);
+        public IEnumerable<OrderForList> GetOrderList();//manager
+        public Order GetOrderDetails(int id);//manager and customer
+        public Order updateShippedOrder(int id);//manager
+        public Order updateDeliveryedOrder(int id);//manager
         public Order update(int id);
-
-
 
     }
 }
