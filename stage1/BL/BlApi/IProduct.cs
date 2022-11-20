@@ -9,12 +9,13 @@ namespace BlApi
     public interface IProduct
     {
 
-        public IEnumerable<ProductForList> GetProductList();
-        public IEnumerable<ProductItem> GetProductItems();
-        public Product GetProduct(int id);
-
-        public void Add(Product p);
-
+        public IEnumerable<ProductForList> Get();//manager
+        public IEnumerable<ProductItem> GetCatalog();//catalog
+        public Product GetProductManager(int id);
+        public Product GetProductCustomer(int id);
+        public void Add(Product p);//manager
+        public void Delete(int id);//manager
+        public void Update(Product p);//manager
 
 
     }
