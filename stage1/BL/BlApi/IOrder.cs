@@ -11,7 +11,7 @@ namespace BlApi
     {
         public IEnumerable<OrderForList> GetOrderList();//manager
         public Order GetOrderDetails(int id);//manager and customer
-        public Order updateShippedOrder(int id);//manager
+        public Order updateShippedOrder(int id,DateTime newDate);//manager
         public Order updateDeliveryedOrder(int id);//manager
         public Order update(int id);
 
