@@ -22,7 +22,7 @@ internal class DalOrder:IOrder
         {
             if (DataSource.OrderList[i].ID == obj.ID)
             {
-                throw new EntityAlreadyExistException("this order already exist");
+                throw new DalEntityAlreadyExistException("this order already exist");
             }
         }
         DataSource.OrderList.Add(obj);
@@ -49,7 +49,7 @@ internal class DalOrder:IOrder
         }
 
         if (flag)
-            throw new EntityNotFoundException("this order does not exist");
+            throw new DalEntityNotFoundException("this order does not exist");
     }
 
 
@@ -89,7 +89,7 @@ internal class DalOrder:IOrder
             }
         }
         if (flag)
-            throw new EntityNotFoundException("this order does not exist");
+            throw new DalEntityNotFoundException("this order does not exist");
         return DataSource.OrderList[i];
 
     }
@@ -112,7 +112,7 @@ internal class DalOrder:IOrder
             }
         }
         if (flag)
-            throw new EntityNotFoundException("this order does not exist");
+            throw new DalEntityNotFoundException("this order does not exist");
     }
 }
 

@@ -13,7 +13,7 @@ namespace BlImplementation
 {
     internal class BlOrder: IOrder
     {
-        private DalApi.IDal Dal = new DalList();
+        private IDal Dal = new DalList();
 
         public Order GetOrderDetails(int id)
         {
@@ -81,7 +81,7 @@ namespace BlImplementation
            
    
 
-        public IEnumerable<OrderForList> GetOrderList()
+        public Order updateShippedOrder(int id)
         {
 
             IEnumerable<Dal.DO.Order> orders = Dal.Order.Get();
@@ -126,7 +126,6 @@ namespace BlImplementation
                 return Blorders;
 
             throw new NotImplementedException();
-
         }
 
         public Order update(int id)
@@ -169,7 +168,7 @@ namespace BlImplementation
             throw new NotImplementedException();
         }
 
-        public Order updateShippedOrder(int id)
+        public Order update(int id)
         {
             throw new NotImplementedException();
         }
