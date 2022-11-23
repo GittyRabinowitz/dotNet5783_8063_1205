@@ -6,14 +6,63 @@ using System.Threading.Tasks;
 using BlApi;
 using BO;
 using Dal;
-using DalApi;
+
 
 
 namespace BlImplementation
 {
-    internal class BlOrder: BlApi.IOrder
+    internal class BlOrder: IOrder
     {
-        private IDal Dal = new DalList();
+        private DalApi.IDal Dal = new DalList();
+        public IEnumerable<OrderForList> GetOrderList()
+        {
+            //           IEnumerable<Dal.DO.Order> orders = Dal.Order.Get();
+            //           IEnumerable<Dal.DO.OrderItem> orderItems=Dal.OrderItem.Get();
+            //           IEnumerable<OrderForList> Blorders;
+            //           foreach (Dal.DO.Order Order in orders)
+            //           {
+            //               OrderForList o=new OrderForList();
+            //               o.ID=Order.ID;
+            //               o.CustomerName=Order.CustomerName;
+            //               int counter=0;
+            //               double totalPrice;
+            //               foreach (var item in orderItems)
+            //{
+
+            //                   if (item.OrderId == Order.OrderId)
+            //                   {
+            //                      counter++;
+            //                    totalPrice+= item.Price;
+            //                   }
+
+            //}
+            //               o.TotalPrice=totalPrice;
+            //               o.AmountOfItems=counter;
+            //               DateTime date=new DateTime();
+            //               if(date.now>Order.OrderDate && date.now < Order.ShipDate)
+            //               {
+            //                   o.Status=eOrderStatus.ordered;
+            //               }
+            //                 if(date.now>Order.ShipDate && date.now < Order.DeliveryDate)
+            //               {
+            //                   o.Status=eOrderStatus.shipped;
+            //               }
+            //               else
+            //               {
+            //                   o.Status=eOrderStatus.delivered;
+            //               }
+            //             Blorders.Add(o);
+            //           }
+            //           if(Blorders.Count()==0)
+            //              // throw new ();//לזרוק שגיאה
+            //           return Blorders;
+
+            throw new NotImplementedException();
+
+        }
+
+
+
 
         public Order GetOrderDetails(int id)
         {
@@ -77,64 +126,18 @@ namespace BlImplementation
             //            return balOrder;
         }
 
-        public IEnumerable<OrderForList> GetOrderList()
-        {
-            //           IEnumerable<Dal.DO.Order> orders = Dal.Order.Get();
-            //           IEnumerable<Dal.DO.OrderItem> orderItems=Dal.OrderItem.Get();
-            //           IEnumerable<OrderForList> Blorders;
-            //           foreach (Dal.DO.Order Order in orders)
-            //           {
-            //               OrderForList o=new OrderForList();
-            //               o.ID=Order.ID;
-            //               o.CustomerName=Order.CustomerName;
-            //               int counter=0;
-            //               double totalPrice;
-            //               foreach (var item in orderItems)
-            //{
-
-            //                   if (item.OrderId == Order.OrderId)
-            //                   {
-            //                      counter++;
-            //                    totalPrice+= item.Price;
-            //                   }
-
-            //}
-            //               o.TotalPrice=totalPrice;
-            //               o.AmountOfItems=counter;
-            //               DateTime date=new DateTime();
-            //               if(date.now>Order.OrderDate && date.now < Order.ShipDate)
-            //               {
-            //                   o.Status=eOrderStatus.ordered;
-            //               }
-            //                 if(date.now>Order.ShipDate && date.now < Order.DeliveryDate)
-            //               {
-            //                   o.Status=eOrderStatus.shipped;
-            //               }
-            //               else
-            //               {
-            //                   o.Status=eOrderStatus.delivered;
-            //               }
-            //             Blorders.Add(o);
-            //           }
-            //           if(Blorders.Count()==0)
-            //              // throw new ();//לזרוק שגיאה
-            //           return Blorders;
-
-            throw new NotImplementedException();
-
-        }
-
-        public Order update(int id)
+        public Order updateShippedOrder(int id)
         {
             throw new NotImplementedException();
         }
+   
 
         public Order updateDeliveryedOrder(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Order updateShippedOrder(int id)
+        public Order update(int id)
         {
             throw new NotImplementedException();
         }

@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace DalApi
 {
-    public class EntityNotFoundException : Exception
+    public class DalEntityNotFoundException : Exception
     {
         //public override string Message =>
         //                "EntityNotFound";
-        public EntityNotFoundException(string message) :
+        public DalEntityNotFoundException(string message) :
                                 base(message)
         {
         }
 
     }
-    public class EntityAlreadyExistException : Exception
+    public class DalEntityAlreadyExistException : Exception
     {
-        public EntityAlreadyExistException(string message) :
+        public DalEntityAlreadyExistException(string message) :
                                         base(message)
         {
         }

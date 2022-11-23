@@ -23,7 +23,7 @@ internal class DalProduct:IProduct
         {
             if (DataSource.ProductList[i].ID == obj.ID)
             {
-                throw new EntityAlreadyExistException("this Product already exist");
+                throw new DalEntityAlreadyExistException("this Product already exist");
 
             }
         }
@@ -49,7 +49,7 @@ internal class DalProduct:IProduct
             }
         }
         if (flag)
-            throw new EntityNotFoundException("this Product does not exist");
+            throw new DalEntityNotFoundException("this Product does not exist");
     }
 
 
@@ -88,7 +88,7 @@ internal class DalProduct:IProduct
             }
         }
         if (flag)
-            throw new EntityNotFoundException("this Product does not exist");
+            throw new DalEntityNotFoundException("this Product does not exist");
         return DataSource.ProductList[i];
     }
 
@@ -111,7 +111,7 @@ internal class DalProduct:IProduct
             }
         }
         if (flag)
-            throw new EntityNotFoundException("this Product does not exist");
+            throw new DalEntityNotFoundException("this Product does not exist");
     }
 
 
