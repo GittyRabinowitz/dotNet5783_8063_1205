@@ -74,9 +74,28 @@ namespace BO
                         "amount cant be negative";
 
     }
+    public class BlInvalidIntegerException : Exception
+    {
+        public override string Message =>
+                        "you have to enter an integer";
+
+    }
+
+    public class BlNoNeedToUpdateException : Exception
+    {
+        public override string Message =>
+                        "The order has already been updated";
+
+    }
+
+    public class BlDeliveredBeforeShippedException : Exception
+    {
+        public override string Message =>
+                        "The order delivered before shipping";
+
+    }
     
 }
-
 
 
 

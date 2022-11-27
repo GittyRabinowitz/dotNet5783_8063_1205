@@ -46,7 +46,7 @@ namespace BlImplementation
                 p.Name = item.Name;
                 p.Price = item.Price;
                 p.Category = (BO.eCategory)item.Category;
-                //p.Amount = 1; במה לאתחל????
+                p.Amount = 1 במה לאתחל????
                 p.InStock = item.InStock;
                 productList.Add(p);
             }
