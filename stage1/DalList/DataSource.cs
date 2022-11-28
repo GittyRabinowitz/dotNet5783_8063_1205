@@ -17,7 +17,7 @@ public class DataSource
     internal static List<OrderItem> OrderItemList = new List<OrderItem>();
 
     static Random rand = new Random();
-
+    internal static readonly Random Randomize = new Random();
 
     /// <summary>
     /// CreateProductList function initializes the data in the array ProductList
@@ -42,9 +42,9 @@ public class DataSource
             int number = (int)rand.NextInt64(namesCategoryArr.Length);
             p.ID = Config.ProductID;
             p.Name = namesCategoryArr[number].Item1;
-            p.Price = (int)rand.NextInt64(350, 3000);
+            p.Price = (int)rand.NextInt64(5, 100);
             p.Category = namesCategoryArr[number].Item2;
-            p.InStock = (int)rand.NextInt64(0, 200);
+            p.InStock = (int)rand.NextInt64(0, 50);
             ProductList.Add(p);
         }
     }
@@ -67,17 +67,45 @@ public class DataSource
 
         for (int i = 0; i < minNumOfOrders; i++)
         {
-            Order o = new Order();
+            Order order = new Order();
             int index = (int)rand.NextInt64(customerDetailsArr.Length);
-            o.ID = Config.OrderID;
-            o.CustomerName = customerDetailsArr[index].Item1;
-            o.CustomerEmail = customerDetailsArr[index].Item2;
-            o.CustomerAdress = customerDetailsArr[index].Item3;
-            o.OrderDate = DateTime.MinValue;
-            o.ShipDate = o.OrderDate + TimeSpan.FromDays(10);
-            o.DeliveryDate = o.ShipDate + TimeSpan.FromDays(20);
+            order.ID = Config.OrderID;
+            order.CustomerName = customerDetailsArr[index].Item1;
+            order.CustomerEmail = customerDetailsArr[index].Item2;
+            order.CustomerAdress = customerDetailsArr[index].Item3;
+            //order.OrderDate = DateTime.MinValue+TimeSpan.FromDays(5);
+            //order.ShipDate = order.OrderDate + TimeSpan.FromDays(10);
+            //order.DeliveryDate = order.ShipDate + TimeSpan.FromDays(20);
 
-            OrderList.Add(o);
+
+            //randomizes a date from 01/01/2010
+            Random ran = new Random();
+            DateTime start = new DateTime(2010, 1, 1);
+            int range = (DateTime.Today - start).Days;
+            order.OrderDate = start.AddDays(ran.Next(range));
+
+
+            int dateShipExsist = (int)Randomize.NextInt64(0, 5);
+            if (dateShipExsist > 0)
+            {
+                TimeSpan spanOrderShip = TimeSpan.FromDays(5);
+                order.ShipDate = order.OrderDate + spanOrderShip;
+                int dateDeliveryExsist = (int)Randomize.NextInt64(0, 5);
+                if (dateDeliveryExsist > 0)
+                {
+                    TimeSpan spanShipDelivery = TimeSpan.FromDays(30);
+                    order.DeliveryDate = order.ShipDate + spanShipDelivery;
+                }
+                else
+                    order.DeliveryDate = DateTime.MinValue;
+            }
+            else
+            {
+                order.ShipDate = DateTime.MinValue;
+                order.DeliveryDate = DateTime.MinValue;
+            }
+
+            OrderList.Add(order);
         }
     }
 
@@ -98,7 +126,7 @@ public class DataSource
                     continue;
                 OrderItem oi = new OrderItem();
 
-                oi.ID = Config.OrderItemId;
+                oi.ID = Config.OrderItemID;
                 oi.ProductID = ProductList[ProductIndex].ID;
                 oi.OrderID = OrderList[OrderIndex].ID;
                 oi.Amount = (int)rand.NextInt64(1, ProductList[ProductIndex].InStock);
@@ -140,8 +168,8 @@ public class DataSource
         public static int ProductID { get { productID++; return productID; } }
         private static int orderID = 99999;
         public static int OrderID { get { orderID++; return orderID; } }
-        private static int orderItemId = 99999;
-        public static int OrderItemId { get { orderItemId++; return orderItemId; } }
+        private static int orderItemID = 99999;
+        public static int OrderItemID { get { orderItemID++; return orderItemID; } }
 
     }
 }

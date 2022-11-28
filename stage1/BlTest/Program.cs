@@ -246,6 +246,7 @@ void updateProduct()
 
 void products()
 {
+
     Console.WriteLine("enter the choice: 1.get products list 2. get catalog. 3.get product manager 4. get product customer 5.add product 6.delete product 7.update product");
 
     int choice;

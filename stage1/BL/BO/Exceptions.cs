@@ -24,9 +24,18 @@ namespace BO
         public override string Message => "ID already exist";
     }
 
-    public class NoEntitiesFound : Exception
+    public class BlNoEntitiesFound : Exception
     {
-        public NoEntitiesFound(string message) : base(message)
+        public BlNoEntitiesFound(string message) : base(message)
+        {
+
+        }
+        public override string Message => "No entities found";
+    }
+
+    public class BlNoEntitiesFoundInDal : Exception
+    {
+        public BlNoEntitiesFoundInDal(Exception inner) : base("no entities found",inner)
         {
 
         }

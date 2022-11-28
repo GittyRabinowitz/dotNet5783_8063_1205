@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlApi;
-using BO;
+﻿using BlApi;
 using Dal;
 
 namespace BlImplementation
@@ -13,69 +7,66 @@ namespace BlImplementation
     {
         private DalApi.IDal Dal = new DalList();
 
-        public Cart Add(Cart cart, int id)
+        public BO.Cart Add(BO.Cart cart, int id)
         {
 
-
-            Dal.DO.Product DOProduct;
-            bool flag = true;
             try
             {
-                DOProduct = Dal.Product.GetSingle(id);
+
+
+                Dal.DO.Product DoProduct = new Dal.DO.Product();
+                bool flag = true;
+
+                DoProduct = Dal.Product.GetSingle(id);
+
+                foreach (var item in cart.Items)
+                {
+                    if (item.ProductID == id)
+                    {
+                        if (DoProduct.InStock<=0)
+                            throw new BO.BlOutOfStockException("This product is out of stock");
+
+                        item.Amount += 1;
+                        item.TotalPrice += DoProduct.Price;
+                        cart.TotalPrice += DoProduct.Price;
+
+                        flag = false;
+                    }
+                }
+
+                if (flag)
+                {
+                    if (DoProduct.InStock<=0)
+                        throw new BO.BlOutOfStockException("This product is out of stock");
+
+                    BO.OrderItem BoOrderItem = new BO.OrderItem();
+                    BoOrderItem.ID = BO.BoConfig.OrderItemID;
+                    BoOrderItem.Name = DoProduct.Name;
+                    BoOrderItem.ProductID = id;
+                    BoOrderItem.Amount = 1;
+                    BoOrderItem.Price = DoProduct.Price;
+                    BoOrderItem.TotalPrice = DoProduct.Price;
+                    cart.Items.Add(BoOrderItem);
+                    cart.TotalPrice += DoProduct.Price;
+
+
+                }
+                return cart;
             }
             catch (DalApi.DalEntityNotFoundException exc)
             {
-                throw new BlIdNotExist(exc);
-            }
-            foreach (var item in cart.Items)
-            {
-                if (item.ProductID == id)
-                {
-                    if (DOProduct.InStock > 0)
-                    {
-                        item.Amount += 1;
-                        item.Price += DOProduct.Price;
-                        cart.TotalPrice += DOProduct.Price;
-                    }
-                    flag = false;
-                }
+                throw new BO.BlIdNotExist(exc);
             }
 
-            if (flag)
-            {
-
-                if (DOProduct.InStock > 0)
-                {
-                    BO.OrderItem newoi = new BO.OrderItem();
-                    newoi.ID = //מה לשים במזהה?????
-                    newoi.Name = DOProduct.Name;
-                    newoi.ProductID = id;
-                    newoi.Amount = 1;
-                    newoi.Price = DOProduct.Price;
-                    newoi.TotalPrice = DOProduct.Price;
-                    cart.Items.Add(newoi);
-                    cart.TotalPrice += DOProduct.Price;
-
-                }
-                else
-                {
-                    throw new BlOutOfStockException("This product is out of stock");
-
-                }
-
-
-            }
-            return cart;
-            throw new NotImplementedException();
         }
 
-        public Cart Update(Cart cart, int id, int newAmount)
+        public BO.Cart Update(BO.Cart cart, int id, int newAmount)
         {
             try
             {
 
                 bool flag = true;
-                Dal.DO.Product DOProduct = Dal.Product.GetSingle(id);
+                Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
 
                 foreach (var item in cart.Items)
                 {
@@ -84,8 +75,8 @@ namespace BlImplementation
                         flag = false;
                         if (newAmount > item.Amount)
                         {
-                            if (newAmount - item.Amount > DOProduct.InStock)
-                                throw new BlOutOfStockException("This product is not available in this amount");
+                            if (newAmount - item.Amount > DoProduct.InStock)
+                                throw new BO.BlOutOfStockException("This product is not available in this amount");
 
                             item.Amount = newAmount;
                             item.TotalPrice += item.Price * (newAmount - item.Amount);
@@ -104,17 +95,17 @@ namespace BlImplementation
                         }
                     }
                 }
-                if (flag && newAmount <= DOProduct.InStock)
+                if (flag && newAmount <= DoProduct.InStock)
                 {
-                    BO.OrderItem oi = new BO.OrderItem();
-                    oi.ID=// מה לשים במזהה???? אולי DataSource.Config.OrderItemId;
+                    BO.OrderItem BoOrderItem = new BO.OrderItem();
+                    BoOrderItem.ID=BO.BoConfig.OrderItemID;
 
-                    oi.Name = DOProduct.Name;
-                    oi.ProductID = DOProduct.ID;
-                    oi.Price = DOProduct.Price;
-                    oi.Amount = newAmount;
-                    oi.TotalPrice = DOProduct.Price * newAmount;
-                    cart.Items.Add(oi);
+                    BoOrderItem.Name = DoProduct.Name;
+                    BoOrderItem.ProductID = DoProduct.ID;
+                    BoOrderItem.Price = DoProduct.Price;
+                    BoOrderItem.Amount = newAmount;
+                    BoOrderItem.TotalPrice = DoProduct.Price * newAmount;
+                    cart.Items.Add(BoOrderItem);
                 }
                 return cart;
 
@@ -122,131 +113,86 @@ namespace BlImplementation
             }
             catch (DalApi.DalEntityNotFoundException exc)
             {
-                throw new BlIdNotExist(exc);
+                throw new BO.BlIdNotExist(exc);
             }
 
         }
 
 
 
-        public void CartConfirmation(Cart cart, string customerName, string customerEmail, string customerAddress)
+        public void CartConfirmation(BO.Cart cart, string customerName, string customerEmail, string customerAddress)
         {
-
-            Regex regex = new Regex(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-
-                9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
-RegexOptions.CultureInvariant | RegexOptions.Singleline);
-            Console.WriteLine($"The email is {customerEmail}");
-            bool isValidEmail = regex.IsMatch(customerEmail);
-            if (customerName == null || customerAddress == null)
-            {
-                throw new BlNullValueException();
-            }
-            if (!isValidEmail)
-            {
-                throw new BlInvalidEmailException();
-            }
-            bool canContine = true;
-            int productInStock;
-
-
-
-            Dal.DO.Order DoOrder = new Dal.DO.Order();
-            DoOrder.ID = DataSource.Config.OrderID;
-            DoOrder.OrderDate = DateTime.Now;
-            DoOrder.ShipDate = DateTime.MinValue;
-            DoOrder.DeliveryDate = DateTime.MinValue;
-            DoOrder.CustomerName = customerName;
-            DoOrder.CustomerEmail = customerEmail;
-            DoOrder.CustomerAdress = customerAddress;
-            int orderId;
             try
             {
-                orderId = Dal.Order.Add(DoOrder);
 
+                //מה עושים פה???
+                //            Regex regex = new Regex(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-
+                //                9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
+                //RegexOptions.CultureInvariant | RegexOptions.Singleline);
+                //Console.WriteLine($"The email is {customerEmail}");
+                //bool isValidEmail = regex.IsMatch(customerEmail);
+                if (customerName == null || customerAddress == null)
+                {
+                    throw new BO.BlNullValueException();
+                }
+                //if (!isValidEmail)
+                //{
+                //    throw new BO.BlInvalidEmailException();
+                //}
+                bool canContine = true;
+                int productInStock;
+
+                Dal.DO.Order DoOrder = new Dal.DO.Order();
+                DoOrder.ID = DataSource.Config.OrderID;
+                DoOrder.OrderDate = DateTime.Now;
+                DoOrder.ShipDate = DateTime.MinValue;
+                DoOrder.DeliveryDate = DateTime.MinValue;
+                DoOrder.CustomerName = customerName;
+                DoOrder.CustomerEmail = customerEmail;
+                DoOrder.CustomerAdress = customerAddress;
+                int orderId = Dal.Order.Add(DoOrder);
+
+                foreach (BO.OrderItem oi in cart.Items)
+                {
+                    Dal.DO.Product DoProduct = new Dal.DO.Product();
+
+                    DoProduct = Dal.Product.GetSingle(oi.ProductID);
+
+                    if (oi.Amount < 0)
+                    {
+                        throw new BO.BlNegativeAmountException();
+                    }
+                    if (DoProduct.InStock < oi.Amount)
+                    {
+                        throw new BO.BlOutOfStockException("This product is out of stock");
+                    }
+                    if (canContine)
+                    {
+                        Dal.DO.OrderItem DoOrderItem = new Dal.DO.OrderItem();
+
+                        DoOrderItem.ID = DataSource.Config.OrderItemID;
+                        DoOrderItem.ProductID = oi.ProductID;
+                        DoOrderItem.OrderID = orderId;
+                        DoOrderItem.Amount = oi.Amount;
+                        DoOrderItem.Price = oi.TotalPrice;
+
+                        Dal.OrderItem.Add(DoOrderItem);
+
+                        Dal.Product.decreaseInStock(DoProduct.ID, oi.Amount);
+
+                    }
+
+                }
             }
             catch (DalApi.DalEntityAlreadyExistException exc)
             {
                 throw new BO.BlIdAlreadyExist(exc);
             }
-
-
-
-
-            foreach (BO.OrderItem oi in cart.Items)
+            catch (DalApi.DalEntityNotFoundException exc)
             {
-                Dal.DO.Product DOProduct;
-                try
-                {
-                    DOProduct = Dal.Product.GetSingle(oi.ProductID);
-                }
-                catch (DalApi.DalEntityNotFoundException exc)
-                {
-                    throw new BlIdNotExist(exc);
-                }
-
-
-                if (oi.Amount < 0)
-                {
-                    throw new BlNegativeAmountException();
-                }
-                if (DOProduct.InStock < oi.Amount)
-                {
-                    throw new BlOutOfStockException("This product is out of stock");
-                }
-                if (canContine)
-                {
-                    Dal.DO.OrderItem DoOrderItem = new Dal.DO.OrderItem();
-
-                    DoOrderItem.ID = DataSource.Config.OrderItemId;
-                    DoOrderItem.ProductID = oi.ProductID;
-                    DoOrderItem.OrderID = orderId;
-                    DoOrderItem.Amount = oi.Amount;
-                    DoOrderItem.Price = oi.TotalPrice;
-
-                    try
-                    {
-                        Dal.OrderItem.Add(DoOrderItem);
-
-                    }
-                    catch (DalApi.DalEntityAlreadyExistException exc)
-                    {
-                        throw new BO.BlIdAlreadyExist(exc);
-                    }
-
-
-                    Dal.Product.decreaseInStock(DOProduct.ID, oi.Amount);
-
-                }
+                throw new BO.BlIdNotExist(exc);
             }
-
-
-            //catch (BlNegativeAmountException ex)
-            //{
-            //    throw new BlNegativeAmountException();
-            //}
-            //catch (BlOutOfStockException ex)
-            //{
-            //    throw new BlOutOfStockException();
-            //}
-            //catch (BlNullValueException ex)
-            //{
-            //    throw new BlNullValueException();
-            //}
-            //catch (BlInvalidEmailException ex)
-            //{
-            //    throw new BlInvalidEmailException();
-            //}
-            //catch (BlIdDoesntExistException ex)
-            //{
-            //    throw new BlIdDoesntExistException();
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception();
-            //}
-
         }
     }
-
 }
-//}
+

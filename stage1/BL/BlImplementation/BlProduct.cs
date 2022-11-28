@@ -1,147 +1,164 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlApi;
-
+﻿using BlApi;
 using Dal;
 namespace BlImplementation
 {
-    internal class BlProduct :IProduct
+    internal class BlProduct : IProduct
     {
         private DalApi.IDal Dal = new DalList();
 
         public IEnumerable<BO.ProductForList> GetProductList()
         {
-            IEnumerable<Dal.DO.Product> existingProductsList = Dal.Product.Get();
-
-            List<BO.ProductForList> productList = new List<BO.ProductForList>();
-            foreach (var item in existingProductsList)
+            try
             {
-                BO.ProductForList p = new BO.ProductForList();
-                p.ID = item.ID;
-                p.Name = item.Name;
-                p.Price = item.Price;
-                p.Category = (BO.eCategory)item.Category;
-                productList.Add(p);
-            }
+                IEnumerable<Dal.DO.Product> existingProductsList = Dal.Product.Get();
 
-            if (productList.Count() == 0)
-                throw new BO.NoEntitiesFound("No products found");
-            return productList;
+                List<BO.ProductForList> productsForList = new List<BO.ProductForList>();
+                foreach (Dal.DO.Product DoProduct in existingProductsList)
+                {
+                    BO.ProductForList ProductForList = new BO.ProductForList();
+                    ProductForList.ID = DoProduct.ID;
+                    ProductForList.Name = DoProduct.Name;
+                    ProductForList.Price = DoProduct.Price;
+                    ProductForList.Category = (BO.eCategory)DoProduct.Category;
+                    productsForList.Add(ProductForList);
+                }
+
+                if (productsForList.Count() == 0)
+                    throw new BO.BlNoEntitiesFound("No products found");
+                return productsForList;
+            }
+            catch (BO.BlNoEntitiesFound)
+            {
+                throw new BO.BlNoEntitiesFound("No products found");
+            }
 
         }
 
         public IEnumerable<BO.ProductItem> GetCatalog()
         {
-            IEnumerable<Dal.DO.Product> existingProductsList = Dal.Product.Get();
-
-            List<BO.ProductItem> productList = new List<BO.ProductItem>();
-            foreach (var item in existingProductsList)
+            try
             {
-                BO.ProductItem p = new BO.ProductItem();
 
-                p.ID = item.ID;
-                p.Name = item.Name;
-                p.Price = item.Price;
-                p.Category = (BO.eCategory)item.Category;
-                p.Amount = 1 במה לאתחל????
-                p.InStock = item.InStock;
-                productList.Add(p);
+                IEnumerable<Dal.DO.Product> existingProductsList = Dal.Product.Get();
+
+                List<BO.ProductItem> productItemsList = new List<BO.ProductItem>();
+                foreach (Dal.DO.Product DoProduct in existingProductsList)
+                {
+                    BO.ProductItem BoProductItem = new BO.ProductItem();
+
+                    BoProductItem.ID = DoProduct.ID;
+                    BoProductItem.Name = DoProduct.Name;
+                    BoProductItem.Price = DoProduct.Price;
+                    BoProductItem.Category = (BO.eCategory)DoProduct.Category;
+                    BoProductItem.Amount = 1;//האם לאתחך בזה???
+                    BoProductItem.InStock = DoProduct.InStock;
+                    productItemsList.Add(BoProductItem);
+                }
+
+                if (productItemsList.Count() == 0)
+                    throw new BO.BlNoEntitiesFound("No products found");
+                return productItemsList;
+
             }
-
-            if (productList.Count() == 0)
-                throw new BO.NoEntitiesFound("No products found");
-            return productList;
+            catch (BO.BlNoEntitiesFound)
+            {
+                throw new BO.BlNoEntitiesFound("No products found");
+                throw;
+            }
         }
 
         public BO.Product GetProductManager(int id)
         {
-            BO.Product BOProduct = new BO.Product();
-            if (id > 0)
+            try
             {
-                Dal.DO.Product DOProduct;
-                try
+
+
+                BO.Product BoProduct = new BO.Product();
+                if (id > 0)
                 {
-                    DOProduct = Dal.Product.GetSingle(id);
+                    Dal.DO.Product DoProduct = new Dal.DO.Product();
 
+                    DoProduct = Dal.Product.GetSingle(id);
+
+                    BoProduct.ID = DoProduct.ID;
+                    BoProduct.Name = DoProduct.Name;
+                    BoProduct.Price = DoProduct.Price;
+                    BoProduct.Category = (BO.eCategory)DoProduct.Category;
+                    BoProduct.InStock = DoProduct.InStock;
+                    return BoProduct;
                 }
-                catch (DalApi.DalEntityNotFoundException exc)
+                else
                 {
-                    throw new BO.BlIdNotExist(exc);
-
+                    throw new BO.BlInvalideData("id cant be negative");
                 }
-
-                BOProduct.ID = DOProduct.ID;
-                BOProduct.Name = DOProduct.Name;
-                BOProduct.Price = DOProduct.Price;
-                BOProduct.Category = (BO.eCategory)DOProduct.Category;
-                BOProduct.InStock = DOProduct.InStock;
-                return BOProduct;
             }
-            else
+            catch (DalApi.DalEntityNotFoundException exc)
             {
-                throw new BO.BlInvalideData("id cant be negative");
+                throw new BO.BlIdNotExist(exc);
+
             }
 
         }
 
         public BO.Product GetProductCustomer(int id)
         {
-            BO.Product BOProduct = new BO.Product();
-            if (id > 0)
+            try
             {
-                Dal.DO.Product DOProduct;
-                try
+
+                BO.Product BoProduct = new BO.Product();
+                if (id > 0)
                 {
-                    DOProduct = Dal.Product.GetSingle(id);
+                    Dal.DO.Product DoProduct = new Dal.DO.Product();
 
+                    DoProduct = Dal.Product.GetSingle(id);
+
+
+
+                    BoProduct.ID = DoProduct.ID;
+                    BoProduct.Name = DoProduct.Name;
+                    BoProduct.Price = DoProduct.Price;
+                    BoProduct.Category = (BO.eCategory)DoProduct.Category;
+                    BoProduct.InStock = DoProduct.InStock;
+                    return BoProduct;
                 }
-                catch (DalApi.DalEntityNotFoundException exc)
+                else
                 {
-                    throw new BO.BlIdNotExist(exc);
-
+                    throw new BO.BlInvalideData("id cant be negative");
                 }
 
-                BOProduct.ID = DOProduct.ID;
-                BOProduct.Name = DOProduct.Name;
-                BOProduct.Price = DOProduct.Price;
-                BOProduct.Category = (BO.eCategory)DOProduct.Category;
-                BOProduct.InStock = DOProduct.InStock;
-                return BOProduct;
             }
-            else
+            catch (DalApi.DalEntityNotFoundException exc)
             {
-                throw new BO.BlInvalideData("id cant be negative");
+                throw new BO.BlIdNotExist(exc);
+
             }
         }
 
 
-        public void Add(BO.Product BOProduct)
+        public void Add(BO.Product BoProduct)
         {
             try
             {
 
-            Dal.DO.Product DOProduct = new Dal.DO.Product();
-            if (BOProduct.ID < 0)
-                throw new BO.BlInvalideData("id cant be negative");
+                Dal.DO.Product DoProduct = new Dal.DO.Product();
+                if (BoProduct.ID < 0)
+                    throw new BO.BlInvalideData("id cant be negative");
 
-            if (BOProduct.Name == "")
-                throw new BO.BlInvalideData("name cant be null");
+                if (BoProduct.Name == "")
+                    throw new BO.BlInvalideData("name cant be null");
 
-            if (BOProduct.Price <= 0)
-                throw new BO.BlInvalideData("price cant be zero or negative");
+                if (BoProduct.Price <= 0)
+                    throw new BO.BlInvalideData("price cant be zero or negative");
 
-            if (BOProduct.InStock < 0)
-                throw new BO.BlInvalideData("inStock cant be negative");
-             
+                if (BoProduct.InStock < 0)
+                    throw new BO.BlInvalideData("inStock cant be negative");
 
-                DOProduct.ID = BOProduct.ID;
-                DOProduct.Name = BOProduct.Name;
-                DOProduct.Price = BOProduct.Price;
-                DOProduct.Category = (Dal.DO.eCategory)BOProduct.Category;
-                Dal.Product.Add(DOProduct);
+
+                DoProduct.ID = BoProduct.ID;
+                DoProduct.Name = BoProduct.Name;
+                DoProduct.Price = BoProduct.Price;
+                DoProduct.Category = (Dal.DO.eCategory)BoProduct.Category;
+                Dal.Product.Add(DoProduct);
 
             }
             catch (DalApi.DalEntityAlreadyExistException exc)
@@ -154,48 +171,55 @@ namespace BlImplementation
         {
             try
             {
-                Dal.DO.Product DOProduct = Dal.Product.GetSingle(id);
+                Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
+
+                IEnumerable<Dal.DO.OrderItem> orderItems = Dal.OrderItem.Get();
+                foreach (Dal.DO.OrderItem DoOrderItem in orderItems)
+                {
+                    if (DoOrderItem.ProductID == id)
+                    {
+                        throw new BO.BlProductExistInOrders("this product exist in orders");
+                    }
+                }
+
+                Dal.Product.Delete(id);
 
             }
             catch (DalApi.DalEntityNotFoundException exc)
             {
                 throw new BO.BlIdNotExist(exc);
             }
-            IEnumerable<Dal.DO.OrderItem> orderItems= Dal.OrderItem.Get();
-            foreach (var item in orderItems)
+            catch (BO.BlProductExistInOrders)
             {
-                if (item.ProductID == id)
-                {
-                    throw new BO.BlProductExistInOrders("this product exist in orders");
-                }
+                throw new BO.BlProductExistInOrders("this product exist in orders");
             }
-            
-            Dal.Product.Delete(id);
         }
 
         public void Update(BO.Product BOProduct)
         {
-            
-            Dal.DO.Product DOProduct = new Dal.DO.Product();
-            if (BOProduct.ID < 0)
-                throw new BO.BlInvalideData("id cant be negative");
-
-            if (BOProduct.Name == "")
-                throw new BO.BlInvalideData("name cant be null");
-
-            if (BOProduct.Price <= 0)
-                throw new BO.BlInvalideData("price cant be zero or negative");
-
-            if (BOProduct.InStock < 0)
-                throw new BO.BlInvalideData("inStock cant be negative");
-            DOProduct.ID = BOProduct.ID;
-            DOProduct.Name = BOProduct.Name;
-            DOProduct.Price = BOProduct.Price;
-            DOProduct.Category = (Dal.DO.eCategory)BOProduct.Category;
             try
             {
-                Dal.Product.Update(DOProduct);
+                Dal.DO.Product DoProduct = new Dal.DO.Product();
+                if (BOProduct.ID < 0)
+                    throw new BO.BlInvalideData("id cant be negative");
+
+                if (BOProduct.Name == "")
+                    throw new BO.BlInvalideData("name cant be null");
+
+                if (BOProduct.Price <= 0)
+                    throw new BO.BlInvalideData("price cant be zero or negative");
+
+                if (BOProduct.InStock < 0)
+                    throw new BO.BlInvalideData("inStock cant be negative");
+                DoProduct.ID = BOProduct.ID;
+                DoProduct.Name = BOProduct.Name;
+                DoProduct.Price = BOProduct.Price;
+                DoProduct.Category = (Dal.DO.eCategory)BOProduct.Category;
+
+                Dal.Product.Update(DoProduct);
+
             }
+
             catch (DalApi.DalEntityNotFoundException exc)
             {
                 throw new BO.BlIdNotExist(exc);

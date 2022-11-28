@@ -148,18 +148,18 @@ internal class DalOrderItem:IOrderItem
     /// <exception cref="NotImplementedException"></exception>
     public IEnumerable<OrderItem> GetOrderItemByOrderId(int orderId)
     {
-        bool flag = true;
+        //bool flag = true;
         List<OrderItem> OrderItemList = new List<OrderItem>();
         for (int i = 0; i < DataSource.OrderItemList.Count(); i++)
         {
             if (DataSource.OrderItemList[i].OrderID == orderId)
             {
                 OrderItemList.Add(DataSource.OrderItemList[i]);
-                flag = false;
+                //flag = false;
             }
         }
-        if (flag)
-            throw new DalEntityNotFoundException("there are no order items with this order id");
+       // if (flag)
+         //   throw new DalEntityNotFoundException("there are no order items with this order id");
         return OrderItemList;
     }
 }

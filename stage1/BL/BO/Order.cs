@@ -25,7 +25,6 @@ CustomerEmail - {CustomerEmail}
 CustomerAddress: {CustomerAddress} 
 OrderDate: {OrderDate} 
 Status: {Status} 
-PaymentDate: {PaymentDate} 
 ShipDate: {ShipDate} 
 DeliveryDate: {DeliveryDate} 
 Items: {Items}

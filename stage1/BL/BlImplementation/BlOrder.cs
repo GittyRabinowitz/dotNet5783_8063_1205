@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlApi;
-using BO;
+﻿using BlApi;
 using Dal;
 
 
@@ -16,157 +10,91 @@ namespace BlImplementation
         private DalApi.IDal Dal = new DalList();
 
 
-        public IEnumerable<OrderForList> GetOrderList()
+        public IEnumerable<BO.OrderForList> GetOrderList()
         {
-            IEnumerable<Dal.DO.Order> orders = Dal.Order.Get();
-            List<BO.OrderForList> orderList = new List<BO.OrderForList>();
-            foreach (var order in orders)
+            try
             {
-                BO.OrderForList orderForList = new BO.OrderForList();
-                orderForList.ID = order.ID;
-                orderForList.CustomerName = order.CustomerName;
-                orderForList.TotalPrice = 0;
-                orderForList.AmountOfItems = 0;
-                var orderItems = Dal.OrderItem.GetOrderItemByOrderId(order.ID);
-                foreach (var oi in orderItems)
+                IEnumerable<Dal.DO.Order> DoOrders = Dal.Order.Get();
+                List<BO.OrderForList> orderList = new List<BO.OrderForList>();
+
+                foreach (Dal.DO.Order order in DoOrders)
                 {
-                    orderForList.TotalPrice += oi.Price * oi.Amount;
-                    orderForList.AmountOfItems++;
-
-                   //או oi.amount לא לעשות רק פלוס אחד???
+                    BO.OrderForList orderForList = new BO.OrderForList();
+                    orderForList.ID = BO.BoConfig.OrderForListID;
+                    orderForList.CustomerName = order.CustomerName;
+                    orderForList.TotalPrice = 0;
+                    orderForList.AmountOfItems = 0;
+                    var orderItems = Dal.OrderItem.GetOrderItemByOrderId(order.ID);
+                    foreach (var oi in orderItems)
+                    {
+                        orderForList.TotalPrice += oi.Price * oi.Amount;
+                        orderForList.AmountOfItems++;
+                    }
+                    if (order.DeliveryDate > DateTime.MinValue)
+                        orderForList.Status = BO.eOrderStatus.delivered;
+                    else if (order.ShipDate > DateTime.MinValue)
+                        orderForList.Status = BO.eOrderStatus.shipped;
+                    else
+                        orderForList.Status = BO.eOrderStatus.ordered;
+                    orderList.Add(orderForList);
                 }
-                if (order.DeliveryDate > DateTime.MinValue)
-                    orderForList.Status = BO.eOrderStatus.delivered;
-                else if (order.ShipDate > DateTime.MinValue)
-                    orderForList.Status = BO.eOrderStatus.shipped;
+                return orderList;
+            }
+            catch (DalApi.DalEntityNotFoundException exc)
+            {
+
+                throw new BO.BlNoEntitiesFoundInDal(exc);
+            }
+        }
+
+        public BO.Order GetOrderDetails(int id)
+        {
+            try
+            {
+
+                BO.Order BoOrder = new BO.Order();
+                Dal.DO.Order DoOrder = new Dal.DO.Order();
+                IEnumerable<Dal.DO.OrderItem> DoOrderItems;
+                if (id <= 0)
+                    throw new BO.BlInvalideData("id cant be negative");
+
+                DoOrder = Dal.Order.GetSingle(id);
+                DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(id);
+
+
+                BoOrder.ID = BO.BoConfig.OrderID;
+                BoOrder.CustomerName = DoOrder.CustomerName;
+                BoOrder.CustomerAddress = DoOrder.CustomerAdress;
+                BoOrder.CustomerEmail = DoOrder.CustomerEmail;
+                BoOrder.OrderDate = DoOrder.OrderDate;
+                BoOrder.ShipDate = DoOrder.ShipDate;
+                BoOrder.DeliveryDate = DoOrder.DeliveryDate;
+
+                if (DoOrder.DeliveryDate > DateTime.MinValue)
+                    BoOrder.Status = BO.eOrderStatus.delivered;
+                else if (DoOrder.ShipDate > DateTime.MinValue)
+                    BoOrder.Status = BO.eOrderStatus.shipped;
                 else
-                    orderForList.Status = BO.eOrderStatus.ordered;
-                orderList.Add(orderForList);
-            }
-            return orderList;
-        }
+                    BoOrder.Status = BO.eOrderStatus.ordered;
 
-        public Order GetOrderDetails(int id)
-        {
-            Order BOOrder = new Order();
-            Dal.DO.Order DOOrder;
-            IEnumerable<Dal.DO.OrderItem> DOOrderItems;
-            if (id <= 0)
-                throw new BlInvalideData("id cant be negative");
-            try
-            {
-                DOOrder = Dal.Order.GetSingle(id);
-                DOOrderItems = Dal.OrderItem.GetOrderItemByOrderId(id);
+                BoOrder.Items=new List<BO.OrderItem>();
+                foreach (Dal.DO.OrderItem DoOrderItem in DoOrderItems)
+                {
+                    BO.OrderItem BoOrderItem = new BO.OrderItem();
+                    BoOrderItem.ID = BO.BoConfig.OrderItemID;
+                    BoOrderItem.ProductID = DoOrderItem.ProductID;
+                    BoOrderItem.Name = Dal.Product.GetSingle(DoOrderItem.ProductID).Name;
+                    BoOrderItem.Amount = DoOrderItem.Amount;
+                    BoOrderItem.Price = DoOrderItem.Price;
+                    BoOrderItem.TotalPrice =DoOrderItem.Price*DoOrderItem.Amount;
+                    
+                    BoOrder.Items.Add(BoOrderItem);
 
-            }
-            catch (DalApi.DalEntityNotFoundException exc)
-            {
-                throw new BO.BlIdNotExist(exc);
-
-            }
+                    BoOrder.TotalPrice+=BoOrderItem.TotalPrice;
+                }
 
 
-            BOOrder.ID = DOOrder.ID;
-            BOOrder.CustomerName = DOOrder.CustomerName;
-            BOOrder.CustomerAddress = DOOrder.CustomerAdress;
-            BOOrder.CustomerEmail = DOOrder.CustomerEmail;
-            BOOrder.OrderDate = DOOrder.OrderDate;
-            BOOrder.ShipDate = DOOrder.ShipDate;
-            BOOrder.DeliveryDate = DOOrder.DeliveryDate;
-
-
-            if (DateTime.Now > DOOrder.OrderDate && DateTime.Now < DOOrder.ShipDate)
-            {
-                BOOrder.Status = eOrderStatus.ordered;
-            }
-            if (DateTime.Now > DOOrder.ShipDate && DateTime.Now < DOOrder.DeliveryDate)
-            {
-                BOOrder.Status = eOrderStatus.shipped;
-            }
-            else
-            {
-                BOOrder.Status = eOrderStatus.delivered;
-            }
-
-
-            foreach (var oi in DOOrderItems)
-            {
-                BO.OrderItem orderItem = new BO.OrderItem();
-                orderItem.ID = oi.ID;
-                orderItem.ProductID = oi.ProductID;
-                orderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
-                orderItem.Amount = oi.Amount;
-                orderItem.Price = oi.Price;
-                orderItem.TotalPrice =oi.Price*oi.Amount;
-                BOOrder.Items.Add(orderItem);
-
-                BOOrder.TotalPrice+=orderItem.TotalPrice;
-            }
-
-
-            return BOOrder;
-
-        }
-
-        public Order updateShippedOrder(int orderId)
-        {
-            Dal.DO.Order DoOrder;
-            try
-            {
-                DoOrder = Dal.Order.GetSingle(orderId);
-
-            }
-            catch (DalApi.DalEntityNotFoundException exc)
-            {
-                throw new BO.BlIdNotExist(exc);
-
-            }
-            if (DoOrder.ShipDate != DateTime.MinValue)
-                throw new BlNoNeedToUpdateException();
-
-
-
-            DoOrder.ShipDate = DateTime.Now;
-            Dal.Order.Update(DoOrder);
-
-
-
-            BO.Order BoOrder = new BO.Order();
-
-            BoOrder.ID = DoOrder.ID;
-            BoOrder.CustomerName = DoOrder.CustomerName;
-            BoOrder.CustomerEmail = DoOrder.CustomerEmail;
-            BoOrder.CustomerAddress = DoOrder.CustomerAdress;
-            BoOrder.Status = BO.eOrderStatus.shipped;
-            BoOrder.OrderDate = DoOrder.OrderDate;
-            BoOrder.ShipDate = DateTime.Now;
-            BoOrder.DeliveryDate = DateTime.MinValue;
-            BoOrder.TotalPrice = 0;
-
-            var DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
-            foreach (var oi in DoOrderItems)
-            {
-                BO.OrderItem orderItem = new BO.OrderItem();
-                orderItem.ID = oi.ID;
-                orderItem.ProductID = oi.ProductID;
-                orderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
-                orderItem.Amount = oi.Amount;
-                orderItem.Price = oi.Price;
-                orderItem.TotalPrice = oi.Amount * oi.Price;
-                BoOrder.TotalPrice += orderItem.TotalPrice;
-                BoOrder.Items.Add(orderItem);
-            }
-            return BoOrder;
-        }
-
-
-        public Order updateDeliveryedOrder(int orderId)
-        {
-            Dal.DO.Order DoOrder;
-            try
-            {
-                DoOrder = Dal.Order.GetSingle(orderId);
-
+                return BoOrder;
             }
             catch (DalApi.DalEntityNotFoundException exc)
             {
@@ -174,44 +102,111 @@ namespace BlImplementation
 
             }
 
-            if (DoOrder.ShipDate == DateTime.MinValue)
-                throw new BlDeliveredBeforeShippedException();
-            if (DoOrder.DeliveryDate != DateTime.MinValue)
-                throw new BlNoNeedToUpdateException();
-
-            DoOrder.DeliveryDate = DateTime.Now;
-            Dal.Order.Update(DoOrder);
-
-            BO.Order BoOrder = new BO.Order();
-
-            BoOrder.ID = DoOrder.ID;
-            BoOrder.CustomerName = DoOrder.CustomerName;
-            BoOrder.CustomerEmail = DoOrder.CustomerEmail;
-            BoOrder.CustomerAddress = DoOrder.CustomerAdress;
-            BoOrder.OrderDate = DoOrder.OrderDate;
-            BoOrder.ShipDate = DoOrder.ShipDate;
-            BoOrder.DeliveryDate = DateTime.Now;
-            BoOrder.Status = BO.eOrderStatus.delivered;
-            BoOrder.TotalPrice = 0;
-
-            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
-            foreach (var oi in DoOrderItems)
-            {
-                BO.OrderItem orderItem = new BO.OrderItem();
-                orderItem.ID = oi.ID;
-                orderItem.ProductID = oi.ProductID;
-                orderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
-                orderItem.Amount = oi.Amount;
-                orderItem.Price = oi.Price;
-                orderItem.TotalPrice = oi.Amount * oi.Price;
-
-                BoOrder.TotalPrice += orderItem.TotalPrice;
-
-                BoOrder.Items.Add(orderItem);
-            }
-            return BoOrder;
         }
-        public Order update(int id)
+
+        public BO.Order updateShippedOrder(int orderId)
+        {
+            try
+            {
+
+                Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
+                if (DoOrder.ShipDate != DateTime.MinValue)
+                    throw new BO.BlNoNeedToUpdateException();
+
+                DoOrder.ShipDate = DateTime.Now;
+                Dal.Order.Update(DoOrder);
+
+                BO.Order BoOrder = new BO.Order();
+
+                BoOrder.ID = DoOrder.ID;
+                BoOrder.CustomerName = DoOrder.CustomerName;
+                BoOrder.CustomerEmail = DoOrder.CustomerEmail;
+                BoOrder.CustomerAddress = DoOrder.CustomerAdress;
+                BoOrder.Status = BO.eOrderStatus.shipped;
+                BoOrder.OrderDate = DoOrder.OrderDate;
+                BoOrder.ShipDate = DateTime.Now;
+                BoOrder.DeliveryDate = DateTime.MinValue;
+                BoOrder.TotalPrice = 0;
+
+                var DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
+                BoOrder.Items=new List<BO.OrderItem>();
+                foreach (var oi in DoOrderItems)
+                {
+                    BO.OrderItem BoOrderItem = new BO.OrderItem();
+                    BoOrderItem.ID = oi.ID;
+                    BoOrderItem.ProductID = oi.ProductID;
+                    BoOrderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
+                    BoOrderItem.Amount = oi.Amount;
+                    BoOrderItem.Price = oi.Price;
+                    BoOrderItem.TotalPrice = oi.Amount * oi.Price;
+                    BoOrder.TotalPrice += BoOrderItem.TotalPrice;
+                    BoOrder.Items.Add(BoOrderItem);
+                }
+                return BoOrder;
+            }
+            catch (DalApi.DalEntityNotFoundException exc)
+            {
+                throw new BO.BlIdNotExist(exc);
+
+            }
+        }
+
+
+        public BO.Order updateDeliveryedOrder(int orderId)
+        {
+            try
+            {
+                Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
+
+
+
+
+                if (DoOrder.ShipDate == DateTime.MinValue)
+                    throw new BO.BlDeliveredBeforeShippedException();
+                if (DoOrder.DeliveryDate != DateTime.MinValue)
+                    throw new BO.BlNoNeedToUpdateException();
+
+                DoOrder.DeliveryDate = DateTime.Now;
+                Dal.Order.Update(DoOrder);
+
+                BO.Order BoOrder = new BO.Order();
+
+                BoOrder.ID = DoOrder.ID;
+                BoOrder.CustomerName = DoOrder.CustomerName;
+                BoOrder.CustomerEmail = DoOrder.CustomerEmail;
+                BoOrder.CustomerAddress = DoOrder.CustomerAdress;
+                BoOrder.OrderDate = DoOrder.OrderDate;
+                BoOrder.ShipDate = DoOrder.ShipDate;
+                BoOrder.DeliveryDate = DateTime.Now;
+                BoOrder.Status = BO.eOrderStatus.delivered;
+                BoOrder.TotalPrice = 0;
+
+                IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
+                BoOrder.Items=new List<BO.OrderItem>();
+                foreach (var oi in DoOrderItems)
+                {
+                    BO.OrderItem BoOrderItem = new BO.OrderItem();
+                    BoOrderItem.ID = oi.ID;
+                    BoOrderItem.ProductID = oi.ProductID;
+                    BoOrderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
+                    BoOrderItem.Amount = oi.Amount;
+                    BoOrderItem.Price = oi.Price;
+                    BoOrderItem.TotalPrice = oi.Amount * oi.Price;
+
+                    BoOrder.TotalPrice += BoOrderItem.TotalPrice;
+
+                    BoOrder.Items.Add(BoOrderItem);
+                }
+                return BoOrder;
+
+            }
+            catch (DalApi.DalEntityNotFoundException exc)
+            {
+                throw new BO.BlIdNotExist(exc);
+
+            }
+        }
+        public BO.Order update(int id)
         {
 
             //בונוס

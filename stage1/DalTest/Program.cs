@@ -354,7 +354,7 @@ void AddOrderItem()
                 DalListEntity.Product.decreaseInStock(p.ID, currentOrderItem.Amount);
                 Console.WriteLine("enter price for the new order item");
                 currentOrderItem.Price = Convert.ToInt32(Console.ReadLine());
-                currentOrderItem.ID = DataSource.Config.OrderItemId;
+                currentOrderItem.ID = DataSource.Config.OrderItemID;
                DalListEntity.OrderItem.Add(currentOrderItem);
             }
             else
