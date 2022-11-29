@@ -49,7 +49,6 @@ namespace BlImplementation
                     cart.Items.Add(BoOrderItem);
                     cart.TotalPrice += DoProduct.Price;
 
-
                 }
                 return cart;
             }
@@ -78,21 +77,25 @@ namespace BlImplementation
                             if (newAmount - item.Amount > DoProduct.InStock)
                                 throw new BO.BlOutOfStockException("This product is not available in this amount");
 
-                            item.Amount = newAmount;
+
                             item.TotalPrice += item.Price * (newAmount - item.Amount);
                             cart.TotalPrice += item.Price * (newAmount - item.Amount);
-                        }
-                        else if (newAmount < item.Amount)
-                        {
                             item.Amount = newAmount;
-                            item.TotalPrice = item.Price * newAmount;
-                            cart.TotalPrice -= item.Price * (item.Amount - newAmount);
                         }
                         else if (newAmount == 0)
                         {
                             cart.TotalPrice -= item.TotalPrice;
                             cart.Items.Remove(item);
                         }
+                        else if (newAmount < item.Amount)
+                        {
+                            cart.TotalPrice -= item.Price * (item.Amount - newAmount);
+
+                            item.TotalPrice = item.Price * newAmount;
+                            item.Amount = newAmount;
+                        }
+
+                        break;
                     }
                 }
                 if (flag && newAmount <= DoProduct.InStock)
@@ -106,6 +109,11 @@ namespace BlImplementation
                     BoOrderItem.Amount = newAmount;
                     BoOrderItem.TotalPrice = DoProduct.Price * newAmount;
                     cart.Items.Add(BoOrderItem);
+
+
+
+                    cart.TotalPrice += BoOrderItem.TotalPrice;
+
                 }
                 return cart;
 
@@ -147,6 +155,7 @@ namespace BlImplementation
                 DoOrder.OrderDate = DateTime.Now;
                 DoOrder.ShipDate = DateTime.MinValue;
                 DoOrder.DeliveryDate = DateTime.MinValue;
+
                 DoOrder.CustomerName = customerName;
                 DoOrder.CustomerEmail = customerEmail;
                 DoOrder.CustomerAdress = customerAddress;
@@ -154,9 +163,7 @@ namespace BlImplementation
 
                 foreach (BO.OrderItem oi in cart.Items)
                 {
-                    Dal.DO.Product DoProduct = new Dal.DO.Product();
-
-                    DoProduct = Dal.Product.GetSingle(oi.ProductID);
+                    Dal.DO.Product DoProduct = Dal.Product.GetSingle(oi.ProductID);
 
                     if (oi.Amount < 0)
                     {
@@ -174,7 +181,7 @@ namespace BlImplementation
                         DoOrderItem.ProductID = oi.ProductID;
                         DoOrderItem.OrderID = orderId;
                         DoOrderItem.Amount = oi.Amount;
-                        DoOrderItem.Price = oi.TotalPrice;
+                        DoOrderItem.Price = oi.TotalPrice;//מה לשים????
 
                         Dal.OrderItem.Add(DoOrderItem);
 

@@ -27,7 +27,6 @@ internal class DalOrderItem:IOrderItem
         }
         DataSource.OrderItemList.Add(obj);
         return obj.ID;
-        throw new Exception();
     }
 
 

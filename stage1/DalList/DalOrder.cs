@@ -109,6 +109,7 @@ internal class DalOrder:IOrder
             {
                 DataSource.OrderList[i] = obj;
                 flag = false;
+                break;
             }
         }
         if (flag)

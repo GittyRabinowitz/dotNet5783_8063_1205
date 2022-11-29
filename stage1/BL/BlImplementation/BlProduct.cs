@@ -16,7 +16,7 @@ namespace BlImplementation
                 foreach (Dal.DO.Product DoProduct in existingProductsList)
                 {
                     BO.ProductForList ProductForList = new BO.ProductForList();
-                    ProductForList.ID = DoProduct.ID;
+                    ProductForList.ID = BO.BoConfig.ProductForListID;
                     ProductForList.Name = DoProduct.Name;
                     ProductForList.Price = DoProduct.Price;
                     ProductForList.Category = (BO.eCategory)DoProduct.Category;
@@ -80,7 +80,7 @@ namespace BlImplementation
 
                     DoProduct = Dal.Product.GetSingle(id);
 
-                    BoProduct.ID = DoProduct.ID;
+                    BoProduct.ID = BO.BoConfig.ProductID;
                     BoProduct.Name = DoProduct.Name;
                     BoProduct.Price = DoProduct.Price;
                     BoProduct.Category = (BO.eCategory)DoProduct.Category;
@@ -114,7 +114,7 @@ namespace BlImplementation
 
 
 
-                    BoProduct.ID = DoProduct.ID;
+                    BoProduct.ID = BO.BoConfig.ProductID;
                     BoProduct.Name = DoProduct.Name;
                     BoProduct.Price = DoProduct.Price;
                     BoProduct.Category = (BO.eCategory)DoProduct.Category;
@@ -154,10 +154,11 @@ namespace BlImplementation
                     throw new BO.BlInvalideData("inStock cant be negative");
 
 
-                DoProduct.ID = BoProduct.ID;
+                DoProduct.ID = DataSource.Config.ProductID;
                 DoProduct.Name = BoProduct.Name;
                 DoProduct.Price = BoProduct.Price;
                 DoProduct.Category = (Dal.DO.eCategory)BoProduct.Category;
+                DoProduct.InStock = BoProduct.InStock;
                 Dal.Product.Add(DoProduct);
 
             }
@@ -199,22 +200,21 @@ namespace BlImplementation
         {
             try
             {
-                Dal.DO.Product DoProduct = new Dal.DO.Product();
-                if (BOProduct.ID < 0)
-                    throw new BO.BlInvalideData("id cant be negative");
+                Dal.DO.Product DoProduct = Dal.Product.GetSingle(BOProduct.ID);
 
-                if (BOProduct.Name == "")
-                    throw new BO.BlInvalideData("name cant be null");
+                if(BOProduct.Name!=null)
+                    DoProduct.Name = BOProduct.Name;
 
-                if (BOProduct.Price <= 0)
-                    throw new BO.BlInvalideData("price cant be zero or negative");
+                if (BOProduct.Price!=0)
+                    DoProduct.Price = BOProduct.Price;
 
-                if (BOProduct.InStock < 0)
-                    throw new BO.BlInvalideData("inStock cant be negative");
-                DoProduct.ID = BOProduct.ID;
-                DoProduct.Name = BOProduct.Name;
-                DoProduct.Price = BOProduct.Price;
-                DoProduct.Category = (Dal.DO.eCategory)BOProduct.Category;
+                if(BOProduct.Category!=0)
+                    DoProduct.Category = (Dal.DO.eCategory)BOProduct.Category;
+
+
+                if (BOProduct.InStock > 0)
+                    DoProduct.InStock = BOProduct.InStock;
+
 
                 Dal.Product.Update(DoProduct);
 

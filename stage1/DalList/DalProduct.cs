@@ -108,6 +108,7 @@ internal class DalProduct:IProduct
             {
                 DataSource.ProductList[i] = obj;
                 flag = false;
+                break;
             }
         }
         if (flag)

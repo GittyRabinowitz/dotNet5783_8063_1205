@@ -118,7 +118,7 @@ namespace BlImplementation
 
                 BO.Order BoOrder = new BO.Order();
 
-                BoOrder.ID = DoOrder.ID;
+                BoOrder.ID = BO.BoConfig.OrderID;
                 BoOrder.CustomerName = DoOrder.CustomerName;
                 BoOrder.CustomerEmail = DoOrder.CustomerEmail;
                 BoOrder.CustomerAddress = DoOrder.CustomerAdress;
@@ -129,11 +129,12 @@ namespace BlImplementation
                 BoOrder.TotalPrice = 0;
 
                 var DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
+
                 BoOrder.Items=new List<BO.OrderItem>();
                 foreach (var oi in DoOrderItems)
                 {
                     BO.OrderItem BoOrderItem = new BO.OrderItem();
-                    BoOrderItem.ID = oi.ID;
+                    BoOrderItem.ID = BO.BoConfig.OrderItemID;
                     BoOrderItem.ProductID = oi.ProductID;
                     BoOrderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
                     BoOrderItem.Amount = oi.Amount;
@@ -159,8 +160,6 @@ namespace BlImplementation
                 Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
 
 
-
-
                 if (DoOrder.ShipDate == DateTime.MinValue)
                     throw new BO.BlDeliveredBeforeShippedException();
                 if (DoOrder.DeliveryDate != DateTime.MinValue)
@@ -171,7 +170,7 @@ namespace BlImplementation
 
                 BO.Order BoOrder = new BO.Order();
 
-                BoOrder.ID = DoOrder.ID;
+                BoOrder.ID = BO.BoConfig.OrderID;
                 BoOrder.CustomerName = DoOrder.CustomerName;
                 BoOrder.CustomerEmail = DoOrder.CustomerEmail;
                 BoOrder.CustomerAddress = DoOrder.CustomerAdress;
@@ -186,7 +185,7 @@ namespace BlImplementation
                 foreach (var oi in DoOrderItems)
                 {
                     BO.OrderItem BoOrderItem = new BO.OrderItem();
-                    BoOrderItem.ID = oi.ID;
+                    BoOrderItem.ID = BO.BoConfig.OrderItemID;
                     BoOrderItem.ProductID = oi.ProductID;
                     BoOrderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
                     BoOrderItem.Amount = oi.Amount;

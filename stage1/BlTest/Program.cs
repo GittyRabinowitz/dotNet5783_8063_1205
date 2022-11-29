@@ -5,6 +5,7 @@ using BlImplementation;
 
 Bl bl = new Bl();
 BO.Cart cart = new BO.Cart();
+cart.Items = new List<BO.OrderItem>();
 
 //=============orders==================
 
@@ -23,8 +24,8 @@ void getOrderItem()
     int orderId;
     if (!(int.TryParse(Console.ReadLine(), out orderId)))
         throw new BO.BlInvalidIntegerException();
-    BO.Order item = bl.Order.GetOrderDetails(orderId);
-    Console.WriteLine(item);
+    BO.Order BoOrder = bl.Order.GetOrderDetails(orderId);
+    Console.WriteLine(BoOrder);
 }
 
 void updateOrderShipping()
@@ -33,8 +34,8 @@ void updateOrderShipping()
     int orderId;
     if (!(int.TryParse(Console.ReadLine(), out orderId)))
         throw new BO.BlInvalidIntegerException();
-    bl.Order.updateShippedOrder(orderId);
-
+    BO.Order BoOrder = bl.Order.updateShippedOrder(orderId);
+    Console.WriteLine(BoOrder);
 }
 void updateOrderDelivery()
 {
@@ -42,7 +43,8 @@ void updateOrderDelivery()
     int orderId;
     if (!(int.TryParse(Console.ReadLine(), out orderId)))
         throw new BO.BlInvalidIntegerException();
-    bl.Order.updateDeliveryedOrder(orderId);
+    BO.Order BoOrder = bl.Order.updateDeliveryedOrder(orderId);
+    Console.WriteLine(BoOrder);
 }
 void orders()
 {
@@ -179,6 +181,7 @@ void getProductCustomer()
 void addProduct()
 {
     BO.Product product = new BO.Product();
+    product.ID = BO.BoConfig.ProductID;
     Console.WriteLine("enter product name");
     product.Name = Console.ReadLine();
     Console.WriteLine("enter product price");
@@ -204,16 +207,16 @@ void deleteProduct()
 
 void updateProduct()
 {
-    BO.Product product = new BO.Product();
+    BO.Product BoProduct = new BO.Product();
     Console.WriteLine("enter product id");
-    product.ID = int.Parse(Console.ReadLine());
+    BoProduct.ID = int.Parse(Console.ReadLine());
 
 
     string name;
     Console.WriteLine("enter new name for the Product");
     name = Console.ReadLine();
     if (!string.IsNullOrEmpty(name))
-        product.Name = name;
+        BoProduct.Name = name;
 
     Console.WriteLine("enter the new category for the Product: 1 - kitchen, 2 - washRoom, 3 - otherRoom");
     string choice1;
@@ -221,7 +224,7 @@ void updateProduct()
     if (!string.IsNullOrEmpty(choice1))
     {
         int choice2 = Convert.ToInt32(choice1);
-        product.Category = (BO.eCategory)choice2;
+        BoProduct.Category = (BO.eCategory)choice2;
     }
 
     Console.WriteLine("enter the new price for the Product");
@@ -229,7 +232,7 @@ void updateProduct()
     if (!string.IsNullOrEmpty(price1))
     {
         double price2 = Convert.ToDouble(price1);
-        product.Price = price2;
+        BoProduct.Price = price2;
     }
 
     Console.WriteLine("enter the new amount in stock");
@@ -237,11 +240,12 @@ void updateProduct()
     if (!string.IsNullOrEmpty(inStock1))
     {
         int inStock2 = Convert.ToInt32(inStock1);
-        product.InStock = inStock2;
+        BoProduct.InStock = inStock2;
     }
+    else
+        BoProduct.InStock = -1;
 
-
-    bl.Product.Update(product);
+    bl.Product.Update(BoProduct);
 }
 
 void products()
@@ -373,7 +377,7 @@ void main()
                     carts();
                     break;
                 default:
-                    Console.WriteLine("wrong chice");
+                    Console.WriteLine("wrong choice");
                     break;
 
             }
