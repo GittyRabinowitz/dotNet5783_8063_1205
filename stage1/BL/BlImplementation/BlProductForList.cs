@@ -7,10 +7,10 @@ using BlApi;
 using DalApi;
 using Dal;
 
-namespace BlImplementation
+namespace BlImplementation;
+
+internal class BlProductForList : IProductForList
 {
-    internal class BlProductForList:IProductForList
-    {
-        private IDal Dal = new DalList();
-    }
+    private IDal Dal = new DalList();
 }
+

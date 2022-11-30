@@ -4,26 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BO
+namespace BO;
+
+public class Order
 {
-    public class Order
+    public int ID { get; set; }
+    public string CustomerName { get; set; }
+    public string CustomerEmail { get; set; }
+    public string CustomerAddress { get; set; }
+    public DateTime OrderDate { get; set; }
+    public eOrderStatus Status { get; set; }
+    public DateTime ShipDate { get; set; }
+    public DateTime DeliveryDate { get; set; }
+    public List<OrderItem> Items { get; set; }
+    public double TotalPrice { get; set; }
+
+
+    public override string ToString()
     {
-        public int ID { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerEmail { get; set; }
-        public string CustomerAddress { get; set; }
-        public DateTime OrderDate { get; set; }
-        public eOrderStatus Status { get; set; }
-        public DateTime ShipDate { get; set; }
-        public DateTime DeliveryDate { get; set; }
-        public List<OrderItem> Items { get; set; }
-        public double TotalPrice { get; set; }
-
-
-        public override string ToString()
-        {
-            string toString =
-                $@"order ID={ID},
+        string toString =
+            $@"order ID={ID},
             customer mame: {CustomerName}, 
             email {CustomerEmail}, 
             address {CustomerAddress}.
@@ -33,10 +33,10 @@ namespace BO
             status: {Status}.
             total price:{TotalPrice}
             items:";
-            foreach (var i in Items) { toString += "\n \t " + i; };
-            return toString;
-        }
-
-
+        foreach (var i in Items) { toString += "\n \t " + i; };
+        return toString;
     }
+
+
 }
+

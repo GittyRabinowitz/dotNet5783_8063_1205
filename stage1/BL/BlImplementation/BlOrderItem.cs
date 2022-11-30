@@ -7,10 +7,10 @@ using BlApi;
 using DalApi;
 using Dal;
 
-namespace BlImplementation
+namespace BlImplementation;
+
+internal class BlOrderItem : BlApi.IOrderItem
 {
-    internal class BlOrderItem:BlApi.IOrderItem
-    {
-        private IDal Dal = new DalList();
-    }
+    private IDal Dal = new DalList();
 }
+

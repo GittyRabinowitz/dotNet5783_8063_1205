@@ -7,10 +7,9 @@ using BlApi;
 using DalApi;
 using Dal;
 
-namespace BlImplementation
+namespace BlImplementation;
+
+internal class BlOrderForList : IOrderForList
 {
-    internal class BlOrderForList:IOrderForList
-    {
-        private IDal Dal = new DalList();
-    }
+    private IDal Dal = new DalList();
 }
