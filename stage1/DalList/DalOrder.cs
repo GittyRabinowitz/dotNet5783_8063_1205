@@ -7,7 +7,7 @@ namespace Dal.UseObjects;
 /// class for crud actions for an order
 /// </summary>
 
-internal class DalOrder:IOrder
+internal class DalOrder : IOrder
 {
 
     /// <summary>

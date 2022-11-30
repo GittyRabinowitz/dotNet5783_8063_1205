@@ -18,7 +18,7 @@ public class OrderTracking
         string toString =
             $@"order ID={ID},
 Status - {Status},
-            items:";
+items:";
         foreach (var i in DateAndTrack) { toString += "\n \t " + i.Item1 + "\t" + i.Item2; };
         return toString;
     }

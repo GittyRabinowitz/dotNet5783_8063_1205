@@ -71,13 +71,26 @@ void updateOrderDelivery()
 }
 
 
+void orderTracking()
+{
+    Console.WriteLine("enter order id");
+
+    int orderId;
+    if (!(int.TryParse(Console.ReadLine(), out orderId)))
+        throw new BO.BlInvalideData("invalid integer");
+
+    BO.OrderTracking BoOrderTracking = bl.Order.orderTracking(orderId);
+    Console.WriteLine(BoOrderTracking);
+}
+
+
 /// <summary>
 /// The function offers the user to perform actions on orders:
 /// receive all orders, receive order details, update shipping date and update arrival date
 /// </summary>
 void orders()
 {
-    Console.WriteLine("enter the choice: 1.get orders list 2. get order items. 3.update shipping 4.update delivery");
+    Console.WriteLine("enter the choice: 1.get orders list 2. get order items. 3.update shipping 4.update delivery 5.order tracking");
     int choice;
     if (!(int.TryParse(Console.ReadLine(), out choice)))
         throw new BO.BlInvalideData("invalid integer");
@@ -95,6 +108,9 @@ void orders()
             break;
         case 4:
             updateOrderDelivery();
+            break;
+        case 5:
+            orderTracking();
             break;
         default:
             break;
@@ -158,7 +174,7 @@ void getProductCustomer()
     if (!(int.TryParse(Console.ReadLine(), out productId)))
         throw new BO.BlInvalideData("invalid integer");
 
-    BO.Product item = bl.Product.GetProductCustomer(productId);
+    BO.ProductItem item = bl.Product.GetProductCustomer(productId, cart);
     Console.WriteLine(item);
 }
 

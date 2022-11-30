@@ -7,7 +7,7 @@ namespace Dal.UseObjects;
 /// </summary>
 
 
-internal class DalProduct:IProduct
+internal class DalProduct : IProduct
 {
 
     /// <summary>
@@ -123,7 +123,8 @@ internal class DalProduct:IProduct
                 Product p = DataSource.ProductList[i];
                 p.InStock -= amount;
                 DataSource.ProductList[i] = p;
-;            }
+                ;
+            }
         }
     }
 }

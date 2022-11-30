@@ -13,5 +13,6 @@ public interface IOrder
     public Order GetOrderDetails(int id);//manager and customer
     public Order updateShippedOrder(int id);//manager
     public Order updateDeliveryedOrder(int id);//manager
+    public OrderTracking orderTracking(int orderId);
 
 }

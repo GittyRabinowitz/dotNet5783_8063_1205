@@ -253,6 +253,52 @@ internal class BlOrder : IOrder
 
         }
     }
+
+
+    /// <summary>
+    /// the function gets an order id ,gets the order from the data layer and creates with its details an orderTracking object and returns it
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <returns></returns>
+    /// <exception cref="BO.BlIdNotExist"></exception>
+    public BO.OrderTracking orderTracking(int orderId)
+    {
+        try
+        {
+
+
+            Dal.DO.Order order = Dal.Order.GetSingle(orderId);
+
+            BO.OrderTracking orderTracking = new BO.OrderTracking();
+            orderTracking.DateAndTrack = new List<(DateTime, BO.eOrderStatus)>();
+
+            orderTracking.ID = BO.BoConfig.OrderTrackingID;
+            orderTracking.DateAndTrack.Add((order.OrderDate, BO.eOrderStatus.ordered));
+
+
+            if (order.ShipDate != DateTime.MinValue)
+            {
+                orderTracking.Status = BO.eOrderStatus.shipped;
+
+                orderTracking.DateAndTrack.Add((order.ShipDate, BO.eOrderStatus.shipped));
+            }
+
+
+            if (order.DeliveryDate != DateTime.MinValue)
+            {
+                orderTracking.Status = BO.eOrderStatus.delivered;
+                orderTracking.DateAndTrack.Add((order.DeliveryDate, BO.eOrderStatus.delivered));
+
+            }
+
+            return orderTracking;
+        }
+        catch (DalApi.DalIdNotFoundException exc)
+        {
+
+            throw new BO.BlIdNotExist(exc);
+        }
+    }
 }
 
 

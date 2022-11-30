@@ -138,25 +138,25 @@ internal class BlProduct : IProduct
     /// <returns>BO.Product</returns>
     /// <exception cref="BO.BlInvalideData"></exception>
     /// <exception cref="BO.BlIdNotExist"></exception>
-    public BO.Product GetProductCustomer(int id)
+    public BO.ProductItem GetProductCustomer(int id, BO.Cart cart)
     {
         try
         {
-            BO.Product BoProduct = new BO.Product();
 
             if (id > 0)
             {
-                Dal.DO.Product DoProduct = new Dal.DO.Product();
+                Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
 
-                DoProduct = Dal.Product.GetSingle(id);
+                BO.ProductItem BoProductItem = new BO.ProductItem();
 
-                BoProduct.ID = BO.BoConfig.ProductID;
-                BoProduct.Name = DoProduct.Name;
-                BoProduct.Price = DoProduct.Price;
-                BoProduct.Category = (BO.eCategory)DoProduct.Category;
-                BoProduct.InStock = DoProduct.InStock;
+                BoProductItem.ID = BO.BoConfig.ProductID;
+                BoProductItem.Name = DoProduct.Name;
+                BoProductItem.Price = DoProduct.Price;
+                BoProductItem.Category = (BO.eCategory)DoProduct.Category;
+                BoProductItem.Amount = 0;
+                BoProductItem.InStock = DoProduct.InStock;
 
-                return BoProduct;
+                return BoProductItem;
             }
             else
             {
