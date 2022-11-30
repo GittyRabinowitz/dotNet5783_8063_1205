@@ -18,13 +18,7 @@ internal class DalOrderItem:IOrderItem
     /// <exception cref="NotImplementedException"></exception>
     public int Add(OrderItem obj)
     {
-        for (int i = 0; i < DataSource.OrderItemList.Count(); i++)
-        {
-            if (DataSource.OrderItemList[i].ID == obj.ID)
-            {
-                throw new DalEntityAlreadyExistException("this order item already exist");
-            }
-        }
+        obj.ID = DataSource.Config.OrderItemID;
         DataSource.OrderItemList.Add(obj);
         return obj.ID;
     }
@@ -47,7 +41,7 @@ internal class DalOrderItem:IOrderItem
             }
         }
         if (flag)
-            throw new DalEntityNotFoundException("this order item does not exist");
+            throw new DalIdNotFoundException("this order item does not exist");
 
     }
 
@@ -87,7 +81,7 @@ internal class DalOrderItem:IOrderItem
             }
         }
         if (flag)
-            throw new DalEntityNotFoundException("this order item does not exist");
+            throw new DalIdNotFoundException("this order item does not exist");
         return DataSource.OrderItemList[i];
     }
 
@@ -109,7 +103,7 @@ internal class DalOrderItem:IOrderItem
             }
         }
         if (flag)
-            throw new DalEntityNotFoundException("this order item does not exist");
+            throw new DalIdNotFoundException("this order item does not exist");
 
     }
 
@@ -134,7 +128,7 @@ internal class DalOrderItem:IOrderItem
             }
         }
         if (flag)
-            throw new DalEntityNotFoundException("there is no any order item with this order id and Product id");
+            throw new DalIdNotFoundException("there is no any order item with this order id and Product id");
         return DataSource.OrderItemList[i];
     }
 

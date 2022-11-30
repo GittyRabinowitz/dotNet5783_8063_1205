@@ -40,7 +40,7 @@ namespace BlImplementation
                 }
                 return orderList;
             }
-            catch (DalApi.DalEntityNotFoundException exc)
+            catch (DalApi.DalIdNotFoundException exc)
             {
 
                 throw new BO.BlNoEntitiesFoundInDal(exc);
@@ -96,7 +96,7 @@ namespace BlImplementation
 
                 return BoOrder;
             }
-            catch (DalApi.DalEntityNotFoundException exc)
+            catch (DalApi.DalIdNotFoundException exc)
             {
                 throw new BO.BlIdNotExist(exc);
 
@@ -111,7 +111,7 @@ namespace BlImplementation
 
                 Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
                 if (DoOrder.ShipDate != DateTime.MinValue)
-                    throw new BO.BlNoNeedToUpdateException();
+                    throw new BO.BlUpdateException("The order has already been updated");
 
                 DoOrder.ShipDate = DateTime.Now;
                 Dal.Order.Update(DoOrder);
@@ -145,7 +145,7 @@ namespace BlImplementation
                 }
                 return BoOrder;
             }
-            catch (DalApi.DalEntityNotFoundException exc)
+            catch (DalApi.DalIdNotFoundException exc)
             {
                 throw new BO.BlIdNotExist(exc);
 
@@ -161,9 +161,9 @@ namespace BlImplementation
 
 
                 if (DoOrder.ShipDate == DateTime.MinValue)
-                    throw new BO.BlDeliveredBeforeShippedException();
+                    throw new BO.BlUpdateException("The order delivered before shipping");
                 if (DoOrder.DeliveryDate != DateTime.MinValue)
-                    throw new BO.BlNoNeedToUpdateException();
+                    throw new BO.BlUpdateException("The order has already been updated");
 
                 DoOrder.DeliveryDate = DateTime.Now;
                 Dal.Order.Update(DoOrder);
@@ -199,7 +199,7 @@ namespace BlImplementation
                 return BoOrder;
 
             }
-            catch (DalApi.DalEntityNotFoundException exc)
+            catch (DalApi.DalIdNotFoundException exc)
             {
                 throw new BO.BlIdNotExist(exc);
 

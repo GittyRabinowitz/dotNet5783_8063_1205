@@ -18,15 +18,7 @@ internal class DalProduct:IProduct
     /// <exception cref="NotImplementedException"></exception>
     public int Add(Product obj)
     {
-        int temp = DataSource.ProductList.Count();
-        for (int i = 0; i < temp; i++)
-        {
-            if (DataSource.ProductList[i].ID == obj.ID)
-            {
-                throw new DalEntityAlreadyExistException("this Product already exist");
-
-            }
-        }
+        obj.ID = DataSource.Config.ProductID;
         DataSource.ProductList.Add(obj);
         return obj.ID;
     }
@@ -49,7 +41,7 @@ internal class DalProduct:IProduct
             }
         }
         if (flag)
-            throw new DalEntityNotFoundException("this Product does not exist");
+            throw new DalIdNotFoundException("this Product does not exist");
     }
 
 
@@ -88,7 +80,7 @@ internal class DalProduct:IProduct
             }
         }
         if (flag)
-            throw new DalEntityNotFoundException("this Product does not exist");
+            throw new DalIdNotFoundException("this Product does not exist");
         return DataSource.ProductList[i];
     }
 
@@ -112,7 +104,7 @@ internal class DalProduct:IProduct
             }
         }
         if (flag)
-            throw new DalEntityNotFoundException("this Product does not exist");
+            throw new DalIdNotFoundException("this Product does not exist");
     }
 
 

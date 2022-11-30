@@ -1,7 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using BlImplementation;
 
-using BlImplementation;
-//מה עושים עם השגיאות??????
 
 Bl bl = new Bl();
 BO.Cart cart = new BO.Cart();
@@ -23,7 +21,7 @@ void getOrderItem()
     Console.WriteLine("enter order id");
     int orderId;
     if (!(int.TryParse(Console.ReadLine(), out orderId)))
-        throw new BO.BlInvalidIntegerException();
+        throw new BO.BlInvalideData("invalid integer");
     BO.Order BoOrder = bl.Order.GetOrderDetails(orderId);
     Console.WriteLine(BoOrder);
 }
@@ -33,7 +31,7 @@ void updateOrderShipping()
     Console.WriteLine("enter order id");
     int orderId;
     if (!(int.TryParse(Console.ReadLine(), out orderId)))
-        throw new BO.BlInvalidIntegerException();
+        throw new BO.BlInvalideData("invalid integer");
     BO.Order BoOrder = bl.Order.updateShippedOrder(orderId);
     Console.WriteLine(BoOrder);
 }
@@ -42,7 +40,7 @@ void updateOrderDelivery()
     Console.WriteLine("enter order id");
     int orderId;
     if (!(int.TryParse(Console.ReadLine(), out orderId)))
-        throw new BO.BlInvalidIntegerException();
+        throw new BO.BlInvalideData("invalid integer");
     BO.Order BoOrder = bl.Order.updateDeliveryedOrder(orderId);
     Console.WriteLine(BoOrder);
 }
@@ -54,7 +52,7 @@ void orders()
         Console.WriteLine("enter the choice: 1.get orders list 2. get order items. 3.update shipping 4.update delivery");
         int choice;
         if (!(int.TryParse(Console.ReadLine(), out choice)))
-            throw new BO.BlInvalidIntegerException();
+            throw new BO.BlInvalideData("invalid integer");
         switch (choice)
         {
             case 1:
@@ -74,11 +72,7 @@ void orders()
         }
 
     }
-    catch (BO.BlDeliveredBeforeShippedException)
-    {
 
-        throw;
-    }
     catch (BO.BlIdAlreadyExist)
     {
 
@@ -94,22 +88,7 @@ void orders()
 
         throw;
     }
-    catch (BO.BlInvalidEmailException)
-    {
-
-        throw;
-    }
-    catch (BO.BlInvalidIntegerException)
-    {
-
-        throw;
-    }
-    catch (BO.BlNegativeAmountException)
-    {
-
-        throw;
-    }
-    catch (BO.BlNoNeedToUpdateException)
+    catch (BO.BlUpdateException)
     {
 
         throw;
@@ -157,7 +136,7 @@ void getProductManager()
 
     int productId;
     if (!(int.TryParse(Console.ReadLine(), out productId)))
-        throw new BO.BlInvalidIntegerException();
+        throw new BO.BlInvalideData("invalid integer");
 
     BO.Product item = bl.Product.GetProductManager(productId);
     Console.WriteLine(item);
@@ -171,7 +150,7 @@ void getProductCustomer()
 
     int productId;
     if (!(int.TryParse(Console.ReadLine(), out productId)))
-        throw new BO.BlInvalidIntegerException();
+        throw new BO.BlInvalideData("invalid integer");
 
     BO.Product item = bl.Product.GetProductCustomer(productId);
     Console.WriteLine(item);
@@ -200,7 +179,7 @@ void deleteProduct()
 
     int productId;
     if (!(int.TryParse(Console.ReadLine(), out productId)))
-        throw new BO.BlInvalidIntegerException();
+        throw new BO.BlInvalideData("invalid integer");
 
     bl.Product.Delete(productId);
 }
@@ -255,7 +234,7 @@ void products()
 
     int choice;
     if (!(int.TryParse(Console.ReadLine(), out choice)))
-        throw new BO.BlInvalidIntegerException();
+        throw new BO.BlInvalideData("invalid integer");
     switch (choice)
     {
         case 1:
@@ -297,7 +276,7 @@ void addProductToCart()
     Console.WriteLine("enter product id");
     int productId;
     if (!(int.TryParse(Console.ReadLine(), out productId)))
-        throw new BO.BlInvalidIntegerException();
+        throw new BO.BlInvalideData("invalid integer");
     cart = bl.Cart.Add(cart, productId);
 }
 
@@ -307,10 +286,10 @@ void updateProductAmount()
     int productId, newAmount;
     Console.WriteLine("enter product id");
     if (!(int.TryParse(Console.ReadLine(), out productId)))
-        throw new BO.BlInvalidIntegerException();
+        throw new BO.BlInvalideData("invalid integer");
     Console.WriteLine("enter new amount for the product");
     if (!(int.TryParse(Console.ReadLine(), out newAmount)))
-        throw new BO.BlInvalidIntegerException();
+        throw new BO.BlInvalideData("invalid integer");
     cart = bl.Cart.Update(cart, productId, newAmount);
 }
 
@@ -320,10 +299,18 @@ void confirmCart()
 
     Console.WriteLine("enter the customer's name");
     string CustomerName = Console.ReadLine();
+    if (string.IsNullOrEmpty(CustomerName))
+        throw new BO.BlNullValueException();
+
     Console.WriteLine("enter the customer's email");
     string CustomerEmail = Console.ReadLine();
+    if (string.IsNullOrEmpty(CustomerEmail))
+        throw new BO.BlNullValueException();
+
     Console.WriteLine("enter the customer's address");
     string CustomerAddress = Console.ReadLine();
+    if (string.IsNullOrEmpty(CustomerAddress))
+        throw new BO.BlNullValueException();
 
     bl.Cart.CartConfirmation(cart, CustomerName, CustomerEmail, CustomerAddress);
 }
@@ -333,7 +320,7 @@ void carts()
     Console.WriteLine("enter the choice: 1.add product to cart 2. update product amount 3.confirm cart");
     int choice;
     if (!(int.TryParse(Console.ReadLine(), out choice)))
-        throw new BO.BlInvalidIntegerException();
+        throw new BO.BlInvalideData("invalid integer");
     switch (choice)
     {
         case 1:
@@ -362,7 +349,7 @@ void main()
         {
             Console.WriteLine("enter the entity number: 1. order 2. product 3. cart  0. to exit");
             if (!(int.TryParse(Console.ReadLine(), out choice)))
-                throw new BO.BlInvalidIntegerException();
+                throw new BO.BlInvalideData("invalid integer");
             switch (choice)
             {
                 case 0:
@@ -390,4 +377,3 @@ void main()
 }
 
 main();
-//add try and catch

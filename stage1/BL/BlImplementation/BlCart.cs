@@ -52,7 +52,7 @@ namespace BlImplementation
                 }
                 return cart;
             }
-            catch (DalApi.DalEntityNotFoundException exc)
+            catch (DalApi.DalIdNotFoundException exc)
             {
                 throw new BO.BlIdNotExist(exc);
             }
@@ -119,7 +119,7 @@ namespace BlImplementation
 
 
             }
-            catch (DalApi.DalEntityNotFoundException exc)
+            catch (DalApi.DalIdNotFoundException exc)
             {
                 throw new BO.BlIdNotExist(exc);
             }
@@ -151,7 +151,7 @@ namespace BlImplementation
                 int productInStock;
 
                 Dal.DO.Order DoOrder = new Dal.DO.Order();
-                DoOrder.ID = DataSource.Config.OrderID;
+                DoOrder.ID = 0;
                 DoOrder.OrderDate = DateTime.Now;
                 DoOrder.ShipDate = DateTime.MinValue;
                 DoOrder.DeliveryDate = DateTime.MinValue;
@@ -167,7 +167,7 @@ namespace BlImplementation
 
                     if (oi.Amount < 0)
                     {
-                        throw new BO.BlNegativeAmountException();
+                        throw new BO.BlInvalideData("negative value");
                     }
                     if (DoProduct.InStock < oi.Amount)
                     {
@@ -177,11 +177,11 @@ namespace BlImplementation
                     {
                         Dal.DO.OrderItem DoOrderItem = new Dal.DO.OrderItem();
 
-                        DoOrderItem.ID = DataSource.Config.OrderItemID;
+                        DoOrderItem.ID = 0;
                         DoOrderItem.ProductID = oi.ProductID;
                         DoOrderItem.OrderID = orderId;
                         DoOrderItem.Amount = oi.Amount;
-                        DoOrderItem.Price = oi.TotalPrice;//מה לשים????
+                        DoOrderItem.Price = oi.Price;
 
                         Dal.OrderItem.Add(DoOrderItem);
 
@@ -191,11 +191,7 @@ namespace BlImplementation
 
                 }
             }
-            catch (DalApi.DalEntityAlreadyExistException exc)
-            {
-                throw new BO.BlIdAlreadyExist(exc);
-            }
-            catch (DalApi.DalEntityNotFoundException exc)
+            catch (DalApi.DalIdNotFoundException exc)
             {
                 throw new BO.BlIdNotExist(exc);
             }
