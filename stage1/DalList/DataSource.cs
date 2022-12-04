@@ -15,7 +15,7 @@ public class DataSource
     internal static List<Product> ProductList = new List<Product>();
     internal static List<Order> OrderList = new List<Order>();
     internal static List<OrderItem> OrderItemList = new List<OrderItem>();
-
+    
     static Random rand = new Random();
     internal static readonly Random Randomize = new Random();
 
@@ -24,6 +24,7 @@ public class DataSource
     /// </summary>
     static private void CreateProductList()
     {
+        
         (string, eCategory)[] namesCategoryArr = {
             ("microwen", eCategory.kitchen) ,
             ("oven", eCategory.kitchen),
@@ -73,9 +74,6 @@ public class DataSource
             order.CustomerName = customerDetailsArr[index].Item1;
             order.CustomerEmail = customerDetailsArr[index].Item2;
             order.CustomerAdress = customerDetailsArr[index].Item3;
-            //order.OrderDate = DateTime.MinValue+TimeSpan.FromDays(5);
-            //order.ShipDate = order.OrderDate + TimeSpan.FromDays(10);
-            //order.DeliveryDate = order.ShipDate + TimeSpan.FromDays(20);
 
 
             //randomizes a date from 01/01/2010

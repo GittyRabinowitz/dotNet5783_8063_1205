@@ -16,7 +16,7 @@ public class Order
     public eOrderStatus Status { get; set; }
     public DateTime ShipDate { get; set; }
     public DateTime DeliveryDate { get; set; }
-    public List<OrderItem> Items { get; set; }
+    public List<OrderItem?>? Items { get; set; }
     public double TotalPrice { get; set; }
 
 
