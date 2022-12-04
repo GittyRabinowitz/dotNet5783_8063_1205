@@ -273,21 +273,21 @@ internal class BlOrder : IOrder
             orderTracking.DateAndTrack = new List<(DateTime, BO.eOrderStatus)>();
 
             orderTracking.ID = BO.BoConfig.OrderTrackingID;
-            orderTracking.DateAndTrack.Add((order.OrderDate, BO.eOrderStatus.ordered));
+            orderTracking.DateAndTrack.Add(((DateTime)order.OrderDate, BO.eOrderStatus.ordered));
 
 
             if (order.ShipDate != DateTime.MinValue)
             {
                 orderTracking.Status = BO.eOrderStatus.shipped;
 
-                orderTracking.DateAndTrack.Add((order.ShipDate, BO.eOrderStatus.shipped));
+                orderTracking.DateAndTrack.Add(((DateTime)order.ShipDate, BO.eOrderStatus.shipped));
             }
 
 
             if (order.DeliveryDate != DateTime.MinValue)
             {
                 orderTracking.Status = BO.eOrderStatus.delivered;
-                orderTracking.DateAndTrack.Add((order.DeliveryDate, BO.eOrderStatus.delivered));
+                orderTracking.DateAndTrack.Add(((DateTime)order.DeliveryDate, BO.eOrderStatus.delivered));
 
             }
 

@@ -9,5 +9,6 @@ namespace DalApi
     public interface IProduct:ICrud<Product>
     {
         public void decreaseInStock(int id, int amount);
+        public IEnumerable<Product> GetProductByCategory(eCategory category);
     }
 }

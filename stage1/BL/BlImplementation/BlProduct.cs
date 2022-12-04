@@ -46,6 +46,31 @@ internal class BlProduct : IProduct
 
     }
 
+    public IEnumerable<BO.ProductForList> GetProductByCategoty(BO.eCategory category)
+    {
+        IEnumerable<Dal.DO.Product> lst = Dal.Product.GetProductByCategory((Dal.DO.eCategory)category);
+
+        List<BO.ProductForList> productsForList = new List<BO.ProductForList>();
+
+
+        foreach (Dal.DO.Product DoProduct in lst)
+        {
+            BO.ProductForList ProductForList = new BO.ProductForList();
+
+            ProductForList.ID = BO.BoConfig.ProductForListID;
+            ProductForList.Name = DoProduct.Name;
+            ProductForList.Price = DoProduct.Price;
+            ProductForList.Category = (BO.eCategory)DoProduct.Category;
+            productsForList.Add(ProductForList);
+        }
+
+
+        if (productsForList.Count() == 0)
+            throw new BO.BlNoEntitiesFound("No products found");
+
+        return productsForList;
+    }
+
 
 
     /// <summary>
@@ -284,4 +309,6 @@ internal class BlProduct : IProduct
             throw new BO.BlIdNotExist(exc);
         }
     }
+
+
 }

@@ -9,7 +9,7 @@ namespace BO;
 public class OrderTracking
 {
     public int ID { get; set; }
-    public eOrderStatus Status { get; set; }
+    public eOrderStatus? Status { get; set; }
 
     public List<(DateTime, eOrderStatus)> DateAndTrack { get; set; }
 

@@ -1,0 +1,36 @@
+﻿<Window x:Class="PL.ProductListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="ProductListWindow" Height="450" Width="800">
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
+VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+            <ComboBox Name="AttributeSelector" Margin="72,72,8,0" Grid.Column="1" Width="120" SelectionChanged="AttributeSelector_SelectionChanged"/>
+            <Label Grid.Column="0" Content="Label" HorizontalAlignment="Left" Margin="82,16,0,0" VerticalAlignment="Top"/>
+        </Grid>
+        <ListView d:ItemsSource="{d:SampleData ItemCount=5}" Grid.Row="1" x:Name="ProductsListview" SelectionChanged="ProductsListview_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="AddProduct" Content="AddProduct" HorizontalAlignment="Left" Margin="365,53,0,0" Grid.Row="2" VerticalAlignment="Top" Click="AddProduct_Click"/>
+
+    </Grid>
+</Window>

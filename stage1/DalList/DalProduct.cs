@@ -127,4 +127,15 @@ internal class DalProduct : IProduct
             }
         }
     }
+
+    public IEnumerable<Product> GetProductByCategory(eCategory category)
+    {
+        List<Product> lst = new List<Product>();
+        foreach (var item in DataSource.ProductList)
+        {
+            if (item.Category == category)
+                lst.Add(item);
+        }
+        return lst;
+    }
 }
