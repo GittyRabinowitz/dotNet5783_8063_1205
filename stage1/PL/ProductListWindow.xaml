@@ -12,25 +12,25 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
-VerticalAlignment="Stretch" Width="auto">
+        <Grid Name="UpGrid" Height="auto" Grid.Row="0"
+Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="AttributeSelector" Margin="72,72,8,0" Grid.Column="1" Width="120" SelectionChanged="AttributeSelector_SelectionChanged"/>
-            <Label Grid.Column="0" Content="Label" HorizontalAlignment="Left" Margin="82,16,0,0" VerticalAlignment="Top"/>
+            <ComboBox Name="AttributeSelector" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" SelectionChanged="AttributeSelector_SelectionChanged"/>
+            <Label Grid.Column="0" Content="Label"/>
         </Grid>
-        <ListView d:ItemsSource="{d:SampleData ItemCount=5}" Grid.Row="1" x:Name="ProductsListview" SelectionChanged="ProductsListview_SelectionChanged">
+        <ListView Grid.Row="1" x:Name="ProductsListview" SelectionChanged="ProductsListview_SelectionChanged" MouseDoubleClick="viewListProductDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="AddProduct" Content="AddProduct" HorizontalAlignment="Left" Margin="365,53,0,0" Grid.Row="2" VerticalAlignment="Top" Click="AddProduct_Click"/>
+        <Button x:Name="AddProduct" Content="AddProduct" Grid.Row="2" Click="AddProduct_Click" HorizontalAlignment="Left" Margin="369,60,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

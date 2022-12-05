@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using BlApi;
 namespace PL
 {
     /// <summary>
@@ -20,12 +20,12 @@ namespace PL
     public partial class ProductListWindow : Window
     {
 
-         private IBl bl = new BlImplementation.Bl();
-        public ProductListWindow()
+        private IBl bl;
+        public ProductListWindow(IBl bl)
         {
             InitializeComponent();
-             ProductsListview.ItemsSource = bl.Product.GetProductList();
-
+            this.bl = bl;
+            ProductsListview.ItemsSource = bl.Product.GetProductList();
 
             AttributeSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
         }
@@ -33,18 +33,25 @@ namespace PL
         private void AttributeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             object SelectedItem = AttributeSelector.SelectedItem;
-            IEnumerable<BO.ProductForList> lst = bl.Product.GetProductByCategoty(SelectedItem);
-             ProductsListview.ItemsSource = lst;
-
+            IEnumerable<BO.ProductForList> lst = bl.Product.GetProductByCategoty((BO.eCategory)SelectedItem);
+            ProductsListview.ItemsSource = lst;
         }
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-
+            ProductWindow productWindow = new ProductWindow(bl, null);
+            productWindow.Show();
         }
 
         private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
+        }
+
+        private void viewListProductDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+          var product=  ProductsListview.SelectedItem;
+            ProductWindow productWindow = new ProductWindow(bl,product);
 
         }
     }
