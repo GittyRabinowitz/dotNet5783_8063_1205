@@ -91,6 +91,11 @@ internal class DalOrder : IOrder
 
     }
 
+    public Order GetSingleByPredicate(Func<Order, bool> func)
+    {
+        return (DataSource.OrderList.Where(func).ToArray()[0]);
+    }
+
 
     /// <summary>
     /// update function gets an order with updated details and put it in the array instead of the order exist with this id

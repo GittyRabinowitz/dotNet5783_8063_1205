@@ -23,7 +23,7 @@ internal class BlCart : ICart
         {
             //Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
 
-            Dal.DO.Product DoProduct = Dal.Product.Get(p=>p.ID==id).First();
+            Dal.DO.Product DoProduct = Dal.Product.GetSingleByPredicate(p=>p.ID==id);
 
 
             bool flag = true;
@@ -90,7 +90,7 @@ internal class BlCart : ICart
 
             // Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
 
-            Dal.DO.Product DoProduct = Dal.Product.Get(p=>p.ID==id).First();
+            Dal.DO.Product DoProduct = Dal.Product.GetSingleByPredicate(p=>p.ID==id);
 
             foreach (var item in cart.Items)
             {
@@ -200,7 +200,7 @@ internal class BlCart : ICart
             {
                 //Dal.DO.Product DoProduct = Dal.Product.GetSingle(oi.ProductID);
 
-                Dal.DO.Product DoProduct = Dal.Product.Get(p=>p.ID==oi.ProductID).First();
+                Dal.DO.Product DoProduct = Dal.Product.GetSingleByPredicate(p=>p.ID==oi.ProductID);
 
                 if (oi.Amount < 0)
                 {

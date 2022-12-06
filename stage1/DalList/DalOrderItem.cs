@@ -157,6 +157,11 @@ internal class DalOrderItem:IOrderItem
          //   throw new DalEntityNotFoundException("there are no order items with this order id");
         return OrderItemList;
     }
+
+    public OrderItem GetSingleByPredicate(Func<OrderItem, bool> func)
+    {
+        return (DataSource.OrderItemList.Where(func).ToArray()[0]);
+    }
 }
 
 

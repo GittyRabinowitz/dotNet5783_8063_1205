@@ -141,4 +141,10 @@ internal class DalProduct : IProduct
         }
         return lst;
     }
+
+    public Product GetSingleByPredicate(Func<Product, bool> func)
+    {
+
+        return (DataSource.ProductList.Where(func).ToArray()[0]);
+    }
 }
