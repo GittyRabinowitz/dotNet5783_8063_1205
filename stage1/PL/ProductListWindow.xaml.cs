@@ -43,18 +43,19 @@ namespace PL
             productWindow.Show();
         }
 
-        private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
 
         private void viewListProductDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
 
-            var product = bl.Product.GetProductManager((ProductsListview.SelectedItem as BO.ProductForList).ID);
+            BO.Product product = bl.Product.GetProductManager((ProductsListview.SelectedItem as BO.ProductForList).ID);
             ProductWindow productWindow = new ProductWindow(bl, product);
             productWindow.Show();
+
+        }
+
+        private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
         }
     }

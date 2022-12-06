@@ -33,7 +33,9 @@ internal class BlOrder : IOrder
                 orderForList.TotalPrice = 0;
                 orderForList.AmountOfItems = 0;
 
-                var orderItems = Dal.OrderItem.GetOrderItemByOrderId(order.ID);
+                //var orderItems = Dal.OrderItem.GetOrderItemByOrderId(order.ID);
+                List<Dal.DO.OrderItem> orderItems = Dal.OrderItem.Get(oi => oi.OrderID == order.ID).ToList();
+
 
                 foreach (var oi in orderItems)
                 {
@@ -77,13 +79,14 @@ internal class BlOrder : IOrder
 
             Dal.DO.Order DoOrder = new Dal.DO.Order();
 
-            IEnumerable<Dal.DO.OrderItem> DoOrderItems;
             if (id <= 0)
                 throw new BO.BlInvalideData("id cant be negative");
 
-            DoOrder = Dal.Order.GetSingle(id);
+            //DoOrder = Dal.Order.GetSingle(id);
+            DoOrder = Dal.Order.Get(o => o.ID == id).First();
+            //IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(id);
+            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi=>oi.OrderID== id).ToList();
 
-            DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(id);
 
             BoOrder.ID = BO.BoConfig.OrderID;
             BoOrder.CustomerName = DoOrder.CustomerName;
@@ -143,7 +146,10 @@ internal class BlOrder : IOrder
         try
         {
 
-            Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
+            // Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
+
+            Dal.DO.Order DoOrder = Dal.Order.Get(o => o.ID == orderId).First();
+
             if (DoOrder.ShipDate != DateTime.MinValue)
                 throw new BO.BlUpdateException("The order has already been updated");
 
@@ -162,7 +168,10 @@ internal class BlOrder : IOrder
             BoOrder.DeliveryDate = DateTime.MinValue;
             BoOrder.TotalPrice = 0;
 
-            var DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
+            //IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
+            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi=>oi.OrderID==orderId).ToList();
+
+
 
             BoOrder.Items = new List<BO.OrderItem>();
 
@@ -202,7 +211,9 @@ internal class BlOrder : IOrder
     {
         try
         {
-            Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
+            // Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
+
+            Dal.DO.Order DoOrder = Dal.Order.Get(o => o.ID == orderId).First();
 
             if (DoOrder.ShipDate == DateTime.MinValue)
                 throw new BO.BlUpdateException("The order delivered before shipping");
@@ -224,7 +235,10 @@ internal class BlOrder : IOrder
             BoOrder.Status = BO.eOrderStatus.delivered;
             BoOrder.TotalPrice = 0;
 
-            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
+            //IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
+
+            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi=>oi.OrderID==orderId).ToList();
+
 
             BoOrder.Items = new List<BO.OrderItem>();
 
@@ -234,7 +248,9 @@ internal class BlOrder : IOrder
 
                 BoOrderItem.ID = BO.BoConfig.OrderItemID;
                 BoOrderItem.ProductID = oi.ProductID;
-                BoOrderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
+                // BoOrderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
+                BoOrderItem.Name = Dal.Product.Get(p=>p.ID==oi.ProductID).First().Name;
+
                 BoOrderItem.Amount = oi.Amount;
                 BoOrderItem.Price = oi.Price;
                 BoOrderItem.TotalPrice = oi.Amount * oi.Price;
@@ -267,7 +283,9 @@ internal class BlOrder : IOrder
         {
 
 
-            Dal.DO.Order order = Dal.Order.GetSingle(orderId);
+            //Dal.DO.Order order = Dal.Order.GetSingle(orderId);
+
+            Dal.DO.Order order = Dal.Order.Get(o => o.ID == orderId).First();
 
             BO.OrderTracking orderTracking = new BO.OrderTracking();
             orderTracking.DateAndTrack = new List<(DateTime, BO.eOrderStatus)>();

@@ -12,6 +12,6 @@ namespace DalApi
         public void Delete(int id);
         public void Update(T obj);
         public T GetSingle(int id);
-        public IEnumerable<T> Get();
+        public IEnumerable<T> Get(Func<T, bool> func=null);
     }
 }

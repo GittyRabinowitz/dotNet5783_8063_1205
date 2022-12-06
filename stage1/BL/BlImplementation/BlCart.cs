@@ -21,10 +21,13 @@ internal class BlCart : ICart
     {
         try
         {
-            Dal.DO.Product DoProduct = new Dal.DO.Product();
+            //Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
+
+            Dal.DO.Product DoProduct = Dal.Product.Get(p=>p.ID==id).First();
+
+
             bool flag = true;
 
-            DoProduct = Dal.Product.GetSingle(id);
 
             foreach (var item in cart.Items)
             {
@@ -85,7 +88,9 @@ internal class BlCart : ICart
         {
             bool flag = true;
 
-            Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
+            // Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
+
+            Dal.DO.Product DoProduct = Dal.Product.Get(p=>p.ID==id).First();
 
             foreach (var item in cart.Items)
             {
@@ -193,7 +198,9 @@ internal class BlCart : ICart
 
             foreach (BO.OrderItem oi in cart.Items)
             {
-                Dal.DO.Product DoProduct = Dal.Product.GetSingle(oi.ProductID);
+                //Dal.DO.Product DoProduct = Dal.Product.GetSingle(oi.ProductID);
+
+                Dal.DO.Product DoProduct = Dal.Product.Get(p=>p.ID==oi.ProductID).First();
 
                 if (oi.Amount < 0)
                 {

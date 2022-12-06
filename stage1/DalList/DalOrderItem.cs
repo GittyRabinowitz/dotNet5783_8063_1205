@@ -51,14 +51,16 @@ internal class DalOrderItem:IOrderItem
     /// </summary>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public IEnumerable<OrderItem> Get()
+    public IEnumerable<OrderItem> Get(Func<OrderItem, bool> func = null)
     {
-        List<OrderItem> OrderItemList = new List<OrderItem>();
-        for (int i = 0; i < DataSource.OrderItemList.Count(); i++)
-        {
-            OrderItemList.Add(DataSource.OrderItemList[i]);
-        }
-        return OrderItemList;
+        //List<OrderItem> OrderItemList = new List<OrderItem>();
+        //for (int i = 0; i < DataSource.OrderItemList.Count(); i++)
+        //{
+        //    OrderItemList.Add(DataSource.OrderItemList[i]);
+        //}
+        //return OrderItemList;
+
+        return (func == null ? DataSource.OrderItemList : DataSource.OrderItemList.Where(func).ToList());
     }
 
 

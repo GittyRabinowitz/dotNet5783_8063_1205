@@ -23,7 +23,7 @@ Width="auto">
             <ComboBox Name="AttributeSelector" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" SelectionChanged="AttributeSelector_SelectionChanged"/>
             <Label Grid.Column="0" Content="Label"/>
         </Grid>
-        <ListView Grid.Row="1" x:Name="ProductsListview" SelectionChanged="ProductsListview_SelectionChanged" MouseDoubleClick="viewListProductDoubleClick">
+        <ListView Grid.Row="1" x:Name="ProductsListview" MouseDoubleClick="viewListProductDoubleClick" SelectionChanged="ProductsListview_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

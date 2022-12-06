@@ -29,8 +29,12 @@ namespace PL
             if (obj == null)
             {
                 UpdateBtn.Visibility = Visibility.Hidden;
+                DeleteBtn.Visibility = Visibility.Hidden;
                 CategoriesSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
                 //add
+                NameTxt.Text = "";
+                PriceTxt.Text = "";
+                InStockTxt.Text = "";
             }
             else
             {
@@ -66,6 +70,11 @@ namespace PL
             product.Category = (BO.eCategory)CategoriesSelector.SelectedItem;
             product.InStock = int.Parse(InStockTxt.Text);
             bl.Product.Update(product);
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            bl.Product.Delete(productId);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using Dal.DO;
 using DalApi;
+//using lin
 namespace Dal.UseObjects;
 /// <summary>
 /// class for crud actions for a product
@@ -50,14 +51,16 @@ internal class DalProduct : IProduct
     /// </summary>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public IEnumerable<Product> Get()
+    public IEnumerable<Product> Get(Func<Product,bool> func=null)
     {
-        List<Product> ProductList = new List<Product>();
-        for (int i = 0; i < DataSource.ProductList.Count(); i++)
-        {
-            ProductList.Add(DataSource.ProductList[i]);
-        }
-        return ProductList;
+        //List<Product> ProductList = new List<Product>();
+        //for (int i = 0; i < DataSource.ProductList.Count(); i++)
+        //{
+        //    ProductList.Add(DataSource.ProductList[i]);
+        //}
+        //return ProductList;
+
+        return (func == null ? DataSource.ProductList : DataSource.ProductList.Where(func).ToList());
     }
 
 

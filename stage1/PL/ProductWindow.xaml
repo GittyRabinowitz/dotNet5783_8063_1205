@@ -16,6 +16,7 @@
         <TextBox x:Name="InStockTxt" HorizontalAlignment="Left" Margin="194,279,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <Button Content="Add" x:Name="AddBtn"  HorizontalAlignment="Left" Margin="233,348,0,0" VerticalAlignment="Top" Click="AddBtn_Click"/>
         <Button Content="Update" x:Name="UpdateBtn" HorizontalAlignment="Left" Margin="289,348,0,0" VerticalAlignment="Top" Click="UpdateBtn_Click"/>
+        <Button Content="Delete" x:Name="DeleteBtn" HorizontalAlignment="Left" Margin="360,348,0,0" VerticalAlignment="Top" Click="Delete_Click"/>
 
     </Grid>
 </Window>

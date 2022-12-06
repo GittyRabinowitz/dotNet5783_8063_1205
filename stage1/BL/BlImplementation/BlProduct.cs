@@ -25,7 +25,7 @@ internal class BlProduct : IProduct
             {
                 BO.ProductForList ProductForList = new BO.ProductForList();
 
-                ProductForList.ID = BO.BoConfig.ProductForListID;
+                ProductForList.ID = DoProduct.ID;
                 ProductForList.Name = DoProduct.Name;
                 ProductForList.Price = DoProduct.Price;
                 ProductForList.Category = (BO.eCategory)DoProduct.Category;
@@ -45,11 +45,10 @@ internal class BlProduct : IProduct
         }
 
     }
-
     public IEnumerable<BO.ProductForList> GetProductByCategoty(BO.eCategory category)
     {
-        IEnumerable<Dal.DO.Product> lst = Dal.Product.GetProductByCategory((Dal.DO.eCategory)category);
-
+        // IEnumerable<Dal.DO.Product> lst = Dal.Product.GetProductByCategory((Dal.DO.eCategory)category);
+        IEnumerable<Dal.DO.Product> lst = Dal.Product.Get(p => p.Category == (Dal.DO.eCategory)category);
         List<BO.ProductForList> productsForList = new List<BO.ProductForList>();
 
 
@@ -57,7 +56,7 @@ internal class BlProduct : IProduct
         {
             BO.ProductForList ProductForList = new BO.ProductForList();
 
-            ProductForList.ID = BO.BoConfig.ProductForListID;
+            ProductForList.ID = DoProduct.ID;
             ProductForList.Name = DoProduct.Name;
             ProductForList.Price = DoProduct.Price;
             ProductForList.Category = (BO.eCategory)DoProduct.Category;
@@ -128,10 +127,10 @@ internal class BlProduct : IProduct
             BO.Product BoProduct = new BO.Product();
             if (id > 0)
             {
-                Dal.DO.Product DoProduct = new Dal.DO.Product();
+                //Dal.DO.Product DoProduct = new Dal.DO.Product();
+                //DoProduct = Dal.Product.GetSingle(id);
 
-                DoProduct = Dal.Product.GetSingle(id);
-
+                Dal.DO.Product DoProduct = Dal.Product.Get(p => p.ID == id).First();
                 BoProduct.ID = DoProduct.ID;
                 BoProduct.Name = DoProduct.Name;
                 BoProduct.Price = DoProduct.Price;
@@ -170,7 +169,9 @@ internal class BlProduct : IProduct
 
             if (id > 0)
             {
-                Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
+                //Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
+                Dal.DO.Product DoProduct = Dal.Product.Get(p => p.ID == id).First();
+
 
                 BO.ProductItem BoProductItem = new BO.ProductItem();
 
@@ -247,7 +248,9 @@ internal class BlProduct : IProduct
     {
         try
         {
-            Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
+            //Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
+            Dal.DO.Product DoProduct = Dal.Product.Get(p => p.ID == id).First();
+
 
             IEnumerable<Dal.DO.OrderItem> orderItems = Dal.OrderItem.Get();
 
@@ -284,7 +287,10 @@ internal class BlProduct : IProduct
     {
         try
         {
-            Dal.DO.Product DoProduct = Dal.Product.GetSingle(BOProduct.ID);
+            //Dal.DO.Product DoProduct = Dal.Product.GetSingle(BOProduct.ID);
+            Dal.DO.Product DoProduct = Dal.Product.Get(p => p.ID == BOProduct.ID).First();
+
+
 
             if (BOProduct.Name != null)
                 DoProduct.Name = BOProduct.Name;
