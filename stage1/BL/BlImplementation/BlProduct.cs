@@ -132,7 +132,7 @@ internal class BlProduct : IProduct
 
                 DoProduct = Dal.Product.GetSingle(id);
 
-                BoProduct.ID = BO.BoConfig.ProductID;
+                BoProduct.ID = DoProduct.ID;
                 BoProduct.Name = DoProduct.Name;
                 BoProduct.Price = DoProduct.Price;
                 BoProduct.Category = (BO.eCategory)DoProduct.Category;

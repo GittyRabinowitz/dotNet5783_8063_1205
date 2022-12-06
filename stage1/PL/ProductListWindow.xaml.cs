@@ -39,7 +39,7 @@ namespace PL
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-            ProductWindow productWindow = new ProductWindow(bl, null);
+            ProductWindow productWindow = new ProductWindow(bl);
             productWindow.Show();
         }
 
@@ -50,8 +50,11 @@ namespace PL
 
         private void viewListProductDoubleClick(object sender, MouseButtonEventArgs e)
         {
-          var product=  ProductsListview.SelectedItem;
-            ProductWindow productWindow = new ProductWindow(bl,product);
+
+
+            var product = bl.Product.GetProductManager((ProductsListview.SelectedItem as BO.ProductForList).ID);
+            ProductWindow productWindow = new ProductWindow(bl, product);
+            productWindow.Show();
 
         }
     }
