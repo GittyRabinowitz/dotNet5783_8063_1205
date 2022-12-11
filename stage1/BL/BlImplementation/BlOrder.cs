@@ -288,7 +288,7 @@ internal class BlOrder : IOrder
             Dal.DO.Order order = Dal.Order.GetSingle(o => o.ID == orderId);
 
             BO.OrderTracking orderTracking = new BO.OrderTracking();
-            orderTracking.DateAndTrack = new List<(DateTime, BO.eOrderStatus)>();
+            orderTracking.DateAndTrack = new List<(DateTime?, BO.eOrderStatus?)>();
 
             orderTracking.ID = BO.BoConfig.OrderTrackingID;
             orderTracking.DateAndTrack.Add(((DateTime)order.OrderDate, BO.eOrderStatus.ordered));

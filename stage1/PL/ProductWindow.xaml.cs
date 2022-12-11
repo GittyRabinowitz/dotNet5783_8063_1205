@@ -59,6 +59,7 @@ namespace PL
             product.Category = (BO.eCategory)CategoriesSelector.SelectedItem;
             product.InStock = int.Parse(InStockTxt.Text);
             bl.Product.Add(product);
+            MessageBox.Show("the product was added");
         }
 
         private void UpdateBtn_Click(object sender, RoutedEventArgs e)
@@ -70,11 +71,13 @@ namespace PL
             product.Category = (BO.eCategory)CategoriesSelector.SelectedItem;
             product.InStock = int.Parse(InStockTxt.Text);
             bl.Product.Update(product);
+            MessageBox.Show("the product was updated");
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             bl.Product.Delete(productId);
+            MessageBox.Show("the product was deleted");
         }
     }
 }
