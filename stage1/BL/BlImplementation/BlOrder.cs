@@ -83,7 +83,7 @@ internal class BlOrder : IOrder
                 throw new BO.BlInvalideData("id cant be negative");
 
             //DoOrder = Dal.Order.GetSingle(id);
-            DoOrder = Dal.Order.GetSingleByPredicate(o => o.ID == id);
+            DoOrder = Dal.Order.GetSingle(o => o.ID == id);
             //IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(id);
             IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi=>oi.OrderID== id).ToList();
 
@@ -111,7 +111,7 @@ internal class BlOrder : IOrder
 
                 BoOrderItem.ID = BO.BoConfig.OrderItemID;
                 BoOrderItem.ProductID = DoOrderItem.ProductID;
-                BoOrderItem.Name = Dal.Product.GetSingleByPredicate(p => p.ID == DoOrderItem.ProductID).Name;
+                BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == DoOrderItem.ProductID).Name;
                 BoOrderItem.Amount = DoOrderItem.Amount;
                 BoOrderItem.Price = DoOrderItem.Price;
                 BoOrderItem.TotalPrice = DoOrderItem.Price * DoOrderItem.Amount;
@@ -148,7 +148,7 @@ internal class BlOrder : IOrder
 
             // Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
 
-            Dal.DO.Order DoOrder = Dal.Order.GetSingleByPredicate(o => o.ID == orderId);
+            Dal.DO.Order DoOrder = Dal.Order.GetSingle(o => o.ID == orderId);
 
             if (DoOrder.ShipDate != DateTime.MinValue)
                 throw new BO.BlUpdateException("The order has already been updated");
@@ -181,7 +181,7 @@ internal class BlOrder : IOrder
 
                 BoOrderItem.ID = BO.BoConfig.OrderItemID;
                 BoOrderItem.ProductID = oi.ProductID;
-                BoOrderItem.Name = Dal.Product.GetSingleByPredicate(p => p.ID == oi.ProductID).Name;
+                BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == oi.ProductID).Name;
                 BoOrderItem.Amount = oi.Amount;
                 BoOrderItem.Price = oi.Price;
                 BoOrderItem.TotalPrice = oi.Amount * oi.Price;
@@ -213,7 +213,7 @@ internal class BlOrder : IOrder
         {
             // Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
 
-            Dal.DO.Order DoOrder = Dal.Order.GetSingleByPredicate(o => o.ID == orderId);
+            Dal.DO.Order DoOrder = Dal.Order.GetSingle(o => o.ID == orderId);
 
             if (DoOrder.ShipDate == DateTime.MinValue)
                 throw new BO.BlUpdateException("The order delivered before shipping");
@@ -249,7 +249,7 @@ internal class BlOrder : IOrder
                 BoOrderItem.ID = BO.BoConfig.OrderItemID;
                 BoOrderItem.ProductID = oi.ProductID;
                 // BoOrderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
-                BoOrderItem.Name = Dal.Product.GetSingleByPredicate(p=>p.ID==oi.ProductID).Name;
+                BoOrderItem.Name = Dal.Product.GetSingle(p=>p.ID==oi.ProductID).Name;
 
                 BoOrderItem.Amount = oi.Amount;
                 BoOrderItem.Price = oi.Price;
@@ -285,7 +285,7 @@ internal class BlOrder : IOrder
 
             //Dal.DO.Order order = Dal.Order.GetSingle(orderId);
 
-            Dal.DO.Order order = Dal.Order.GetSingleByPredicate(o => o.ID == orderId);
+            Dal.DO.Order order = Dal.Order.GetSingle(o => o.ID == orderId);
 
             BO.OrderTracking orderTracking = new BO.OrderTracking();
             orderTracking.DateAndTrack = new List<(DateTime, BO.eOrderStatus)>();

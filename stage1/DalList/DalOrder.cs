@@ -67,32 +67,10 @@ internal class DalOrder : IOrder
     }
 
 
-    /// <summary>
-    /// read single function gets an id of the order requested and returns it (if it's exist) 
-    /// </summary>
-    /// <param name="Id"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public Order GetSingle(int Id)
+    public Order GetSingle(Func<Order, bool> func)
     {
-        bool flag = true;
-        int i;
-        for (i = 0; i < DataSource.OrderList.Count(); i++)
-        {
-            if (DataSource.OrderList[i].ID == Id)
-            {
-                flag = false;
-                break;
-            }
-        }
-        if (flag)
+        if (DataSource.OrderList.Where(func).ToList().Count() == 0)
             throw new DalIdNotFoundException("this order does not exist");
-        return DataSource.OrderList[i];
-
-    }
-
-    public Order GetSingleByPredicate(Func<Order, bool> func)
-    {
         return (DataSource.OrderList.Where(func).ToArray()[0]);
     }
 

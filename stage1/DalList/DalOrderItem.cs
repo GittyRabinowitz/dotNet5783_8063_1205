@@ -64,29 +64,6 @@ internal class DalOrderItem:IOrderItem
     }
 
 
-    /// <summary>
-    /// read single function gets an id of the order item requested and returns it (if it's exist) 
-    /// </summary>
-    /// <param name="Id"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public OrderItem GetSingle(int Id)
-    {
-        bool flag = true;
-        int i;
-        for (i = 0; i < DataSource.OrderItemList.Count(); i++)
-        {
-            if (DataSource.OrderItemList[i].ID == Id)
-            {
-                flag = false;
-                break;
-            }
-        }
-        if (flag)
-            throw new DalIdNotFoundException("this order item does not exist");
-        return DataSource.OrderItemList[i];
-    }
-
 
     /// <summary>
     /// update function gets an order item with updated details and put it in the array instead of the order item exist with this id
@@ -110,56 +87,10 @@ internal class DalOrderItem:IOrderItem
     }
 
 
-    /// <summary>
-    /// GetOrderItemByOrderIdAndProductId function gets an order id and product id of the order item requested and returns it (if it's exist) 
-    /// </summary>
-    /// <param name="Id"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public OrderItem GetOrderItemByOrderIdAndProductId(int orderId, int productId)
+    public OrderItem GetSingle(Func<OrderItem, bool> func)
     {
-        bool flag = true;
-        int i;
-        for (i = 0; i < DataSource.OrderItemList.Count(); i++)
-        {
-            if (((OrderItem)DataSource.OrderItemList[i]).OrderID == orderId &&
-                ((OrderItem)DataSource.OrderItemList[i]).ProductID == productId)
-            {
-                flag = false;
-                break;
-            }
-        }
-        if (flag)
-            throw new DalIdNotFoundException("there is no any order item with this order id and Product id");
-        return (OrderItem)DataSource.OrderItemList[i];
-    }
-
-
-    /// <summary>
-    /// GetOrderItemByOrderId function gets an order id of the order items requested and returns it (it can be more than one) 
-    /// </summary>
-    /// <param name="Id"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public IEnumerable<OrderItem> GetOrderItemByOrderId(int orderId)
-    {
-        //bool flag = true;
-        List<OrderItem> OrderItemList = new List<OrderItem>();
-        for (int i = 0; i < DataSource.OrderItemList.Count(); i++)
-        {
-            if (DataSource.OrderItemList[i].OrderID == orderId)
-            {
-                OrderItemList.Add(DataSource.OrderItemList[i]);
-                //flag = false;
-            }
-        }
-       // if (flag)
-         //   throw new DalEntityNotFoundException("there are no order items with this order id");
-        return OrderItemList;
-    }
-
-    public OrderItem GetSingleByPredicate(Func<OrderItem, bool> func)
-    {
+        if (DataSource.OrderItemList.Where(func).ToList().Count() == 0)
+            throw new DalIdNotFoundException("this order item does not exist");
         return (DataSource.OrderItemList.Where(func).ToArray()[0]);
     }
 }

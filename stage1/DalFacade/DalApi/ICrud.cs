@@ -11,8 +11,7 @@ namespace DalApi
         public int Add(T obj);
         public void Delete(int id);
         public void Update(T obj);
-        public T GetSingle(int id);
-        public T GetSingleByPredicate(Func<T, bool> func);
+        public T GetSingle(Func<T, bool> func);
         public IEnumerable<T> Get(Func<T, bool> func=null);
     }
 }

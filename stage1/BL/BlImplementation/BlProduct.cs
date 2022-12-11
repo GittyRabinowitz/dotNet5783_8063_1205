@@ -130,7 +130,7 @@ internal class BlProduct : IProduct
                 //Dal.DO.Product DoProduct = new Dal.DO.Product();
                 //DoProduct = Dal.Product.GetSingle(id);
 
-                Dal.DO.Product DoProduct = Dal.Product.GetSingleByPredicate(p => p.ID == id);
+                Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
                 BoProduct.ID = DoProduct.ID;
                 BoProduct.Name = DoProduct.Name;
                 BoProduct.Price = DoProduct.Price;
@@ -170,7 +170,7 @@ internal class BlProduct : IProduct
             if (id > 0)
             {
                 //Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
-                Dal.DO.Product DoProduct = Dal.Product.GetSingleByPredicate(p => p.ID == id);
+                Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
 
 
                 BO.ProductItem BoProductItem = new BO.ProductItem();
@@ -249,7 +249,7 @@ internal class BlProduct : IProduct
         try
         {
             //Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
-            Dal.DO.Product DoProduct = Dal.Product.GetSingleByPredicate(p => p.ID == id);
+            Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
 
 
             IEnumerable<Dal.DO.OrderItem> orderItems = Dal.OrderItem.Get();
@@ -288,7 +288,7 @@ internal class BlProduct : IProduct
         try
         {
             //Dal.DO.Product DoProduct = Dal.Product.GetSingle(BOProduct.ID);
-            Dal.DO.Product DoProduct = Dal.Product.GetSingleByPredicate(p => p.ID == BOProduct.ID);
+            Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == BOProduct.ID);
 
 
 

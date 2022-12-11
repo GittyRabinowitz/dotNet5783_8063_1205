@@ -64,29 +64,6 @@ internal class DalProduct : IProduct
     }
 
 
-    /// <summary>
-    /// read single function gets an id of the product requested and returns it (if it's exist) 
-    /// </summary>
-    /// <param name="Id"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public Product GetSingle(int Id)
-    {
-        bool flag = true;
-        int i;
-        for (i = 0; i < DataSource.ProductList.Count(); i++)
-        {
-            if (DataSource.ProductList[i].ID == Id)
-            {
-                flag = false;
-                break;
-            }
-        }
-        if (flag)
-            throw new DalIdNotFoundException("this Product does not exist");
-        return DataSource.ProductList[i];
-    }
-
 
     /// <summary>
     /// update function gets a product with updated details and put it in the array instead of the product exist with this id
@@ -131,20 +108,11 @@ internal class DalProduct : IProduct
         }
     }
 
-    public IEnumerable<Product> GetProductByCategory(eCategory category)
-    {
-        List<Product> lst = new List<Product>();
-        foreach (var item in DataSource.ProductList)
-        {
-            if (item.Category == category)
-                lst.Add(item);
-        }
-        return lst;
-    }
 
-    public Product GetSingleByPredicate(Func<Product, bool> func)
+    public Product GetSingle(Func<Product, bool> func)
     {
-
+        if(DataSource.ProductList.Where(func).ToList().Count()==0)
+            throw new DalIdNotFoundException("this Product does not exist");
         return (DataSource.ProductList.Where(func).ToArray()[0]);
     }
 }

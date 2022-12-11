@@ -82,7 +82,7 @@ void UpdateProduct()
     bool flag = true;
     Console.WriteLine("enter the id of the Product you want to Update");
     int id = Convert.ToInt32(Console.ReadLine());
-    Product p = DalListEntity.Product.GetSingleByPredicate(p=>p.ID==id);
+    Product p = DalListEntity.Product.GetSingle(p=>p.ID==id);
 
     if (p.ID != null)
     {
@@ -152,7 +152,7 @@ void productCrud()
             case (int)eCrudOptions.ViewById:
                 Console.WriteLine("Enter Product id to view");
                 id = Convert.ToInt32(Console.ReadLine());
-                Product p = DalListEntity.Product.GetSingleByPredicate(p=>p.ID==id);
+                Product p = DalListEntity.Product.GetSingle(p=>p.ID==id);
                 Console.WriteLine(p);
                 break;
             case (int)eCrudOptions.ViewAll:
@@ -210,7 +210,7 @@ void UpdateOrder()
     bool flag = true;
     Console.WriteLine("enter the id of the order you want to Update");
     int id = Convert.ToInt32(Console.ReadLine());
-    Order o = DalListEntity.Order.GetSingleByPredicate(o=>o.ID==id);
+    Order o = DalListEntity.Order.GetSingle(o=>o.ID==id);
     if (o.ID != null)
     {
         Console.WriteLine("the order's details of the order you want to update:");
@@ -300,7 +300,7 @@ void orderCrud()
             case (int)eCrudOptions.ViewById:
                 Console.WriteLine("Enter order id to view");
                 id = Convert.ToInt32(Console.ReadLine());
-                Order currentOrder = DalListEntity.Order.GetSingleByPredicate(o=>o.ID==id);
+                Order currentOrder = DalListEntity.Order.GetSingle(o=>o.ID==id);
                 Console.WriteLine(currentOrder);
                 break;
             case (int)eCrudOptions.ViewAll:
@@ -337,12 +337,12 @@ void AddOrderItem()
     OrderItem currentOrderItem = new OrderItem();
     Console.WriteLine("enter order id for the new order item");
     currentOrderItem.OrderID = Convert.ToInt32(Console.ReadLine());
-    OrderItem oi = DalListEntity.OrderItem.GetSingleByPredicate(oi=>oi.OrderID==currentOrderItem.OrderID);
+    OrderItem oi = DalListEntity.OrderItem.GetSingle(oi=>oi.OrderID==currentOrderItem.OrderID);
     if (oi.ID != null)
     {
         Console.WriteLine("enter Product id for the new order item");
         currentOrderItem.ProductID = Convert.ToInt32(Console.ReadLine());
-        Product p =  DalListEntity.Product.GetSingleByPredicate(p=>p.ID==currentOrderItem.ProductID);
+        Product p =  DalListEntity.Product.GetSingle(p=>p.ID==currentOrderItem.ProductID);
 
         if (p.ID != null)
         {
@@ -378,7 +378,7 @@ void UpdateOrderItem()
     bool flag = true;
     Console.WriteLine("enter the id of the order item you want to Update");
     id = Convert.ToInt32(Console.ReadLine());
-    OrderItem currentOrderItem = DalListEntity.OrderItem.GetSingleByPredicate(oi=>oi.ID==id);
+    OrderItem currentOrderItem = DalListEntity.OrderItem.GetSingle(oi=>oi.ID==id);
 
     if (currentOrderItem.ID != null)
     {
@@ -390,7 +390,7 @@ void UpdateOrderItem()
         if (!string.IsNullOrEmpty(orderId1))
         {
             int orderId2 = Convert.ToInt32(orderId1);
-            Order o = DalListEntity.Order.GetSingleByPredicate(o=>o.ID==orderId2);
+            Order o = DalListEntity.Order.GetSingle(o=>o.ID==orderId2);
             if (o.ID != null)
                 currentOrderItem.OrderID = orderId2;
             else
@@ -402,7 +402,7 @@ void UpdateOrderItem()
         if (!string.IsNullOrEmpty(productId1))
         {
             int productId = Convert.ToInt32(productId1);
-            Product p = DalListEntity.Product.GetSingleByPredicate(p=>p.ID==productId);
+            Product p = DalListEntity.Product.GetSingle(p=>p.ID==productId);
             if (p.ID != null)
                 currentOrderItem.ProductID = productId;
             else
@@ -465,7 +465,7 @@ void orderItemCrud()
             case (int)eOrderItemOptions.ViewById:
                 Console.WriteLine("Enter order item id to view");
                 id = Convert.ToInt32(Console.ReadLine());
-                currentOrderItem =DalListEntity.OrderItem.GetSingleByPredicate(oi=>oi.ID==id);
+                currentOrderItem =DalListEntity.OrderItem.GetSingle(oi=>oi.ID==id);
                 Console.WriteLine(currentOrderItem);
                 break;
             case (int)eOrderItemOptions.ViewAll:
@@ -486,7 +486,7 @@ void orderItemCrud()
                 orderId = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Enter Product id of the order item to view");
                 productId = Convert.ToInt32(Console.ReadLine());
-                currentOrderItem = DalListEntity.OrderItem.GetSingleByPredicate(oi=>oi.OrderID== orderId &&oi.ProductID==productId);
+                currentOrderItem = DalListEntity.OrderItem.GetSingle(oi=>oi.OrderID== orderId &&oi.ProductID==productId);
                 Console.WriteLine(currentOrderItem);
                 break;
             case (int)eOrderItemOptions.ViewByOrderId:
