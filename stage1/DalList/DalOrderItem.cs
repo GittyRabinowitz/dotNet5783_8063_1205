@@ -98,7 +98,7 @@ internal class DalOrderItem:IOrderItem
         bool flag = true;
         for (int i = 0; i < DataSource.OrderItemList.Count(); i++)
         {
-            if (DataSource.OrderItemList[i].ID == obj.ID)
+            if (((OrderItem)DataSource.OrderItemList[i]).ID == obj.ID)
             {
                 DataSource.OrderItemList[i] = obj;
                 flag = false;
@@ -122,8 +122,8 @@ internal class DalOrderItem:IOrderItem
         int i;
         for (i = 0; i < DataSource.OrderItemList.Count(); i++)
         {
-            if (DataSource.OrderItemList[i].OrderID == orderId &&
-                DataSource.OrderItemList[i].ProductID == productId)
+            if (((OrderItem)DataSource.OrderItemList[i]).OrderID == orderId &&
+                ((OrderItem)DataSource.OrderItemList[i]).ProductID == productId)
             {
                 flag = false;
                 break;
@@ -131,7 +131,7 @@ internal class DalOrderItem:IOrderItem
         }
         if (flag)
             throw new DalIdNotFoundException("there is no any order item with this order id and Product id");
-        return DataSource.OrderItemList[i];
+        return (OrderItem)DataSource.OrderItemList[i];
     }
 
 
