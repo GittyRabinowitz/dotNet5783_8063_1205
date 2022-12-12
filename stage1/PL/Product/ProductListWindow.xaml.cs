@@ -33,8 +33,7 @@ namespace PL
         private void AttributeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             object SelectedItem = AttributeSelector.SelectedItem;
-            IEnumerable<BO.ProductForList> lst = bl.Product.GetProductByCategoty((BO.eCategory)SelectedItem);
-            ProductsListview.ItemsSource = lst;
+            ProductsListview.ItemsSource  = bl.Product.GetProductByCategoty((BO.eCategory)SelectedItem);
         }
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
