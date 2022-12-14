@@ -60,6 +60,10 @@ internal class BlOrder : IOrder
 
             throw new BO.BlNoEntitiesFoundInDal(exc);
         }
+        catch (DalApi.DalNoEntitiesFound exc)
+        {
+            throw new BO.BlNoEntitiesFoundInDal(exc);
+        }
     }
 
 
@@ -127,7 +131,10 @@ internal class BlOrder : IOrder
         catch (DalApi.DalIdNotFoundException exc)
         {
             throw new BO.BlIdNotExist(exc);
-
+        }
+        catch (DalApi.DalNoEntitiesFound exc)
+        {
+            throw new BO.BlNoEntitiesFoundInDal(exc);
         }
 
     }
@@ -194,7 +201,10 @@ internal class BlOrder : IOrder
         catch (DalApi.DalIdNotFoundException exc)
         {
             throw new BO.BlIdNotExist(exc);
-
+        }
+        catch (DalApi.DalNoEntitiesFound exc)
+        {
+            throw new BO.BlNoEntitiesFoundInDal(exc);
         }
     }
 
@@ -266,7 +276,10 @@ internal class BlOrder : IOrder
         catch (DalApi.DalIdNotFoundException exc)
         {
             throw new BO.BlIdNotExist(exc);
-
+        }
+        catch (DalApi.DalNoEntitiesFound exc)
+        {
+            throw new BO.BlNoEntitiesFoundInDal(exc);
         }
     }
 

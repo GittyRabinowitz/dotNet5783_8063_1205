@@ -23,17 +23,33 @@ namespace PL
         private IBl bl;
         public ProductListWindow(IBl bl)
         {
-            InitializeComponent();
-            this.bl = bl;
-            ProductsListview.ItemsSource = bl.Product.GetProductList();
+            try
+            {
 
-            AttributeSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
+                InitializeComponent();
+                this.bl = bl;
+                ProductsListview.ItemsSource = bl.Product.GetProductList();
+
+                AttributeSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
+
+            }
+            catch (BO.BlNoEntitiesFoundInDal exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
         }
 
         private void AttributeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            object SelectedItem = AttributeSelector.SelectedItem;
-            ProductsListview.ItemsSource  = bl.Product.GetProductByCategoty((BO.eCategory)SelectedItem);
+            try
+            {
+                object SelectedItem = AttributeSelector.SelectedItem;
+                ProductsListview.ItemsSource = bl.Product.GetProductByCategoty((BO.eCategory)SelectedItem);
+            }
+            catch (BO.BlNoEntitiesFoundInDal exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
         }
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
@@ -46,11 +62,19 @@ namespace PL
         private void viewListProductDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
+            try
+            {
 
+          
             BO.Product product = bl.Product.GetProductManager((ProductsListview.SelectedItem as BO.ProductForList).ID);
             ProductWindow productWindow = new ProductWindow(bl, product);
             productWindow.Show();
+            }
+            catch (BO.BlIdNotExist exc)
+            {
 
+                MessageBox.Show(exc.Message);
+            }
         }
 
         private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)

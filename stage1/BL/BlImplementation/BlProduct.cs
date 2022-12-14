@@ -32,42 +32,45 @@ internal class BlProduct : IProduct
                 productsForList.Add(ProductForList);
             }
 
-
-            if (productsForList.Count() == 0)
-                throw new BO.BlNoEntitiesFound("No products found");
-
             return productsForList;
 
         }
-        catch (BO.BlNoEntitiesFound)
+        catch (DalApi.DalNoEntitiesFound exc)
         {
-            throw new BO.BlNoEntitiesFound("No products found");
+            throw new BO.BlNoEntitiesFoundInDal(exc);
         }
 
     }
     public IEnumerable<BO.ProductForList> GetProductByCategoty(BO.eCategory category)
     {
-        // IEnumerable<Dal.DO.Product> lst = Dal.Product.GetProductByCategory((Dal.DO.eCategory)category);
-        IEnumerable<Dal.DO.Product> lst = Dal.Product.Get(p => p.Category == (Dal.DO.eCategory)category);
-        List<BO.ProductForList> productsForList = new List<BO.ProductForList>();
-
-
-        foreach (Dal.DO.Product DoProduct in lst)
+        try
         {
-            BO.ProductForList ProductForList = new BO.ProductForList();
 
-            ProductForList.ID = DoProduct.ID;
-            ProductForList.Name = DoProduct.Name;
-            ProductForList.Price = DoProduct.Price;
-            ProductForList.Category = (BO.eCategory)DoProduct.Category;
-            productsForList.Add(ProductForList);
+
+            // IEnumerable<Dal.DO.Product> lst = Dal.Product.GetProductByCategory((Dal.DO.eCategory)category);
+            IEnumerable<Dal.DO.Product> lst = Dal.Product.Get(p => p.Category == (Dal.DO.eCategory)category);
+            List<BO.ProductForList> productsForList = new List<BO.ProductForList>();
+
+
+            foreach (Dal.DO.Product DoProduct in lst)
+            {
+                BO.ProductForList ProductForList = new BO.ProductForList();
+
+                ProductForList.ID = DoProduct.ID;
+                ProductForList.Name = DoProduct.Name;
+                ProductForList.Price = DoProduct.Price;
+                ProductForList.Category = (BO.eCategory)DoProduct.Category;
+                productsForList.Add(ProductForList);
+            }
+
+
+            return productsForList;
         }
+        catch (DalApi.DalNoEntitiesFound exc)
+        {
 
-
-        if (productsForList.Count() == 0)
-            throw new BO.BlNoEntitiesFound("No products found");
-
-        return productsForList;
+            throw new BO.BlNoEntitiesFoundInDal(exc);
+        }
     }
 
 
@@ -99,15 +102,14 @@ internal class BlProduct : IProduct
                 productItemsList.Add(BoProductItem);
             }
 
-            if (productItemsList.Count() == 0)
-                throw new BO.BlNoEntitiesFound("No products found");
 
             return productItemsList;
 
         }
-        catch (BO.BlNoEntitiesFound)
+        catch (DalApi.DalNoEntitiesFound exc)
         {
-            throw new BO.BlNoEntitiesFound("No products found");
+
+            throw new BO.BlNoEntitiesFoundInDal(exc);
         }
     }
 
@@ -272,6 +274,10 @@ internal class BlProduct : IProduct
         catch (BO.BlProductExistInOrders)
         {
             throw new BO.BlProductExistInOrders("this product exist in orders");
+        }
+        catch (DalApi.DalNoEntitiesFound exc)
+        {
+            throw new BO.BlNoEntitiesFoundInDal(exc);
         }
     }
 

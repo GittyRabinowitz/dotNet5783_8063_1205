@@ -61,7 +61,8 @@ internal class DalOrder : IOrder
         //}
 
         //return OrderList;
-
+        if (DataSource.OrderList.Count() == 0)
+            throw new DalNoEntitiesFound("No orders found");
 
         return (func == null ? DataSource.OrderList : DataSource.OrderList.Where(func).ToList());
     }

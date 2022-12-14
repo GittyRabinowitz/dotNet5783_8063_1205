@@ -59,7 +59,8 @@ internal class DalProduct : IProduct
         //    ProductList.Add(DataSource.ProductList[i]);
         //}
         //return ProductList;
-
+        if (DataSource.ProductList.Count() == 0)
+            throw new DalNoEntitiesFound("No products found");
         return (func == null ? DataSource.ProductList : DataSource.ProductList.Where(func).ToList());
     }
 
@@ -103,7 +104,7 @@ internal class DalProduct : IProduct
                 Product p = DataSource.ProductList[i];
                 p.InStock -= amount;
                 DataSource.ProductList[i] = p;
-                ;
+                
             }
         }
     }

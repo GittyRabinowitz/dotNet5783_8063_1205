@@ -20,10 +20,7 @@ public class BlIdAlreadyExist : Exception
 
 public class BlNoEntitiesFound : Exception
 {
-    public BlNoEntitiesFound(string message) : base(message)
-    {
-
-    }
+    public BlNoEntitiesFound(string message) : base(message){}
     public override string Message => "No entities found";
 }
 

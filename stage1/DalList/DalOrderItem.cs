@@ -59,7 +59,8 @@ internal class DalOrderItem:IOrderItem
         //    OrderItemList.Add(DataSource.OrderItemList[i]);
         //}
         //return OrderItemList;
-
+        if (DataSource.OrderItemList.Count() == 0)
+            throw new DalNoEntitiesFound("No order items found");
         return (func == null ? DataSource.OrderItemList : DataSource.OrderItemList.Where(func).ToList());
     }
 

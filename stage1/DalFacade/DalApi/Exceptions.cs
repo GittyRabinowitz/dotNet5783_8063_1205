@@ -16,4 +16,10 @@ namespace DalApi
         public DalIdAlreadyExistException(string message) :base(message) {}
 
     }
+    public class DalNoEntitiesFound : Exception
+    {
+        public DalNoEntitiesFound(string message) : base(message) { }
+
+    }
+    
 }
