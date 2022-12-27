@@ -1,10 +1,9 @@
 ﻿using BlApi;
-using Dal;
 namespace BlImplementation;
 
 internal class BlProduct : IProduct
 {
-    private DalApi.IDal Dal = new DalList();
+    private DalApi.IDal? Dal = DalApi.Factory.Get();
 
 
 
