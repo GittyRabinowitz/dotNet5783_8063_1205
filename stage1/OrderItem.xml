@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OrderItems>
+	<OrderItem>
+		<ID>100000</ID>
+		<ProductID>100002</ProductID>
+		<OrderID>100000</OrderID>
+		<Price>18</Price>
+		<Amount>5</Amount>
+	</OrderItem>
+	<OrderItem>
+		<ID>100001</ID>
+		<ProductID>100003</ProductID>
+		<OrderID>100001</OrderID>
+		<Price>79</Price>
+		<Amount>8</Amount>
+	</OrderItem>
+	<OrderItem>
+		<ID>100002</ID>
+		<ProductID>100004</ProductID>
+		<OrderID>100002</OrderID>
+		<Price>50</Price>
+		<Amount>4</Amount>
+	</OrderItem>
+	<OrderItem>
+		<ID>100003</ID>
+		<ProductID>100001</ProductID>
+		<OrderID>100003</OrderID>
+		<Price>89</Price>
+		<Amount>2</Amount>
+	</OrderItem>
+	<OrderItem>
+		<ID>100004</ID>
+		<ProductID>100000</ProductID>
+		<OrderID>100004</OrderID>
+		<Price>150</Price>
+		<Amount>1</Amount>
+	</OrderItem>
+</OrderItems>

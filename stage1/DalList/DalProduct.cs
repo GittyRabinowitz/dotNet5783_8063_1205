@@ -93,8 +93,8 @@ internal class DalProduct : IProduct
     /// decreaseInStock function gets a product id an amount and updates this product to have amount less in stock
     /// </summary>
     /// <param name="id"></param>
-    /// <param name="amount"></param>
-    public void decreaseInStock(int id, int amount)
+    /// <param name="amountToDecrease"></param>
+    public void decreaseInStock(int id, int amountToDecrease)
     {
 
         for (int i = 0; i < DataSource.ProductList.Count(); i++)
@@ -102,7 +102,7 @@ internal class DalProduct : IProduct
             if (DataSource.ProductList[i].ID == id)
             {
                 Product p = DataSource.ProductList[i];
-                p.InStock -= amount;
+                p.InStock -= amountToDecrease;
                 DataSource.ProductList[i] = p;
                 
             }
