@@ -121,9 +121,9 @@ internal class DalProduct : IProduct
         XElement? product = root?.Elements("Products")?.Elements("Product")?.
                     Where(p => p.Attribute("ID")?.Value == obj.ID.ToString()).FirstOrDefault();//האם צריך פה tostring?
         product?.Attribute("Name")?.SetValue(obj.Name);
-        product.Attribute("Price")?.SetValue(obj.Price);
-        product.Attribute("Category")?.SetValue(obj.Category);
-        product.Attribute("InStock")?.SetValue(obj.InStock);
+        product?.Attribute("Price")?.SetValue(obj.Price);
+        product?.Attribute("Category")?.SetValue(obj.Category);
+        product?.Attribute("InStock")?.SetValue(obj.InStock);
 
 
         root?.Save("..\\..\\Product.xml");
