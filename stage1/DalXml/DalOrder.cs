@@ -16,23 +16,34 @@ internal class DalOrder : IOrder
 {
     public int Add(Order obj)
     {
-        StreamReader reader = new StreamReader("../../config.xml");
-        XmlSerializer xmlSerializer = new XmlSerializer(typeof(Order));
-       var a= xmlSerializer.Deserialize(reader);
-        //בזמן ריצה לראות מה a מכיל
-        //לשים מזהה לאוביקט ולהגדיל את המזהה בקובץ
-        //להוסיף מזהה
-        //לכתוב מאיזה קובץ
-        //XElement? configRoot = XDocument.Load("config.xml").Root;
-        //int productId = Convert.ToInt32(configRoot?.Element("ID")?.Element("ProductID")?.Value);
-        //configRoot?.Element("ID")?.Element("ProductID")?.SetValue(productId+1);
+        StreamReader configReader = new StreamReader("../../../../../xml/config.xml");
+        
+        XmlSerializer xmlSerializer = new XmlSerializer(typeof(XElement));
+        XElement ids = (XElement)xmlSerializer.Deserialize(configReader);
+        int id = Convert.ToInt32(ids?.Element("OrderID")?.Value);
+        obj.ID = id;
+        ids?.Element("OrderID")?.SetValue(id + 1);
+        configReader.Close();
+        StreamWriter configWriter = new StreamWriter("../../../../../xml/config.xml");
+        xmlSerializer.Serialize(configWriter, ids);
+        configWriter.Close();
 
-        //StreamReader reader = new StreamReader("../../Order.xml");
-        StreamWriter writer = new StreamWriter("../../Order.xml");
-        xmlSerializer.Serialize(writer, obj);
-        writer.Close();
 
-        throw new NotImplementedException();
+
+
+        StreamReader orderReader = new StreamReader("../../../../../xml/Order.xml");
+        XmlSerializer ser = new XmlSerializer(typeof(List<DO.Order>));
+         List<Order> lst = (List<Order>)ser?.Deserialize(orderReader);
+        //var lst= ser?.Deserialize(orderReader);
+        orderReader.Close();
+        StreamWriter orderWriter = new StreamWriter("../../../../../xml/Order.xml");
+
+      //  lst?.Add(obj);
+       // ser?.Serialize(writer, lst);
+        orderWriter.Close();
+        
+        return id;
+
     }
 
     public void Delete(int id)
@@ -44,7 +55,7 @@ internal class DalOrder : IOrder
 
         List<Order>? orders = (List<Order>?)xmlSerializer.Deserialize(reader);
         reader.Close();
-        Order o = orders.Where(o => o.ID==id).FirstOrDefault();
+        Order o = orders.Where(o => o.ID == id).FirstOrDefault();
         orders.Remove(o);
         xmlSerializer.Serialize(writer, orders);
         writer.Close();
@@ -53,7 +64,7 @@ internal class DalOrder : IOrder
 
     public IEnumerable<Order> Get(Func<Order, bool> func = null)
     {
-        if (func==null)
+        if (func == null)
         {
             StreamReader reader = new StreamReader("../../Order.xml");
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(Order));
@@ -67,7 +78,7 @@ internal class DalOrder : IOrder
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(Order));
             IEnumerable<Order>? orders = (IEnumerable<Order>?)xmlSerializer.Deserialize(reader);
             reader.Close();
-            orders=orders.Where(func).ToList();
+            orders = orders.Where(func).ToList();
             return orders;
         }
         throw new NotImplementedException();
@@ -92,8 +103,8 @@ internal class DalOrder : IOrder
 
         List<Order>? orders = (List<Order>?)xmlSerializer.Deserialize(reader);
         reader.Close();
-        
-        Order o = orders.Where(o => o.ID==obj.ID).FirstOrDefault();
+
+        Order o = orders.Where(o => o.ID == obj.ID).FirstOrDefault();
         orders.Remove(o);
 
         xmlSerializer.Serialize(writer, obj);

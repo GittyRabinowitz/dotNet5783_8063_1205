@@ -32,11 +32,11 @@ internal class DalProduct : IProduct
         configRoot?.Element("ID")?.Element("ProductID")?.SetValue(productId+1);
 
         XElement product = new("Product",
-                new XAttribute("ID", productId),
-                new XAttribute("Name", obj.Name),
-                new XAttribute("Price", obj.Price),
-                new XAttribute("Category", obj.Category),
-                new XAttribute("InStock", obj.InStock)
+                new XElement("ID", productId),
+                new XElement("Name", obj.Name),
+                new XElement("Price", obj.Price),
+                new XElement("Category", obj.Category),
+                new XElement("InStock", obj.InStock)
                 );
         XElement? root = XDocument.Load("../../Product.xml").Root;
         root?.Element("Products")?.Add(product);
