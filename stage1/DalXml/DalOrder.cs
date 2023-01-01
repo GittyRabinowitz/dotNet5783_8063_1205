@@ -5,12 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Dal;
 
-using Dal.DO;
-using DalApi;
+namespace Dal;
+using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+
+using DalApi;
+
+
+using Dal.DO;
+
 
 internal class DalOrder : IOrder
 {
@@ -38,8 +45,8 @@ internal class DalOrder : IOrder
         orderReader.Close();
         StreamWriter orderWriter = new StreamWriter("../../../../../xml/Order.xml");
 
-      //  lst?.Add(obj);
-       // ser?.Serialize(writer, lst);
+      //  lst?.Add(obj);לפתוח מהערה
+       // ser?.Serialize(writer, lst);לפתוח מהערה
         orderWriter.Close();
         
         return id;
