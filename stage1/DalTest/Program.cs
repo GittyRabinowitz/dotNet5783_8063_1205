@@ -9,7 +9,8 @@ using DalApi;
 /// 
 
 
-IDal DalListEntity = new DalList();
+//IDal DalListEntity = new DalList();
+IDal DalListEntity = DalApi.Factory.Get();
 int choice;
 DataSource ds = new DataSource();
 

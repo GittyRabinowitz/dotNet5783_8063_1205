@@ -10,6 +10,19 @@ namespace Dal
     //sealed internal class DalXml : IDal
     public class DalXml : IDal
     {
+        private static Lazy<IDal>? instance;
+        public static IDal Instance { get { return GetInstence(); } }
+
+        public static IDal GetInstence()
+        {
+            lock (instance ??= new Lazy<IDal>(() => new DalXml())) // thread safe
+            {
+                return instance.Value;
+            }
+        }
+
+
+        private DalXml() { }
         public IProduct Product { get; } = new Dal.DalProduct();
         public IOrder Order { get; } = new Dal.DalOrder();
         public IOrderItem OrderItem { get; } = new Dal.DalOrderItem();

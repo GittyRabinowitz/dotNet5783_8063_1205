@@ -19,18 +19,31 @@ internal class DalProduct : IProduct
         product.ID = Convert.ToInt32(xmlProduct?.Element("ID")?.Value);
         product.Name = xmlProduct?.Element("Name")?.Value;
         product.Price = Convert.ToInt32(xmlProduct?.Element("Price")?.Value);
-        product.Category = (Dal.DO.eCategory)Convert.ToInt32(xmlProduct?.Element("Category")?.Value);
+        switch (xmlProduct?.Element("Category")?.Value)
+        {
+            case "Kitchen":
+                product.Category = eCategory.kitchen;
+                break;
+            case "otherRoom":
+                product.Category = eCategory.otherRoom;
+                break;
+            case "washRoom":
+                product.Category = eCategory.washRoom;
+                break;
+            default:
+                break;
+        }
+       // product.Category = (Dal.DO.eCategory)(Convert.ToInt32(xmlProduct?.Element("Category")?.Value));
         product.InStock = Convert.ToInt32(xmlProduct?.Element("InStock")?.Value);
         return product;
     }
 
     public int Add(Product obj)
     {
-        //לכתוב מאיזה קובץ
-        XElement? configRoot = XDocument.Load("config.xml").Root;
-        int productId = Convert.ToInt32(configRoot?.Element("ID")?.Element("ProductID")?.Value);
-        configRoot?.Element("ID")?.Element("ProductID")?.SetValue(productId+1);
-
+        XElement? configRoot = XDocument.Load("../../../../../xml/config.xml").Root;
+        int productId = Convert.ToInt32(configRoot?.Element("ProductID")?.Value);
+        configRoot?.Element("ProductID")?.SetValue(productId + 1);
+        configRoot?.Save("../../../../../xml/config.xml");
         XElement product = new("Product",
                 new XElement("ID", productId),
                 new XElement("Name", obj.Name),
@@ -38,56 +51,56 @@ internal class DalProduct : IProduct
                 new XElement("Category", obj.Category),
                 new XElement("InStock", obj.InStock)
                 );
-        XElement? root = XDocument.Load("../../Product.xml").Root;
-        root?.Element("Products")?.Add(product);
-        root?.Save("..\\..\\Product.xml");
-        return obj.ID;
-        throw new NotImplementedException();
+        XDocument? productLoader = XDocument.Load("../../../../../xml/Product.xml");
+        XElement? root = productLoader.Root;
+        root?.Add(product);
+        productLoader?.Save("../../../../../xml/Product.xml");
+        return productId;
+
     }
 
     public void decreaseInStock(int id, int amountToDecrease)
     {
-        XElement? root = XDocument.Load("../../Product.xml").Root;
+        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
 
-        XElement? product = root?.Elements("Products")?.Elements("Product")?.
-                    Where(p => p.Attribute("ID")?.Value == id.ToString()).FirstOrDefault();//האם צריך פה tostring?
-        product?.Attribute("InStock")?.SetValue(Convert.ToInt32(product.Attribute("InStock")?.Value)-amountToDecrease);
+        XElement? product = root?.Descendants("Product")?.
+                    Where(p => p.Element("ID")?.Value == id.ToString()).FirstOrDefault();
+        int newAmount = Convert.ToInt32(product?.Element("InStock")?.Value) - amountToDecrease;
 
-        root?.Save("../../Product.xml");
-        throw new NotImplementedException();
+        product?.Element("InStock")?.SetValue(newAmount);
+
+        root?.Save("../../../../../xml/Product.xml");
     }
 
     public void Delete(int id)
     {
-        XElement? root = XDocument.Load("..\\..\\Product.xml").Root;
+        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
 
-        XElement? product = root?.Elements("Products")?.Elements("Product")?.
-                    Where(p => p.Attribute("ID")?.Value == id.ToString()).FirstOrDefault();//האם צריך פה tostring?
+        XElement? product = root?.Elements("Product")?.
+                    Where(p => p.Element("ID")?.Value == id.ToString()).FirstOrDefault();//האם צריך פה tostring?
         product?.Remove();
-        root?.Save("..\\..\\Product.xml");
-        throw new NotImplementedException();
+        root?.Save("../../../../../xml/Product.xml");
     }
 
     public IEnumerable<Product> Get(Func<Product, bool> func = null)
     {
-        if (func==null)
+        if (func == null)
         {
-            XElement? root = XDocument.Load("..\\..\\Product.xml").Root;
-            IEnumerable<XElement>? xmlProductList = root?.Elements("Products")?.Elements("Product").ToList();
-            root?.Save("..\\..\\Product.xml");
+            XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+            IEnumerable<XElement>? xmlProductList = root?.Elements("Product").ToList();
+            root?.Save("../../../../../xml/Product.xml");
             List<Product> productList = new List<Product>();
             foreach (var xmlProduct in xmlProductList)
             {
                 productList.Add(deepCopy(xmlProduct));
             }
             return productList;
-            throw new NotImplementedException();
         }
         else
         {
-            XElement? root = XDocument.Load("..\\..\\Product.xml").Root;
-            List<XElement>? xmlProductList = root?.Elements("Products")?.Elements("Product").ToList();
-            root?.Save("..\\..\\Product.xml");
+            XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+            List<XElement>? xmlProductList = root?.Descendants("Product").ToList();
+            root?.Save("../../../../../xml/Product.xml");
             List<Product> productList = new List<Product>();
             foreach (var xmlProduct in xmlProductList)
             {
@@ -101,9 +114,9 @@ internal class DalProduct : IProduct
 
     public Product GetSingle(Func<Product, bool> func)
     {
-        XElement? root = XDocument.Load("..\\..\\Product.xml").Root;
-        List<XElement>? xmlProductList = root?.Elements("Products")?.Elements("Product").ToList();
-        root?.Save("..\\..\\Product.xml");
+        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+        List<XElement>? xmlProductList = root?.Elements("Product").ToList();
+        root?.Save("../../../../../xml/Product.xml");
         List<Product> productList = new List<Product>();
         foreach (var xmlProduct in xmlProductList)
         {
@@ -111,23 +124,21 @@ internal class DalProduct : IProduct
         }
         var product = productList.Where(func).FirstOrDefault();
         return product;
-        throw new NotImplementedException();
     }
 
     public void Update(Product obj)
     {
-        XElement? root = XDocument.Load("..\\..\\Product.xml").Root;
+        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
 
-        XElement? product = root?.Elements("Products")?.Elements("Product")?.
-                    Where(p => p.Attribute("ID")?.Value == obj.ID.ToString()).FirstOrDefault();//האם צריך פה tostring?
-        product?.Attribute("Name")?.SetValue(obj.Name);
-        product?.Attribute("Price")?.SetValue(obj.Price);
-        product?.Attribute("Category")?.SetValue(obj.Category);
-        product?.Attribute("InStock")?.SetValue(obj.InStock);
+        XElement? product = root?.Elements("Product")?.
+                    Where(p => p.Element("ID")?.Value == obj.ID.ToString()).FirstOrDefault();
+        product?.Element("Name")?.SetValue(obj.Name);
+        product?.Element("Price")?.SetValue(obj.Price);
+        product?.Element("Category")?.SetValue(obj.Category);
+        product?.Element("InStock")?.SetValue(obj.InStock);
 
 
-        root?.Save("..\\..\\Product.xml");
-        throw new NotImplementedException();
+        root?.Save("../../../../../xml/Product.xml");
     }
 }
 

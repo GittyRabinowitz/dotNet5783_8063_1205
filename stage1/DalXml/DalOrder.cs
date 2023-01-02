@@ -31,17 +31,29 @@ internal class DalOrder : IOrder
         obj.ID = id;
         ids?.Element("OrderID")?.SetValue(id + 1);
         configReader.Close();
+
+
+
         StreamWriter configWriter = new StreamWriter("../../../../../xml/config.xml");
         xmlSerializer.Serialize(configWriter, ids);
         configWriter.Close();
 
 
+        XmlRootAttribute xRoot = new XmlRootAttribute();
+        xRoot.ElementName = "Products";
+        // xRoot.Namespace = "http://www.cpandl.com";
+        xRoot.IsNullable = true;
+        XmlSerializer ser = new XmlSerializer(typeof(List<Product>), xRoot);
 
 
         StreamReader orderReader = new StreamReader("../../../../../xml/Order.xml");
-        XmlSerializer ser = new XmlSerializer(typeof(List<DO.Order>));
-         List<Order> lst = (List<Order>)ser?.Deserialize(orderReader);
-        //var lst= ser?.Deserialize(orderReader);
+
+
+        List<Order> lst = (List<Order>)ser.Deserialize(orderReader);
+
+        //XmlSerializer ser = new XmlSerializer(typeof(List<DO.Order>));
+        // List<Order> lst = (List<Order>)ser?.Deserialize(orderReader);
+        ////var lst= ser?.Deserialize(orderReader);
         orderReader.Close();
         StreamWriter orderWriter = new StreamWriter("../../../../../xml/Order.xml");
 
