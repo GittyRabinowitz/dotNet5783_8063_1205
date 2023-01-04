@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dal
 {
-    //sealed internal class DalXml : IDal
-    public class DalXml : IDal
+    sealed internal class DalXml : IDal
     {
         private static Lazy<IDal>? instance;
         public static IDal Instance { get { return GetInstence(); } }

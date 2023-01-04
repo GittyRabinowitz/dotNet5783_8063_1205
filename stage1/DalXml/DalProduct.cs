@@ -40,10 +40,10 @@ internal class DalProduct : IProduct
 
     public int Add(Product obj)
     {
-        XElement? configRoot = XDocument.Load("../../../../../xml/config.xml").Root;
+        XElement? configRoot = XDocument.Load("../../xml/config.xml").Root;
         int productId = Convert.ToInt32(configRoot?.Element("ProductID")?.Value);
         configRoot?.Element("ProductID")?.SetValue(productId + 1);
-        configRoot?.Save("../../../../../xml/config.xml");
+        configRoot?.Save("../../xml/config.xml");
         XElement product = new("Product",
                 new XElement("ID", productId),
                 new XElement("Name", obj.Name),
@@ -51,17 +51,17 @@ internal class DalProduct : IProduct
                 new XElement("Category", obj.Category),
                 new XElement("InStock", obj.InStock)
                 );
-        XDocument? productLoader = XDocument.Load("../../../../../xml/Product.xml");
+        XDocument? productLoader = XDocument.Load("../../xml/Product.xml");
         XElement? root = productLoader.Root;
         root?.Add(product);
-        productLoader?.Save("../../../../../xml/Product.xml");
+        productLoader?.Save("../../xml/Product.xml");
         return productId;
 
     }
 
     public void decreaseInStock(int id, int amountToDecrease)
     {
-        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+        XElement? root = XDocument.Load("../../xml/Product.xml").Root;
 
         XElement? product = root?.Descendants("Product")?.
                     Where(p => p.Element("ID")?.Value == id.ToString()).FirstOrDefault();
@@ -69,26 +69,26 @@ internal class DalProduct : IProduct
 
         product?.Element("InStock")?.SetValue(newAmount);
 
-        root?.Save("../../../../../xml/Product.xml");
+        root?.Save("../../xml/Product.xml");
     }
 
     public void Delete(int id)
     {
-        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+        XElement? root = XDocument.Load("../../xml/Product.xml").Root;
 
         XElement? product = root?.Elements("Product")?.
                     Where(p => p.Element("ID")?.Value == id.ToString()).FirstOrDefault();//האם צריך פה tostring?
         product?.Remove();
-        root?.Save("../../../../../xml/Product.xml");
+        root?.Save("../../xml/Product.xml");
     }
 
     public IEnumerable<Product> Get(Func<Product, bool> func = null)
     {
         if (func == null)
         {
-            XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+            XElement? root = XDocument.Load("../../xml/Product.xml").Root;
             IEnumerable<XElement>? xmlProductList = root?.Elements("Product").ToList();
-            root?.Save("../../../../../xml/Product.xml");
+            root?.Save("../../xml/Product.xml");
             List<Product> productList = new List<Product>();
             foreach (var xmlProduct in xmlProductList)
             {
@@ -98,9 +98,9 @@ internal class DalProduct : IProduct
         }
         else
         {
-            XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+            XElement? root = XDocument.Load("../../xml/Product.xml").Root;
             List<XElement>? xmlProductList = root?.Descendants("Product").ToList();
-            root?.Save("../../../../../xml/Product.xml");
+            root?.Save("../../xml/Product.xml");
             List<Product> productList = new List<Product>();
             foreach (var xmlProduct in xmlProductList)
             {
@@ -114,9 +114,9 @@ internal class DalProduct : IProduct
 
     public Product GetSingle(Func<Product, bool> func)
     {
-        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+        XElement? root = XDocument.Load("../../xml/Product.xml").Root;
         List<XElement>? xmlProductList = root?.Elements("Product").ToList();
-        root?.Save("../../../../../xml/Product.xml");
+        root?.Save("../../xml/Product.xml");
         List<Product> productList = new List<Product>();
         foreach (var xmlProduct in xmlProductList)
         {
@@ -128,7 +128,7 @@ internal class DalProduct : IProduct
 
     public void Update(Product obj)
     {
-        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+        XElement? root = XDocument.Load("../../xml/Product.xml").Root;
 
         XElement? product = root?.Elements("Product")?.
                     Where(p => p.Element("ID")?.Value == obj.ID.ToString()).FirstOrDefault();
@@ -138,7 +138,7 @@ internal class DalProduct : IProduct
         product?.Element("InStock")?.SetValue(obj.InStock);
 
 
-        root?.Save("../../../../../xml/Product.xml");
+        root?.Save("../../xml/Product.xml");
     }
 }
 
