@@ -2,30 +2,23 @@
 <Products>
   <Product>
     <ID>100000</ID>
-    <Name>5050505</Name>
-    <Price>5050</Price>
-    <Category>otherRoom</Category>
-    <InStock>5050</InStock>
+    <Name>washMachine</Name>
+    <Price>1120</Price>
+    <Category>washRoom</Category>
+    <InStock>50</InStock>
   </Product>
-  <Product>
-    <ID>100001</ID>
-    <Name>5050505</Name>
-    <Price>5050</Price>
-    <Category>otherRoom</Category>
-    <InStock>5050</InStock>
-  </Product>
-  <Product>
-    <ID>100027</ID>
-    <Name>5050505</Name>
-    <Price>5050</Price>
-    <Category>otherRoom</Category>
-    <InStock>5050</InStock>
-  </Product>
-  <Product>
-    <ID>100028</ID>
-    <Name>5050505</Name>
-    <Price>5050</Price>
-    <Category>otherRoom</Category>
-    <InStock>5050</InStock>
-  </Product>
+	<Product>
+		<ID>100001</ID>
+		<Name>oven</Name>
+		<Price>1120</Price>
+		<Category>washRoom</Category>
+		<InStock>20</InStock>
+	</Product>
+	<Product>
+		<ID>100002</ID>
+		<Name>aaa</Name>
+		<Price>1120</Price>
+		<Category>washRoom</Category>
+		<InStock>17</InStock>
+	</Product>
 </Products>

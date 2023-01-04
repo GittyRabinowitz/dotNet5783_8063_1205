@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dal;
-
-using Dal.DO;
+﻿using Dal.DO;
 using DalApi;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
+namespace Dal;
+
 internal class DalOrderItem : IOrderItem
 {
+
+    /// <summary>
+    /// the function gets order item and adds it to the xml file
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
     public int Add(OrderItem obj)
     {
 
@@ -21,24 +21,29 @@ internal class DalOrderItem : IOrderItem
         xRoot.IsNullable = true;
 
         XmlSerializer ser = new XmlSerializer(typeof(List<OrderItem>), xRoot);
-        StreamReader reader = new StreamReader("../../xml/OrderItem.xml");
+        StreamReader reader = new StreamReader("../../../../../xml/OrderItem.xml");
         List<DO.OrderItem> orders = (List<DO.OrderItem>)ser.Deserialize(reader);
         reader.Close();
 
-        XElement? rootConfig = XDocument.Load("../../xml/config.xml").Root;
+        XElement? rootConfig = XDocument.Load("../../../../../xml/config.xml").Root;
         XElement? id = rootConfig?.Element("OrderItemID");
         int orderId = Convert.ToInt32(id?.Value);
         obj.ID = orderId;
         orderId++;
         id.Value = orderId.ToString();
-        rootConfig?.Save("../../xml/config.xml");
+        rootConfig?.Save("../../../../../xml/config.xml");
         orders?.Add(obj);
-        StreamWriter writer = new StreamWriter("../../xml/OrderItem.xml");
+        StreamWriter writer = new StreamWriter("../../../../../xml/OrderItem.xml");
         ser.Serialize(writer, orders);
         writer.Close();
         return obj.ID;
     }
 
+
+    /// <summary>
+    /// the function gets order item id and deletes it from the xml file
+    /// </summary>
+    /// <param name="id"></param>
     public void Delete(int id)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
@@ -46,17 +51,24 @@ internal class DalOrderItem : IOrderItem
         xRoot.IsNullable = true;
 
         XmlSerializer ser = new XmlSerializer(typeof(List<OrderItem>), xRoot);
-        StreamReader reader = new StreamReader("../../xml/OrderItem.xml");
+        StreamReader reader = new StreamReader("../../../../../xml/OrderItem.xml");
         List<DO.OrderItem> orders = (List<DO.OrderItem>)ser.Deserialize(reader);
         reader.Close();
         OrderItem order = orders.Where(o => o.ID == id).FirstOrDefault();
         orders.Remove(order);
 
-        StreamWriter writer = new StreamWriter("../../xml/OrderItem.xml");
+        StreamWriter writer = new StreamWriter("../../../../../xml/OrderItem.xml");
         ser.Serialize(writer, orders);
         writer.Close();
     }
 
+
+
+    /// <summary>
+    ///  the function returns all the order items or accordaring the func
+    /// </summary>
+    /// <param name="func"></param>
+    /// <returns></returns>
     public IEnumerable<OrderItem> Get(Func<OrderItem, bool> func = null)
     {
         if (func == null)
@@ -66,7 +78,7 @@ internal class DalOrderItem : IOrderItem
             xRoot.IsNullable = true;
 
             XmlSerializer ser = new XmlSerializer(typeof(List<OrderItem>), xRoot);
-            StreamReader reader = new StreamReader("../../xml/OrderItem.xml");
+            StreamReader reader = new StreamReader("../../../../../xml/OrderItem.xml");
             List<DO.OrderItem> orders = (List<DO.OrderItem>)ser.Deserialize(reader);
             reader.Close();
             return orders;
@@ -78,7 +90,7 @@ internal class DalOrderItem : IOrderItem
             xRoot.IsNullable = true;
 
             XmlSerializer ser = new XmlSerializer(typeof(List<OrderItem>), xRoot);
-            StreamReader reader = new StreamReader("../../xml/OrderItem.xml");
+            StreamReader reader = new StreamReader("../../../../../xml/OrderItem.xml");
             List<DO.OrderItem> orders = (List<DO.OrderItem>)ser.Deserialize(reader);
             reader.Close();
             orders = orders.Where(func).ToList();
@@ -87,6 +99,12 @@ internal class DalOrderItem : IOrderItem
         }
     }
 
+
+    /// <summary>
+    /// the function returns order item accordaring the func it gets
+    /// </summary>
+    /// <param name="func"></param>
+    /// <returns></returns>
     public OrderItem GetSingle(Func<OrderItem, bool> func)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
@@ -94,13 +112,18 @@ internal class DalOrderItem : IOrderItem
         xRoot.IsNullable = true;
 
         XmlSerializer ser = new XmlSerializer(typeof(List<OrderItem>), xRoot);
-        StreamReader reader = new StreamReader("../../xml/OrderItem.xml");
+        StreamReader reader = new StreamReader("../../../../../xml/OrderItem.xml");
         List<DO.OrderItem> orders = (List<DO.OrderItem>)ser.Deserialize(reader);
         reader.Close();
         OrderItem oi = orders.Where(func).FirstOrDefault();
         return oi;
     }
 
+
+    /// <summary>
+    /// the function gets order item and updates it to the xml file
+    /// </summary>
+    /// <param name="obj"></param>
     public void Update(OrderItem obj)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
@@ -108,14 +131,14 @@ internal class DalOrderItem : IOrderItem
         xRoot.IsNullable = true;
 
         XmlSerializer ser = new XmlSerializer(typeof(List<OrderItem>), xRoot);
-        StreamReader reader = new StreamReader("../../xml/OrderItem.xml");
+        StreamReader reader = new StreamReader("../../../../../xml/OrderItem.xml");
         List<DO.OrderItem> orders = (List<DO.OrderItem>)ser.Deserialize(reader);
         reader.Close();
         OrderItem o = orders.Where(oi => oi.ID == obj.ID).FirstOrDefault();
         orders.Remove(o);
         orders.Add(obj);
 
-        StreamWriter writer = new StreamWriter("../../xml/OrderItem.xml");
+        StreamWriter writer = new StreamWriter("../../../../../xml/OrderItem.xml");
         ser.Serialize(writer, orders);
         writer.Close();
     }

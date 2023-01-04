@@ -1,1 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?><Orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Order><ID>24</ID><CustomerName>ttami</CustomerName><CustomerEmail>ssuri</CustomerEmail><OrderDate>2023-01-04T12:25:20.9384368+02:00</OrderDate><ShipDate>2023-01-04T00:00:00+02:00</ShipDate><DeliveryDate xsi:nil="true" /></Order><Order><ID>100016</ID><CustomerName>aaaa</CustomerName><CustomerEmail>bbb</CustomerEmail><CustomerAdress>ccccc</CustomerAdress><OrderDate>2023-01-04T12:52:29.1317507+02:00</OrderDate><ShipDate>2023-01-04T00:00:00+02:00</ShipDate><DeliveryDate>2023-01-04T12:52:29.1454695+02:00</DeliveryDate></Order><Order><ID>1</ID><CustomerName>aaaa</CustomerName><CustomerEmail>bbb</CustomerEmail><CustomerAdress>ccccc</CustomerAdress><OrderDate>2023-01-04T12:53:36.8796472+02:00</OrderDate><ShipDate>2023-01-04T00:00:00+02:00</ShipDate><DeliveryDate>2023-01-04T12:53:36.8903735+02:00</DeliveryDate></Order></Orders>
+<?xml version="1.0" encoding="utf-8"?>
+<Orders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Order>
+		<ID>100000</ID>
+		<CustomerName>Gitty</CustomerName>
+		<CustomerEmail>g@g</CustomerEmail>
+		<CustomerAdress>Achinoam</CustomerAdress>
+		<OrderDate>2023-01-04T16:27:11.1187535+02:00</OrderDate>
+		<ShipDate>2023-01-04T00:00:00+02:00</ShipDate>
+		<DeliveryDate>2023-01-04T16:27:11.122045+02:00</DeliveryDate>
+	</Order>
+	<Order>
+		<ID>100001</ID>
+		<CustomerName>Tova</CustomerName>
+		<CustomerEmail>t@t</CustomerEmail>
+		<CustomerAdress>vdfgrfh</CustomerAdress>
+		<OrderDate>2023-01-04T16:27:11.1187535+02:00</OrderDate>
+		<ShipDate>2023-01-04T00:00:00+02:00</ShipDate>
+		<DeliveryDate>2023-01-04T16:27:11.122045+02:00</DeliveryDate>
+	</Order>
+</Orders>
