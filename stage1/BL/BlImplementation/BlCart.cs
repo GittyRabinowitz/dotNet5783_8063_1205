@@ -68,6 +68,10 @@ internal class BlCart : ICart
         {
             throw new BO.BlIdNotExist(exc);
         }
+        catch (Dal.DalIdNotFoundException exc)
+        {
+            throw new BO.BlIdNotExist(exc);
+        }
 
     }
 
@@ -145,6 +149,10 @@ internal class BlCart : ICart
             return cart;
         }
         catch (DalApi.DalIdNotFoundException exc)
+        {
+            throw new BO.BlIdNotExist(exc);
+        }
+        catch (Dal.DalIdNotFoundException exc)
         {
             throw new BO.BlIdNotExist(exc);
         }
@@ -229,6 +237,10 @@ internal class BlCart : ICart
             }
         }
         catch (DalApi.DalIdNotFoundException exc)
+        {
+            throw new BO.BlIdNotExist(exc);
+        }
+        catch (Dal.DalIdNotFoundException exc)
         {
             throw new BO.BlIdNotExist(exc);
         }

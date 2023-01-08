@@ -38,7 +38,10 @@ internal class BlProduct : IProduct
         {
             throw new BO.BlNoEntitiesFoundInDal(exc);
         }
-
+        catch (Dal.DalNoEntitiesFound exc)
+        {
+            throw new BO.BlNoEntitiesFoundInDal(exc);
+        }
     }
     public IEnumerable<BO.ProductForList> GetProductByCategoty(BO.eCategory category)
     {
@@ -66,6 +69,11 @@ internal class BlProduct : IProduct
             return productsForList;
         }
         catch (DalApi.DalNoEntitiesFound exc)
+        {
+
+            throw new BO.BlNoEntitiesFoundInDal(exc);
+        }
+        catch (Dal.DalNoEntitiesFound exc)
         {
 
             throw new BO.BlNoEntitiesFoundInDal(exc);
@@ -110,6 +118,11 @@ internal class BlProduct : IProduct
 
             throw new BO.BlNoEntitiesFoundInDal(exc);
         }
+        catch (Dal.DalNoEntitiesFound exc)
+        {
+
+            throw new BO.BlNoEntitiesFoundInDal(exc);
+        }
     }
 
 
@@ -147,6 +160,11 @@ internal class BlProduct : IProduct
 
         }
         catch (DalApi.DalIdNotFoundException exc)
+        {
+            throw new BO.BlIdNotExist(exc);
+
+        }
+        catch (Dal.DalIdNotFoundException exc)
         {
             throw new BO.BlIdNotExist(exc);
 
@@ -193,6 +211,11 @@ internal class BlProduct : IProduct
 
         }
         catch (DalApi.DalIdNotFoundException exc)
+        {
+            throw new BO.BlIdNotExist(exc);
+
+        }
+        catch (Dal.DalIdNotFoundException exc)
         {
             throw new BO.BlIdNotExist(exc);
 
@@ -278,6 +301,14 @@ internal class BlProduct : IProduct
         {
             throw new BO.BlNoEntitiesFoundInDal(exc);
         }
+        catch (Dal.DalIdNotFoundException exc)
+        {
+            throw new BO.BlIdNotExist(exc);
+        }
+        catch (Dal.DalNoEntitiesFound exc)
+        {
+            throw new BO.BlNoEntitiesFoundInDal(exc);
+        }
     }
 
 
@@ -316,6 +347,10 @@ internal class BlProduct : IProduct
         }
 
         catch (DalApi.DalIdNotFoundException exc)
+        {
+            throw new BO.BlIdNotExist(exc);
+        }
+        catch (Dal.DalIdNotFoundException exc)
         {
             throw new BO.BlIdNotExist(exc);
         }

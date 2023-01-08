@@ -63,6 +63,15 @@ internal class BlOrder : IOrder
         {
             throw new BO.BlNoEntitiesFoundInDal(exc);
         }
+        catch (Dal.DalIdNotFoundException exc)
+        {
+
+            throw new BO.BlNoEntitiesFoundInDal(exc);
+        }
+        catch (Dal.DalNoEntitiesFound exc)
+        {
+            throw new BO.BlNoEntitiesFoundInDal(exc);
+        }
     }
 
 
@@ -135,6 +144,14 @@ internal class BlOrder : IOrder
         {
             throw new BO.BlNoEntitiesFoundInDal(exc);
         }
+        catch (Dal.DalIdNotFoundException exc)
+        {
+            throw new BO.BlIdNotExist(exc);
+        }
+        catch (Dal.DalNoEntitiesFound exc)
+        {
+            throw new BO.BlNoEntitiesFoundInDal(exc);
+        }
 
     }
 
@@ -202,6 +219,14 @@ internal class BlOrder : IOrder
             throw new BO.BlIdNotExist(exc);
         }
         catch (DalApi.DalNoEntitiesFound exc)
+        {
+            throw new BO.BlNoEntitiesFoundInDal(exc);
+        }
+        catch (Dal.DalIdNotFoundException exc)
+        {
+            throw new BO.BlIdNotExist(exc);
+        }
+        catch (Dal.DalNoEntitiesFound exc)
         {
             throw new BO.BlNoEntitiesFoundInDal(exc);
         }
@@ -280,6 +305,14 @@ internal class BlOrder : IOrder
         {
             throw new BO.BlNoEntitiesFoundInDal(exc);
         }
+        catch (Dal.DalIdNotFoundException exc)
+        {
+            throw new BO.BlIdNotExist(exc);
+        }
+        catch (Dal.DalNoEntitiesFound exc)
+        {
+            throw new BO.BlNoEntitiesFoundInDal(exc);
+        }
     }
 
 
@@ -324,6 +357,11 @@ internal class BlOrder : IOrder
             return orderTracking;
         }
         catch (DalApi.DalIdNotFoundException exc)
+        {
+
+            throw new BO.BlIdNotExist(exc);
+        }
+        catch (Dal.DalIdNotFoundException exc)
         {
 
             throw new BO.BlIdNotExist(exc);

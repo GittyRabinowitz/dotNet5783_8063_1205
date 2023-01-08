@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using BO;
+
 namespace PL
 {
     /// <summary>
@@ -65,9 +67,7 @@ namespace PL
             try
             {
 
-          
-            BO.Product product = bl.Product.GetProductManager((ProductsListview.SelectedItem as BO.ProductForList).ID);
-            ProductWindow productWindow = new ProductWindow(bl, product);
+            ProductWindow productWindow = new ProductWindow(bl, (ProductsListview.SelectedItem as BO.ProductForList).ID);
             productWindow.Show();
             }
             catch (BO.BlIdNotExist exc)

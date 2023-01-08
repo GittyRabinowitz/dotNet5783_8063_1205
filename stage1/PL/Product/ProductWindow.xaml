@@ -8,12 +8,12 @@
         Title="ProductWindow" Height="450" Width="800">
     <Grid RenderTransformOrigin="0.519,0.542">
         <Label Content="Name" HorizontalAlignment="Left" Margin="175,10,0,0" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
-        <TextBox x:Name="NameTxt" HorizontalAlignment="Left" Margin="175,39,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
+        <TextBox x:Name="NameTxt" Text="{Binding Path=Name}" HorizontalAlignment="Left" Margin="175,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
         <Label Content="Price" HorizontalAlignment="Left" Margin="175,80,0,0" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
-        <TextBox x:Name="PriceTxt" HorizontalAlignment="Left" Margin="175,115,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
-        <ComboBox x:Name="CategoriesSelector" HorizontalAlignment="Left" Margin="175,204,0,0" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
+        <TextBox x:Name="PriceTxt" Text="{Binding Path=Price}" HorizontalAlignment="Left" Margin="175,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
+        <ComboBox x:Name="CategoriesSelector" Text="{Binding Path=Category}" HorizontalAlignment="Left" Margin="175,204,0,0" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
         <Label Content="InStock" HorizontalAlignment="Left" Margin="175,239,0,0" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
-        <TextBox x:Name="InStockTxt" HorizontalAlignment="Left" Margin="175,269,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
+        <TextBox x:Name="InStockTxt" Text="{Binding Path=InStock}" HorizontalAlignment="Left" Margin="175,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
         <Button Content="Add" x:Name="AddBtn"  HorizontalAlignment="Left" Margin="175,363,0,0" VerticalAlignment="Top" Click="AddBtn_Click" Width="150" Height="30" Background="#FF62CBDE" BorderBrush="#FF1C2279" FontSize="14"/>
         <Button Content="Update" x:Name="UpdateBtn" HorizontalAlignment="Left" Margin="93,328,0,0" VerticalAlignment="Top" Click="UpdateBtn_Click" Width="150" Height="30" Background="#FF62CBDE" BorderBrush="#FF1C2279" FontSize="14"/>
         <Button Content="Delete" x:Name="DeleteBtn" HorizontalAlignment="Left" Margin="273,328,0,0" VerticalAlignment="Top" Click="Delete_Click" Width="150" Height="30" Background="#FF62CBDE" BorderBrush="#FF1C2279" FontSize="14"/>

@@ -46,10 +46,10 @@ internal class DalProduct : IProduct
     /// <returns></returns>
     public int Add(Product obj)
     {
-        XElement? configRoot = XDocument.Load("../../../../../xml/config.xml").Root;
+        XElement? configRoot = XDocument.Load("../../xml/config.xml").Root;
         int productId = Convert.ToInt32(configRoot?.Element("ProductID")?.Value);
         configRoot?.Element("ProductID")?.SetValue(productId + 1);
-        configRoot?.Save("../../../../../xml/config.xml");
+        configRoot?.Save("../../xml/config.xml");
         XElement product = new("Product",
                 new XElement("ID", productId),
                 new XElement("Name", obj.Name),
@@ -57,10 +57,10 @@ internal class DalProduct : IProduct
                 new XElement("Category", obj.Category),
                 new XElement("InStock", obj.InStock)
                 );
-        XDocument? productLoader = XDocument.Load("../../../../../xml/Product.xml");
+        XDocument? productLoader = XDocument.Load("../../xml/Product.xml");
         XElement? root = productLoader.Root;
         root?.Add(product);
-        productLoader?.Save("../../../../../xml/Product.xml");
+        productLoader?.Save("../../xml/Product.xml");
         return productId;
 
     }
@@ -73,15 +73,16 @@ internal class DalProduct : IProduct
     /// <param name="amountToDecrease"></param>
     public void decreaseInStock(int id, int amountToDecrease)
     {
-        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+        XElement? root = XDocument.Load("../../xml/Product.xml").Root;
 
         XElement? product = root?.Descendants("Product")?.
                     Where(p => p.Element("ID")?.Value == id.ToString()).FirstOrDefault();
+        if (product == null) { throw new Dal.DalIdNotFoundException("this product does not exist"); }
         int newAmount = Convert.ToInt32(product?.Element("InStock")?.Value) - amountToDecrease;
 
         product?.Element("InStock")?.SetValue(newAmount);
 
-        root?.Save("../../../../../xml/Product.xml");
+        root?.Save("../../xml/Product.xml");
     }
 
 
@@ -91,12 +92,13 @@ internal class DalProduct : IProduct
     /// <param name="id"></param>
     public void Delete(int id)
     {
-        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+        XElement? root = XDocument.Load("../../xml/Product.xml").Root;
 
         XElement? product = root?.Elements("Product")?.
-                    Where(p => p.Element("ID")?.Value == id.ToString()).FirstOrDefault();//האם צריך פה tostring?
+                    Where(p => p.Element("ID")?.Value == id.ToString()).FirstOrDefault();
+        if (product == null) { throw new Dal.DalIdNotFoundException("this product does not exist"); }
         product?.Remove();
-        root?.Save("../../../../../xml/Product.xml");
+        root?.Save("../../xml/Product.xml");
     }
 
 
@@ -109,28 +111,29 @@ internal class DalProduct : IProduct
     {
         if (func == null)
         {
-            XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+            XElement? root = XDocument.Load("../../xml/Product.xml").Root;
             IEnumerable<XElement>? xmlProductList = root?.Elements("Product").ToList();
-            root?.Save("../../../../../xml/Product.xml");
+            root?.Save("../../xml/Product.xml");
             List<Product> productList = new List<Product>();
             foreach (var xmlProduct in xmlProductList)
             {
                 productList.Add(deepCopy(xmlProduct));
             }
+            if(productList.Count()==0) { throw new Dal.DalNoEntitiesFound("no products exist"); }
             return productList;
         }
         else
         {
-            XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+            XElement? root = XDocument.Load("../../xml/Product.xml").Root;
             List<XElement>? xmlProductList = root?.Descendants("Product").ToList();
-            root?.Save("../../../../../xml/Product.xml");
+            root?.Save("../../xml/Product.xml");
             List<Product> productList = new List<Product>();
             foreach (var xmlProduct in xmlProductList)
             {
                 productList.Add(deepCopy(xmlProduct));
             }
+            if (productList.Count() == 0) { throw new Dal.DalNoEntitiesFound("no products exist"); }
             var products = productList.Where(func).ToList();
-
             return products;
         }
     }
@@ -143,14 +146,15 @@ internal class DalProduct : IProduct
     /// <returns></returns>
     public Product GetSingle(Func<Product, bool> func)
     {
-        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+        XElement? root = XDocument.Load("../../xml/Product.xml").Root;
         List<XElement>? xmlProductList = root?.Elements("Product").ToList();
-        root?.Save("../../../../../xml/Product.xml");
+        root?.Save("../../xml/Product.xml");
         List<Product> productList = new List<Product>();
         foreach (var xmlProduct in xmlProductList)
         {
             productList.Add(deepCopy(xmlProduct));
         }
+        if (productList.Count() == 0) { throw new Dal.DalNoEntitiesFound("no products exist"); }
         var product = productList.Where(func).FirstOrDefault();
         return product;
     }
@@ -162,16 +166,17 @@ internal class DalProduct : IProduct
     /// <param name="obj"></param>
     public void Update(Product obj)
     {
-        XElement? root = XDocument.Load("../../../../../xml/Product.xml").Root;
+        XElement? root = XDocument.Load("../../xml/Product.xml").Root;
 
         XElement? product = root?.Elements("Product")?.
                     Where(p => p.Element("ID")?.Value == obj.ID.ToString()).FirstOrDefault();
+        if (product == null) { throw new Dal.DalIdNotFoundException("this product does not exist"); }
         product?.Element("Name")?.SetValue(obj.Name);
         product?.Element("Price")?.SetValue(obj.Price);
         product?.Element("Category")?.SetValue(obj.Category);
         product?.Element("InStock")?.SetValue(obj.InStock);
 
-        root?.Save("../../../../../xml/Product.xml");
+        root?.Save("../../xml/Product.xml");
     }
 }
 

@@ -22,20 +22,20 @@ internal class DalOrder : IOrder
         xRoot.IsNullable = true;
 
         XmlSerializer ser = new XmlSerializer(typeof(List<Order>), xRoot);
-        StreamReader reader = new StreamReader("../../../../../xml/Order.xml");
+        StreamReader reader = new StreamReader("../../xml/Order.xml");
         List<DO.Order> orders = (List<DO.Order>)ser.Deserialize(reader);
         reader.Close();
 
-        XElement? rootConfig = XDocument.Load("../../../../../xml/config.xml").Root;
+        XElement? rootConfig = XDocument.Load("../../xml/config.xml").Root;
         XElement? id = rootConfig?.Element("OrderID");
         int orderId = Convert.ToInt32(id?.Value);
         obj.ID = orderId;
         orderId++;
         id.Value = orderId.ToString();
-        rootConfig?.Save("../../../../../xml/config.xml");
+        rootConfig?.Save("../../xml/config.xml");
 
         orders?.Add(obj);
-        StreamWriter writer = new StreamWriter("../../../../../xml/Order.xml");
+        StreamWriter writer = new StreamWriter("../../xml/Order.xml");
         ser.Serialize(writer, orders);
         writer.Close();
         return obj.ID;
@@ -54,13 +54,15 @@ internal class DalOrder : IOrder
         xRoot.IsNullable = true;
 
         XmlSerializer ser = new XmlSerializer(typeof(List<Order>), xRoot);
-        StreamReader reader = new StreamReader("../../../../../xml/Order.xml");
+        StreamReader reader = new StreamReader("../../xml/Order.xml");
         List<DO.Order> orders = (List<DO.Order>)ser.Deserialize(reader);
+        if (orders.Count() == 0) { throw new Dal.DalNoEntitiesFound("no products exist"); }
         reader.Close();
         Order order = orders.Where(o => o.ID == id).FirstOrDefault();
+        if (order.ID == 0) { throw new Dal.DalIdNotFoundException("this order does not exist"); }
         orders.Remove(order);
 
-        StreamWriter writer = new StreamWriter("../../../../../xml/Order.xml");
+        StreamWriter writer = new StreamWriter("../../xml/Order.xml");
         ser.Serialize(writer, orders);
         writer.Close();
     }
@@ -80,8 +82,9 @@ internal class DalOrder : IOrder
             xRoot.IsNullable = true;
 
             XmlSerializer ser = new XmlSerializer(typeof(List<Order>), xRoot);
-            StreamReader reader = new StreamReader("../../../../../xml/Order.xml");
+            StreamReader reader = new StreamReader("../../xml/Order.xml");
             List<DO.Order> orders = (List<DO.Order>)ser.Deserialize(reader);
+            if (orders.Count() == 0) { throw new Dal.DalNoEntitiesFound("no orders exist"); }
             reader.Close();
             return orders;
         }
@@ -92,8 +95,9 @@ internal class DalOrder : IOrder
             xRoot.IsNullable = true;
 
             XmlSerializer ser = new XmlSerializer(typeof(List<Order>), xRoot);
-            StreamReader reader = new StreamReader("../../../../../xml/Order.xml");
+            StreamReader reader = new StreamReader("../../xml/Order.xml");
             List<DO.Order> orders = (List<DO.Order>)ser.Deserialize(reader);
+            if (orders.Count() == 0) { throw new Dal.DalNoEntitiesFound("no orders exist"); }
             reader.Close();
             orders = orders.Where(func).ToList();
             return orders;
@@ -113,10 +117,12 @@ internal class DalOrder : IOrder
         xRoot.IsNullable = true;
 
         XmlSerializer ser = new XmlSerializer(typeof(List<Order>), xRoot);
-        StreamReader reader = new StreamReader("../../../../../xml/Order.xml");
+        StreamReader reader = new StreamReader("../../xml/Order.xml");
         List<DO.Order> orders = (List<DO.Order>)ser.Deserialize(reader);
+        if (orders.Count() == 0) { throw new Dal.DalNoEntitiesFound("no orders exist"); }
         reader.Close();
         Order order = orders.Where(func).FirstOrDefault();
+        if (order.ID == 0) { throw new Dal.DalIdNotFoundException("this order does not exist"); }
         return order;
     }
 
@@ -132,14 +138,16 @@ internal class DalOrder : IOrder
         xRoot.IsNullable = true;
 
         XmlSerializer ser = new XmlSerializer(typeof(List<Order>), xRoot);
-        StreamReader reader = new StreamReader("../../../../../xml/Order.xml");
+        StreamReader reader = new StreamReader("../../xml/Order.xml");
         List<DO.Order> orders = (List<DO.Order>)ser.Deserialize(reader);
+        if (orders.Count() == 0) { throw new Dal.DalNoEntitiesFound("no orders exist"); }
         reader.Close();
         Order order = orders.Where(o => o.ID == obj.ID).FirstOrDefault();
+        if (order.ID == 0) { throw new Dal.DalIdNotFoundException("this order does not exist"); }
         orders.Remove(order);
         orders.Add(obj);
 
-        StreamWriter writer = new StreamWriter("../../../../../xml/Order.xml");
+        StreamWriter writer = new StreamWriter("../../xml/Order.xml");
         ser.Serialize(writer, orders);
         writer.Close();
     }

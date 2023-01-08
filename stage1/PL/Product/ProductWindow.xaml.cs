@@ -20,32 +20,30 @@ namespace PL
     public partial class ProductWindow : Window
     {
         private IBl bl;
-        private int productId;
-        public ProductWindow(IBl bl, BO.Product? obj = null)
+      
+        BO.Product product=new BO.Product();
+        public ProductWindow(IBl bl, int id=0)
         {
 
             this.bl = bl;
             InitializeComponent();
-            if (obj == null)
+            if (id == 0)
             {
                 //add
+                this.DataContext = product;
                 UpdateBtn.Visibility = Visibility.Hidden;
                 DeleteBtn.Visibility = Visibility.Hidden;
                 CategoriesSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
-                NameTxt.Text = "";
-                PriceTxt.Text = "";
-                InStockTxt.Text = "";
             }
             else
             {
                 //update
                 AddBtn.Visibility = Visibility.Hidden;
-                this.productId = obj.ID;
-                NameTxt.Text = obj.Name;
-                PriceTxt.Text = obj.Price.ToString();
+                product = bl.Product.GetProductManager(id);
+                this.DataContext = product;
+
                 CategoriesSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
-                CategoriesSelector.SelectedItem = obj.Category;
-                InStockTxt.Text = obj.InStock.ToString();
+
             }
         }
 
@@ -55,28 +53,13 @@ namespace PL
         {
             try
             {
-                BO.Product product = new BO.Product();
-
-                if (NameTxt.Text == "")
+                
+                if (product.Name== null |product.Price==0|product.Category==null|product.InStock==0)
                     throw new PlInvalideData("invalid data");
-                product.Name = NameTxt.Text;
-
-                int tmp;
-                if (!(int.TryParse(PriceTxt.Text, out tmp)))
-                    throw new PlInvalideData("invalid data");
-                product.Price = int.Parse(PriceTxt.Text);
-
-                if (CategoriesSelector.SelectedItem == null)
-                    throw new PlInvalideData("invalid data");
-                product.Category = (BO.eCategory)CategoriesSelector.SelectedItem;
-
-                if (!(int.TryParse(InStockTxt.Text, out tmp)))
-                    throw new PlInvalideData("invalid data");
-                product.InStock = int.Parse(InStockTxt.Text);
-
-
+              
                 bl.Product.Add(product);
                 MessageBox.Show("the product was added successfully!!!");
+                this.Hide();
             }
             catch (BO.BlInvalideData exc)
             {
@@ -93,35 +76,13 @@ namespace PL
         {
             try
             {
-
-                BO.Product product = new BO.Product();
-                product.ID = productId;
-
-
-                if (NameTxt.Text == "")
+                if (product.Name == null | product.Price == 0 | product.Category == null | product.InStock == 0)
                     throw new PlInvalideData("invalid data");
-                product.Name = NameTxt.Text;
-
-                int tmp;
-                if (!(int.TryParse(PriceTxt.Text, out tmp)))
-                    throw new PlInvalideData("invalid data");
-                product.Price = int.Parse(PriceTxt.Text);
-
-                if (CategoriesSelector.SelectedItem == null)
-                    throw new PlInvalideData("invalid data");
-                product.Category = (BO.eCategory)CategoriesSelector.SelectedItem;
-
-                if (!(int.TryParse(InStockTxt.Text, out tmp)))
-                    throw new PlInvalideData("invalid data");
-                product.InStock = int.Parse(InStockTxt.Text);
-
-
                 bl.Product.Update(product);
                 MessageBox.Show("the product was updated successfully!!!");
             }
             catch (BO.BlIdNotExist exc)
             {
-
                 MessageBox.Show(exc.Message + " " + exc.InnerException.Message);
             }
             catch (PlInvalideData exc)
@@ -134,7 +95,7 @@ namespace PL
         {
             try
             {
-                bl.Product.Delete(productId);
+                bl.Product.Delete(product.ID);
                 MessageBox.Show("the product was deleted successfully!!!");
             }
             catch (BO.BlProductExistInOrders exc)
