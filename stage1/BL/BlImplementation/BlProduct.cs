@@ -88,12 +88,19 @@ internal class BlProduct : IProduct
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BO.BlNoEntitiesFound"></exception>
-    public IEnumerable<BO.ProductItem> GetCatalog()
+    public IEnumerable<BO.ProductItem> GetCatalog(BO.eCategory? category)
     {
         try
         {
-
-            IEnumerable<Dal.DO.Product> existingProductsList = Dal.Product.Get();
+            IEnumerable<Dal.DO.Product> existingProductsList;
+            if (category != null)
+            {
+                 existingProductsList = Dal.Product.Get(p=>(BO.eCategory)p.Category==category);
+            }
+            else
+            {
+                 existingProductsList = Dal.Product.Get();
+            }
 
             List<BO.ProductItem> productItemsList = new List<BO.ProductItem>();
             foreach (Dal.DO.Product DoProduct in existingProductsList)
@@ -105,7 +112,14 @@ internal class BlProduct : IProduct
                 BoProductItem.Price = DoProduct.Price;
                 BoProductItem.Category = (BO.eCategory)DoProduct.Category;
                 BoProductItem.Amount = 0;
-                BoProductItem.InStock = DoProduct.InStock;
+                if (DoProduct.InStock > 0)
+                {
+                    BoProductItem.InStock = true;
+                }
+                else
+                {
+                    BoProductItem.InStock = false;
+                }
                 productItemsList.Add(BoProductItem);
             }
 
@@ -199,7 +213,15 @@ internal class BlProduct : IProduct
                 BoProductItem.Price = DoProduct.Price;
                 BoProductItem.Category = (BO.eCategory)DoProduct.Category;
                 BoProductItem.Amount = 0;
-                BoProductItem.InStock = DoProduct.InStock;
+                if (DoProduct.InStock > 0)
+                {
+                    BoProductItem.InStock = true;
+                }
+                else
+                {
+                    BoProductItem.InStock = false;
+                }
+
 
                 return BoProductItem;
             }

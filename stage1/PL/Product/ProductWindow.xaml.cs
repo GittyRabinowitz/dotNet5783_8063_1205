@@ -20,9 +20,11 @@ namespace PL
     public partial class ProductWindow : Window
     {
         private IBl bl;
-      
+       
         BO.Product product=new BO.Product();
-        public ProductWindow(IBl bl, int id=0)
+        BO.ProductItem productItem=new BO.ProductItem();
+        BO.Cart cart=new BO.Cart();
+        public ProductWindow(IBl bl, int id=0, bool isDynamic=true)
         {
 
             this.bl = bl;
@@ -34,15 +36,40 @@ namespace PL
                 UpdateBtn.Visibility = Visibility.Hidden;
                 DeleteBtn.Visibility = Visibility.Hidden;
                 CategoriesSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
+                AmountLbl.Visibility = Visibility.Hidden;
+                AmountTxt.Visibility = Visibility.Hidden;
+
             }
             else
             {
-                //update
                 AddBtn.Visibility = Visibility.Hidden;
-                product = bl.Product.GetProductManager(id);
-                this.DataContext = product;
-
                 CategoriesSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
+                if (!isDynamic)
+                {
+
+                    //תצוגה בלבד
+
+                    productItem = bl.Product.GetProductCustomer(id, cart);
+                      this.DataContext = productItem;
+                    UpdateBtn.Visibility = Visibility.Hidden;
+                    DeleteBtn.Visibility = Visibility.Hidden;
+                    
+                    NameTxt.IsReadOnly=true;
+                    PriceTxt.IsReadOnly= true;
+                    CategoriesSelector.IsEnabled = false;
+                    InStockTxt.IsReadOnly = true;
+                    AmountTxt.IsReadOnly = true;
+
+                }
+                else
+                {
+                    //update
+                    product = bl.Product.GetProductManager(id);
+                    this.DataContext = product;
+                    AmountLbl.Visibility = Visibility.Hidden;
+                    AmountTxt.Visibility = Visibility.Hidden;
+                }
+        
 
             }
         }

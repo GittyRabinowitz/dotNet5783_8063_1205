@@ -13,7 +13,7 @@ public class ProductItem
     public double Price { get; set; }
     public eCategory? Category { get; set; }
     public int Amount { get; set; }
-    public int InStock { get; set; }
+    public bool InStock { get; set; }
 
 
 

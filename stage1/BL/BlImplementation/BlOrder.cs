@@ -334,24 +334,24 @@ internal class BlOrder : IOrder
             Dal.DO.Order order = Dal.Order.GetSingle(o => o.ID == orderId);
 
             BO.OrderTracking orderTracking = new BO.OrderTracking();
-            orderTracking.DateAndTrack = new List<(DateTime?, BO.eOrderStatus?)>();
+            orderTracking.DateAndTrack = new ();
 
             orderTracking.ID = BO.BoConfig.OrderTrackingID;
-            orderTracking.DateAndTrack.Add(((DateTime)order.OrderDate, BO.eOrderStatus.ordered));
+            orderTracking.DateAndTrack.Add(new Tuple<DateTime, BO.eOrderStatus>(order.OrderDate, BO.eOrderStatus.ordered));
 
 
             if (order.ShipDate != DateTime.MinValue)
             {
                 orderTracking.Status = BO.eOrderStatus.shipped;
 
-                orderTracking.DateAndTrack.Add(((DateTime)order.ShipDate, BO.eOrderStatus.shipped));
+                orderTracking.DateAndTrack.Add(new Tuple<DateTime, BO.eOrderStatus>(order.ShipDate, BO.eOrderStatus.shipped));
             }
 
 
             if (order.DeliveryDate != DateTime.MinValue)
             {
                 orderTracking.Status = BO.eOrderStatus.delivered;
-                orderTracking.DateAndTrack.Add(((DateTime)order.DeliveryDate, BO.eOrderStatus.delivered));
+                orderTracking.DateAndTrack.Add(new Tuple<DateTime, BO.eOrderStatus>(order.DeliveryDate, BO.eOrderStatus.delivered));
 
             }
 
