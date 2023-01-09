@@ -115,11 +115,11 @@ internal class DalProduct : IProduct
             IEnumerable<XElement>? xmlProductList = root?.Elements("Product").ToList();
             root?.Save("../../xml/Product.xml");
             List<Product> productList = new List<Product>();
-            foreach (var xmlProduct in xmlProductList)
-            {
-                productList.Add(deepCopy(xmlProduct));
-            }
-            if(productList.Count()==0) { throw new Dal.DalNoEntitiesFound("no products exist"); }
+
+            productList.AddRange(from xmlProduct in xmlProductList
+                                 select (deepCopy(xmlProduct)));
+
+            if (productList.Count() == 0) { throw new Dal.DalNoEntitiesFound("no products exist"); }
             return productList;
         }
         else
@@ -128,10 +128,8 @@ internal class DalProduct : IProduct
             List<XElement>? xmlProductList = root?.Descendants("Product").ToList();
             root?.Save("../../xml/Product.xml");
             List<Product> productList = new List<Product>();
-            foreach (var xmlProduct in xmlProductList)
-            {
-                productList.Add(deepCopy(xmlProduct));
-            }
+            productList.AddRange(from xmlProduct in xmlProductList
+                                 select (deepCopy(xmlProduct)));
             if (productList.Count() == 0) { throw new Dal.DalNoEntitiesFound("no products exist"); }
             var products = productList.Where(func).ToList();
             return products;
@@ -150,10 +148,8 @@ internal class DalProduct : IProduct
         List<XElement>? xmlProductList = root?.Elements("Product").ToList();
         root?.Save("../../xml/Product.xml");
         List<Product> productList = new List<Product>();
-        foreach (var xmlProduct in xmlProductList)
-        {
-            productList.Add(deepCopy(xmlProduct));
-        }
+        productList.AddRange(from xmlProduct in xmlProductList
+                             select (deepCopy(xmlProduct)));
         if (productList.Count() == 0) { throw new Dal.DalNoEntitiesFound("no products exist"); }
         var product = productList.Where(func).FirstOrDefault();
         return product;

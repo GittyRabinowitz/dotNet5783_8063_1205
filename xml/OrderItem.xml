@@ -10,14 +10,14 @@
 	<OrderItem>
 		<ID>100002</ID>
 		<ProductID>100002</ProductID>
-		<OrderID>100002</OrderID>
+		<OrderID>100001</OrderID>
 		<Price>34</Price>
 		<Amount>1</Amount>
 	</OrderItem>
 	<OrderItem>
 		<ID>100002</ID>
 		<ProductID>100004</ProductID>
-		<OrderID>100005</OrderID>
+		<OrderID>100000</OrderID>
 		<Price>200</Price>
 		<Amount>50</Amount>
 	</OrderItem>

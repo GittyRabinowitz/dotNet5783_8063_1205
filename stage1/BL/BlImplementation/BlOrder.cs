@@ -97,7 +97,7 @@ internal class BlOrder : IOrder
             //DoOrder = Dal.Order.GetSingle(id);
             DoOrder = Dal.Order.GetSingle(o => o.ID == id);
             //IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(id);
-            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi=>oi.OrderID== id).ToList();
+            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi => oi.OrderID == id).ToList();
 
 
             BoOrder.ID = BO.BoConfig.OrderID;
@@ -192,25 +192,26 @@ internal class BlOrder : IOrder
             BoOrder.TotalPrice = 0;
 
             //IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
-            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi=>oi.OrderID==orderId).ToList();
-
-
+            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi => oi.OrderID == orderId).ToList();
 
             BoOrder.Items = new List<BO.OrderItem>();
 
-            foreach (var oi in DoOrderItems)
-            {
-                BO.OrderItem BoOrderItem = new BO.OrderItem();
+            var BoOrderItems = DoOrderItems.Select(oi =>
+                   {
+                       BO.OrderItem BoOrderItem = new BO.OrderItem();
 
-                BoOrderItem.ID = BO.BoConfig.OrderItemID;
-                BoOrderItem.ProductID = oi.ProductID;
-                BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == oi.ProductID).Name;
-                BoOrderItem.Amount = oi.Amount;
-                BoOrderItem.Price = oi.Price;
-                BoOrderItem.TotalPrice = oi.Amount * oi.Price;
-                BoOrder.TotalPrice += BoOrderItem.TotalPrice;
-                BoOrder.Items.Add(BoOrderItem);
-            }
+                       BoOrderItem.ID = BO.BoConfig.OrderItemID;
+                       BoOrderItem.ProductID = oi.ProductID;
+                       BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == oi.ProductID).Name;
+                       BoOrderItem.Amount = oi.Amount;
+                       BoOrderItem.Price = oi.Price;
+                       BoOrderItem.TotalPrice = oi.Amount * oi.Price;
+                       BoOrder.TotalPrice += BoOrderItem.TotalPrice;
+                       return BoOrderItem;
+                   }).ToList();
+
+            BoOrder.Items.AddRange((IEnumerable<BO.OrderItem>)BoOrderItems);
+
 
             return BoOrder;
         }
@@ -271,7 +272,7 @@ internal class BlOrder : IOrder
 
             //IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
 
-            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi=>oi.OrderID==orderId).ToList();
+            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi => oi.OrderID == orderId).ToList();
 
 
             BoOrder.Items = new List<BO.OrderItem>();
@@ -283,7 +284,7 @@ internal class BlOrder : IOrder
                 BoOrderItem.ID = BO.BoConfig.OrderItemID;
                 BoOrderItem.ProductID = oi.ProductID;
                 // BoOrderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
-                BoOrderItem.Name = Dal.Product.GetSingle(p=>p.ID==oi.ProductID).Name;
+                BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == oi.ProductID).Name;
 
                 BoOrderItem.Amount = oi.Amount;
                 BoOrderItem.Price = oi.Price;
