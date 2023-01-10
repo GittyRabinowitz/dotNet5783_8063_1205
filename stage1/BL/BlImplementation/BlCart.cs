@@ -23,15 +23,32 @@ internal class BlCart : ICart
         {
             //Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
 
-            Dal.DO.Product DoProduct = Dal.Product.GetSingle(p=>p.ID==id);
+            Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
 
 
             bool flag = true;
 
 
+            //cart?.Items?.Select(item =>
+            //{
+            //    //האם זה עובד?
+            //    if (item?.ProductID == id)
+            //    {
+            //        if (DoProduct.InStock <= 0)
+            //            throw new BO.BlOutOfStockException("This product is out of stock");
+
+            //        item.Amount += 1;
+            //        item.TotalPrice += DoProduct.Price;
+            //        cart.TotalPrice += DoProduct.Price;
+
+            //        flag = false;
+            //    }
+            //    return item;
+            //});
+
             foreach (var item in cart.Items)
             {
-                if (item.ProductID == id)
+                if (item?.ProductID == id)
                 {
                     if (DoProduct.InStock <= 0)
                         throw new BO.BlOutOfStockException("This product is out of stock");
@@ -94,10 +111,11 @@ internal class BlCart : ICart
 
             // Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
 
-            Dal.DO.Product DoProduct = Dal.Product.GetSingle(p=>p.ID==id);
+            Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
 
             foreach (var item in cart.Items)
             {
+
                 if (item.ProductID == id)
                 {
                     flag = false;
@@ -124,8 +142,9 @@ internal class BlCart : ICart
                     }
 
                     break;
-                }
-            }
+                };
+
+            };
 
 
             if (flag && newAmount <= DoProduct.InStock)
@@ -206,9 +225,8 @@ internal class BlCart : ICart
 
             foreach (BO.OrderItem oi in cart.Items)
             {
-                //Dal.DO.Product DoProduct = Dal.Product.GetSingle(oi.ProductID);
 
-                Dal.DO.Product DoProduct = Dal.Product.GetSingle(p=>p.ID==oi.ProductID);
+                Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == oi.ProductID);
 
                 if (oi.Amount < 0)
                 {
@@ -235,6 +253,8 @@ internal class BlCart : ICart
                 }
 
             }
+
+
         }
         catch (DalApi.DalIdNotFoundException exc)
         {

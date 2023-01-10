@@ -20,13 +20,32 @@ namespace PL.Order
     public partial class Order : Window
     {
         private IBl bl;
-        public Order(IBl bl, int orderID)
+        public Order(IBl bl, int orderID, bool isDynamic)
         {
-
-            InitializeComponent();
-            this.bl = bl;
             BO.Order order = bl.Order.GetOrderDetails(orderID);
             this.DataContext = order;
+            
+            InitializeComponent();
+
+
+            //לעשות כשהפרמטר הבוליאני true 
+            //שאפשר לעדכן שילוח או הגעת משלוח
+
+
+            this.bl = bl;
+
+            ProductsListview.ItemsSource = order.Items;
+            if (!isDynamic)
+            {
+                nameTxt.IsReadOnly = true;
+                emailTxt.IsReadOnly = true;
+                addressTxt.IsReadOnly = true;
+                orderDateTxt.IsReadOnly = true;
+                shipDateTxt.IsReadOnly = true;
+                deliveryTxt.IsReadOnly = true;
+                statusTxt.IsReadOnly = true;
+                totalPriceTxt.IsReadOnly = true;
+            }
         }
     }
 }

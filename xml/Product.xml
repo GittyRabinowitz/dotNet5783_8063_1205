@@ -12,14 +12,14 @@
     <Name>aaa</Name>
     <Price>1120</Price>
     <Category>washRoom</Category>
-    <InStock>23</InStock>
+    <InStock>5</InStock>
   </Product>
   <Product>
     <ID>100003</ID>
     <Name>sd</Name>
     <Price>4</Price>
     <Category>washRoom</Category>
-    <InStock>44</InStock>
+    <InStock>58</InStock>
   </Product>
   <Product>
     <ID>100006</ID>

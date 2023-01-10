@@ -20,7 +20,11 @@ internal class BlProduct : IProduct
             IEnumerable<Dal.DO.Product> existingProductsList = Dal.Product.Get();
 
             List<BO.ProductForList> productsForList = new List<BO.ProductForList>();
-            foreach (Dal.DO.Product DoProduct in existingProductsList)
+
+
+
+
+            productsForList.AddRange(existingProductsList.Select(DoProduct =>
             {
                 BO.ProductForList ProductForList = new BO.ProductForList();
 
@@ -28,8 +32,8 @@ internal class BlProduct : IProduct
                 ProductForList.Name = DoProduct.Name;
                 ProductForList.Price = DoProduct.Price;
                 ProductForList.Category = (BO.eCategory)DoProduct.Category;
-                productsForList.Add(ProductForList);
-            }
+                return ProductForList;
+            }));
 
             return productsForList;
 
@@ -54,16 +58,17 @@ internal class BlProduct : IProduct
             List<BO.ProductForList> productsForList = new List<BO.ProductForList>();
 
 
-            foreach (Dal.DO.Product DoProduct in lst)
-            {
-                BO.ProductForList ProductForList = new BO.ProductForList();
+            productsForList.AddRange(lst.Select(DoProduct =>
+               {
+                   BO.ProductForList ProductForList = new BO.ProductForList();
 
-                ProductForList.ID = DoProduct.ID;
-                ProductForList.Name = DoProduct.Name;
-                ProductForList.Price = DoProduct.Price;
-                ProductForList.Category = (BO.eCategory)DoProduct.Category;
-                productsForList.Add(ProductForList);
-            }
+                   ProductForList.ID = DoProduct.ID;
+                   ProductForList.Name = DoProduct.Name;
+                   ProductForList.Price = DoProduct.Price;
+                   ProductForList.Category = (BO.eCategory)DoProduct.Category;
+                   return ProductForList;
+               }).ToList());
+
 
 
             return productsForList;
@@ -95,15 +100,17 @@ internal class BlProduct : IProduct
             IEnumerable<Dal.DO.Product> existingProductsList;
             if (category != null)
             {
-                 existingProductsList = Dal.Product.Get(p=>(BO.eCategory)p.Category==category);
+                existingProductsList = Dal.Product.Get(p => (BO.eCategory)p.Category == category);
             }
             else
             {
-                 existingProductsList = Dal.Product.Get();
+                existingProductsList = Dal.Product.Get();
             }
 
             List<BO.ProductItem> productItemsList = new List<BO.ProductItem>();
-            foreach (Dal.DO.Product DoProduct in existingProductsList)
+
+
+            productItemsList.AddRange(existingProductsList.Select(DoProduct =>
             {
                 BO.ProductItem BoProductItem = new BO.ProductItem();
 
@@ -120,8 +127,8 @@ internal class BlProduct : IProduct
                 {
                     BoProductItem.InStock = false;
                 }
-                productItemsList.Add(BoProductItem);
-            }
+                return BoProductItem;
+            }));
 
 
             return productItemsList;
@@ -300,12 +307,12 @@ internal class BlProduct : IProduct
 
             IEnumerable<Dal.DO.OrderItem> orderItems = Dal.OrderItem.Get();
 
-            foreach (Dal.DO.OrderItem DoOrderItem in orderItems)
+            var items = from DoOrderItem in orderItems
+                        where DoOrderItem.ProductID == id
+                        select DoOrderItem;
+            if (items.ToList().Count() > 0)
             {
-                if (DoOrderItem.ProductID == id)
-                {
-                    throw new BO.BlProductExistInOrders("this product exist in orders");
-                }
+                throw new BO.BlProductExistInOrders("this product exist in orders");
             }
 
             Dal.Product.Delete(id);

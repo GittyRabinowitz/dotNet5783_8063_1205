@@ -34,6 +34,8 @@ namespace PL
 
                 AttributeSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
 
+                OrderListview.ItemsSource = bl.Order.GetOrderList();
+
             }
             catch (BO.BlNoEntitiesFoundInDal exc)
             {
@@ -77,9 +79,10 @@ namespace PL
             }
         }
 
-        private void ProductsListview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void viewListOrderDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            Order.Order orderWindow = new Order.Order(bl, (OrderListview.SelectedItem as BO.OrderForList).ID, true);
+            orderWindow.Show();
         }
     }
 

@@ -32,7 +32,6 @@ internal class BlOrder : IOrder
                 orderForList.TotalPrice = 0;
                 orderForList.AmountOfItems = 0;
 
-                //var orderItems = Dal.OrderItem.GetOrderItemByOrderId(order.ID);
                 List<Dal.DO.OrderItem> orderItems = Dal.OrderItem.Get(oi => oi.OrderID == order.ID).ToList();
 
 
@@ -41,6 +40,7 @@ internal class BlOrder : IOrder
                     orderForList.TotalPrice += oi.Price * oi.Amount;
                     orderForList.AmountOfItems++;
                 }
+
 
                 if (order.DeliveryDate > DateTime.MinValue)
                     orderForList.Status = BO.eOrderStatus.delivered;
