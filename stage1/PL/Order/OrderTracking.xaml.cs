@@ -34,6 +34,6 @@ namespace PL.Order
             
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e) => new Order(orderID).Show();
+        private void Button_Click(object sender, RoutedEventArgs e) => new Order(bl,orderID).Show();
     }
 }

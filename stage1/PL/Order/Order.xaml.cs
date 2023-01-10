@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using BlApi;
 namespace PL.Order
 {
     /// <summary>
@@ -19,10 +19,14 @@ namespace PL.Order
     /// </summary>
     public partial class Order : Window
     {
-        public Order(int orderID)
+        private IBl bl;
+        public Order(IBl bl, int orderID)
         {
 
             InitializeComponent();
+            this.bl = bl;
+            BO.Order order = bl.Order.GetOrderDetails(orderID);
+            this.DataContext = order;
         }
     }
 }
