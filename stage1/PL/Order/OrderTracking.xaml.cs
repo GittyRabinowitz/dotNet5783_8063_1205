@@ -31,6 +31,7 @@ namespace PL.Order
             this.DataContext = ot;
             var a= new ObservableCollection<Tuple<DateTime, BO.eOrderStatus>>(ot.DateAndTrack);
             statusDetailes.ItemsSource = a;
+
             
         }
 

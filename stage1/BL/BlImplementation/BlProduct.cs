@@ -215,7 +215,7 @@ internal class BlProduct : IProduct
 
                 BO.ProductItem BoProductItem = new BO.ProductItem();
 
-                BoProductItem.ID = BO.BoConfig.ProductID;
+                BoProductItem.ID = DoProduct.ID;
                 BoProductItem.Name = DoProduct.Name;
                 BoProductItem.Price = DoProduct.Price;
                 BoProductItem.Category = (BO.eCategory)DoProduct.Category;

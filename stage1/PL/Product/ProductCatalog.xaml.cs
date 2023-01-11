@@ -20,10 +20,12 @@ namespace PL.Product
     public partial class ProductCatalog : Window
     {
         private IBl bl;
-        public ProductCatalog(IBl bl)
+        private BO.Cart cart;
+        public ProductCatalog(IBl bl ,BO.Cart cart)
         {
             InitializeComponent();
             this.bl = bl;
+            this.cart = cart;
             ProductsListview.ItemsSource = bl.Product.GetCatalog();
 
             AttributeSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
@@ -60,7 +62,8 @@ namespace PL.Product
 
         private void ViewCart_Click(object sender, RoutedEventArgs e)
         {
-
+            Cart.CartWindow cartWindow = new Cart.CartWindow(bl, cart);
+            cartWindow.Show();
         }
     }
 

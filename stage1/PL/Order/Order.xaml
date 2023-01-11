@@ -20,7 +20,7 @@
         <Label x:Name="shipDateLbl" Content="ship date" HorizontalAlignment="Left" Margin="66,192,0,0" VerticalAlignment="Top" Width="150" Height="30"/>
         <TextBox x:Name="shipDateTxt" HorizontalAlignment="Left" Margin="184,198,0,0" TextWrapping="Wrap" Text="{Binding Path=ShipDate}" VerticalAlignment="Top" Width="120" Height="18"/>
         <Label x:Name="deliveryLbl" Content="delivery date" HorizontalAlignment="Left" Margin="66,232,0,0" VerticalAlignment="Top" Width="150" Height="30"/>
-        <TextBox x:Name="deliveryTxt" HorizontalAlignment="Left" Margin="184,238,0,0" TextWrapping="Wrap" Text="{Binding Path=DeliveryDate`}" VerticalAlignment="Top" Width="120" Height="18"/>
+        <TextBox x:Name="deliveryTxt" HorizontalAlignment="Left" Margin="184,238,0,0" TextWrapping="Wrap" Text="{Binding Path=DeliveryDate}" VerticalAlignment="Top" Width="120" Height="18"/>
         <Label x:Name="totalPriceLbl" Content="total price" HorizontalAlignment="Left" Margin="66,274,0,0" VerticalAlignment="Top" Width="150" Height="30"/>
         <TextBox x:Name="totalPriceTxt" HorizontalAlignment="Left" Margin="184,280,0,0" TextWrapping="Wrap" Text="{Binding Path=TotalPrice}" VerticalAlignment="Top" Width="120" Height="18"/>
 
@@ -44,6 +44,8 @@
             </ListView.View>
         </ListView>
         <Label Content="Order Details" HorizontalAlignment="Left" Margin="446,43,0,0" VerticalAlignment="Top" Width="300" Height="60" FontSize="22"/>
+        <Button Content="update shipping" x:Name="updateShippingBtn" HorizontalAlignment="Left" Margin="682,256,0,0" VerticalAlignment="Top" Click="updateShippingBtn_Click"/>
+        <Button Content="update delivery" x:Name="updateDeliveryBtn" HorizontalAlignment="Left" Margin="684,289,0,0" VerticalAlignment="Top" Click="updateDeliveryBtn_Click"/>
 
 
     </Grid>

@@ -20,17 +20,14 @@ namespace PL.Order
     public partial class Order : Window
     {
         private IBl bl;
+        private int currentOrderId;
         public Order(IBl bl, int orderID, bool isDynamic)
         {
             BO.Order order = bl.Order.GetOrderDetails(orderID);
+            this.currentOrderId = orderID;
             this.DataContext = order;
-            
+
             InitializeComponent();
-
-
-            //לעשות כשהפרמטר הבוליאני true 
-            //שאפשר לעדכן שילוח או הגעת משלוח
-
 
             this.bl = bl;
 
@@ -45,6 +42,51 @@ namespace PL.Order
                 deliveryTxt.IsReadOnly = true;
                 statusTxt.IsReadOnly = true;
                 totalPriceTxt.IsReadOnly = true;
+                updateDeliveryBtn.Visibility = Visibility.Hidden;
+                updateShippingBtn.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void updateShippingBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                BO.Order order = bl.Order.updateShippedOrder(currentOrderId);
+                this.DataContext=order;
+            }
+            catch (BO.BlNoEntitiesFoundInDal exc)
+            {
+                MessageBox.Show(exc.Message + " " + exc.InnerException.Message);
+            }
+            catch (BO.BlIdNotExist exc)
+            {
+                MessageBox.Show(exc.Message + " " + exc.InnerException.Message);
+            }
+            catch (BO.BlUpdateException exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+
+        }
+
+        private void updateDeliveryBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+               BO.Order order= bl.Order.updateDeliveryedOrder(currentOrderId);
+                this.DataContext = order;
+            }
+            catch (BO.BlNoEntitiesFoundInDal exc)
+            {
+                MessageBox.Show(exc.Message + " " + exc.InnerException.Message);
+            }
+            catch (BO.BlIdNotExist exc)
+            {
+                MessageBox.Show(exc.Message + " " + exc.InnerException.Message);
+            }
+            catch (BO.BlUpdateException exc)
+            {
+                MessageBox.Show(exc.Message);
             }
         }
     }

@@ -29,24 +29,7 @@ internal class BlCart : ICart
             bool flag = true;
 
 
-            //cart?.Items?.Select(item =>
-            //{
-            //    //האם זה עובד?
-            //    if (item?.ProductID == id)
-            //    {
-            //        if (DoProduct.InStock <= 0)
-            //            throw new BO.BlOutOfStockException("This product is out of stock");
-
-            //        item.Amount += 1;
-            //        item.TotalPrice += DoProduct.Price;
-            //        cart.TotalPrice += DoProduct.Price;
-
-            //        flag = false;
-            //    }
-            //    return item;
-            //});
-
-            foreach (var item in cart.Items)
+            cart?.Items?.ForEach(item =>
             {
                 if (item?.ProductID == id)
                 {
@@ -59,7 +42,8 @@ internal class BlCart : ICart
 
                     flag = false;
                 }
-            }
+            });
+
 
             if (flag)
             {
@@ -74,6 +58,10 @@ internal class BlCart : ICart
                 BoOrderItem.Amount = 1;
                 BoOrderItem.Price = DoProduct.Price;
                 BoOrderItem.TotalPrice = DoProduct.Price;
+                if (cart?.Items == null)
+                {
+                    cart.Items = new List<BO.OrderItem>();
+                }
                 cart.Items.Add(BoOrderItem);
                 cart.TotalPrice += DoProduct.Price;
 
@@ -113,10 +101,10 @@ internal class BlCart : ICart
 
             Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
 
-            foreach (var item in cart.Items)
+            cart?.Items?.ForEach(item =>
             {
 
-                if (item.ProductID == id)
+                if (item?.ProductID == id)
                 {
                     flag = false;
                     if (newAmount > item.Amount)
@@ -140,11 +128,9 @@ internal class BlCart : ICart
                         item.TotalPrice = item.Price * newAmount;
                         item.Amount = newAmount;
                     }
-
-                    break;
                 };
+            });
 
-            };
 
 
             if (flag && newAmount <= DoProduct.InStock)
@@ -223,8 +209,10 @@ internal class BlCart : ICart
 
             int orderId = Dal.Order.Add(DoOrder);
 
-            foreach (BO.OrderItem oi in cart.Items)
+            cart?.Items?.ForEach(oi =>
             {
+
+
 
                 Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == oi.ProductID);
 
@@ -252,7 +240,7 @@ internal class BlCart : ICart
 
                 }
 
-            }
+            });
 
 
         }

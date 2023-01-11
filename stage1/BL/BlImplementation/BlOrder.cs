@@ -23,7 +23,8 @@ internal class BlOrder : IOrder
 
             List<BO.OrderForList> orderList = new List<BO.OrderForList>();
 
-            foreach (Dal.DO.Order order in DoOrders)
+
+            DoOrders.ToList().ForEach(order =>
             {
                 BO.OrderForList orderForList = new BO.OrderForList();
 
@@ -35,11 +36,10 @@ internal class BlOrder : IOrder
                 List<Dal.DO.OrderItem> orderItems = Dal.OrderItem.Get(oi => oi.OrderID == order.ID).ToList();
 
 
-                foreach (var oi in orderItems)
-                {
-                    orderForList.TotalPrice += oi.Price * oi.Amount;
-                    orderForList.AmountOfItems++;
-                }
+                orderForList.TotalPrice = (from oi in orderItems
+                                           select oi.Price * oi.Amount).Sum();
+
+                orderForList.AmountOfItems = orderItems.Count();
 
 
                 if (order.DeliveryDate > DateTime.MinValue)
@@ -50,7 +50,8 @@ internal class BlOrder : IOrder
                     orderForList.Status = BO.eOrderStatus.ordered;
 
                 orderList.Add(orderForList);
-            }
+            });
+
 
             return orderList;
         }
@@ -100,7 +101,7 @@ internal class BlOrder : IOrder
             IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi => oi.OrderID == id).ToList();
 
 
-            BoOrder.ID = BO.BoConfig.OrderID;
+            BoOrder.ID = DoOrder.ID;
             BoOrder.CustomerName = DoOrder.CustomerName;
             BoOrder.CustomerAddress = DoOrder.CustomerAdress;
             BoOrder.CustomerEmail = DoOrder.CustomerEmail;
@@ -117,7 +118,7 @@ internal class BlOrder : IOrder
 
 
             BoOrder.Items = new List<BO.OrderItem>();
-            foreach (Dal.DO.OrderItem DoOrderItem in DoOrderItems)
+            DoOrderItems.ToList().ForEach(DoOrderItem =>
             {
                 BO.OrderItem BoOrderItem = new BO.OrderItem();
 
@@ -131,7 +132,7 @@ internal class BlOrder : IOrder
                 BoOrder.Items.Add(BoOrderItem);
 
                 BoOrder.TotalPrice += BoOrderItem.TotalPrice;
-            }
+            });
 
 
             return BoOrder;
@@ -181,7 +182,7 @@ internal class BlOrder : IOrder
 
             BO.Order BoOrder = new BO.Order();
 
-            BoOrder.ID = BO.BoConfig.OrderID;
+            BoOrder.ID = DoOrder.ID;
             BoOrder.CustomerName = DoOrder.CustomerName;
             BoOrder.CustomerEmail = DoOrder.CustomerEmail;
             BoOrder.CustomerAddress = DoOrder.CustomerAdress;
@@ -260,7 +261,7 @@ internal class BlOrder : IOrder
 
             BO.Order BoOrder = new BO.Order();
 
-            BoOrder.ID = BO.BoConfig.OrderID;
+            BoOrder.ID = DoOrder.ID;
             BoOrder.CustomerName = DoOrder.CustomerName;
             BoOrder.CustomerEmail = DoOrder.CustomerEmail;
             BoOrder.CustomerAddress = DoOrder.CustomerAdress;
@@ -277,13 +278,14 @@ internal class BlOrder : IOrder
 
             BoOrder.Items = new List<BO.OrderItem>();
 
-            foreach (var oi in DoOrderItems)
+            DoOrderItems.ToList().ForEach(oi =>
             {
+
+
                 BO.OrderItem BoOrderItem = new BO.OrderItem();
 
                 BoOrderItem.ID = BO.BoConfig.OrderItemID;
                 BoOrderItem.ProductID = oi.ProductID;
-                // BoOrderItem.Name = Dal.Product.GetSingle(oi.ProductID).Name;
                 BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == oi.ProductID).Name;
 
                 BoOrderItem.Amount = oi.Amount;
@@ -293,7 +295,7 @@ internal class BlOrder : IOrder
                 BoOrder.TotalPrice += BoOrderItem.TotalPrice;
 
                 BoOrder.Items.Add(BoOrderItem);
-            }
+            });
 
             return BoOrder;
 
@@ -334,7 +336,7 @@ internal class BlOrder : IOrder
             Dal.DO.Order order = Dal.Order.GetSingle(o => o.ID == orderId);
 
             BO.OrderTracking orderTracking = new BO.OrderTracking();
-            orderTracking.DateAndTrack = new ();
+            orderTracking.DateAndTrack = new();
 
             orderTracking.ID = BO.BoConfig.OrderTrackingID;
             orderTracking.DateAndTrack.Add(new Tuple<DateTime, BO.eOrderStatus>(order.OrderDate, BO.eOrderStatus.ordered));
@@ -353,6 +355,10 @@ internal class BlOrder : IOrder
                 orderTracking.Status = BO.eOrderStatus.delivered;
                 orderTracking.DateAndTrack.Add(new Tuple<DateTime, BO.eOrderStatus>(order.DeliveryDate, BO.eOrderStatus.delivered));
 
+            }
+            else
+            {
+                orderTracking.Status = BO.eOrderStatus.ordered;
             }
 
             return orderTracking;

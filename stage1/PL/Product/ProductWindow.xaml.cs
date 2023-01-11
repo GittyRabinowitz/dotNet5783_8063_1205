@@ -20,13 +20,13 @@ namespace PL
     public partial class ProductWindow : Window
     {
         private IBl bl;
-       
-        BO.Product product=new BO.Product();
-        BO.ProductItem productItem=new BO.ProductItem();
-        BO.Cart cart=new BO.Cart();
-        public ProductWindow(IBl bl, int id=0, bool isDynamic=true)
-        {
 
+        BO.Product product = new BO.Product();
+        BO.ProductItem productItem = new BO.ProductItem();
+        BO.Cart cart = new BO.Cart();
+        public ProductWindow(IBl bl, int id = 0, bool isDynamic = true, BO.Cart cart = null)
+        {
+            if (cart != null) { this.cart = cart; }
             this.bl = bl;
             InitializeComponent();
             if (id == 0)
@@ -38,6 +38,7 @@ namespace PL
                 CategoriesSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
                 AmountLbl.Visibility = Visibility.Hidden;
                 AmountTxt.Visibility = Visibility.Hidden;
+                addToCartBtn.Visibility = Visibility.Hidden;
 
             }
             else
@@ -50,12 +51,12 @@ namespace PL
                     //תצוגה בלבד
 
                     productItem = bl.Product.GetProductCustomer(id, cart);
-                      this.DataContext = productItem;
+                    this.DataContext = productItem;
                     UpdateBtn.Visibility = Visibility.Hidden;
                     DeleteBtn.Visibility = Visibility.Hidden;
-                    
-                    NameTxt.IsReadOnly=true;
-                    PriceTxt.IsReadOnly= true;
+
+                    NameTxt.IsReadOnly = true;
+                    PriceTxt.IsReadOnly = true;
                     CategoriesSelector.IsEnabled = false;
                     InStockTxt.IsReadOnly = true;
                     AmountTxt.IsReadOnly = true;
@@ -68,8 +69,9 @@ namespace PL
                     this.DataContext = product;
                     AmountLbl.Visibility = Visibility.Hidden;
                     AmountTxt.Visibility = Visibility.Hidden;
+                    addToCartBtn.Visibility = Visibility.Hidden;
                 }
-        
+
 
             }
         }
@@ -80,10 +82,10 @@ namespace PL
         {
             try
             {
-                
-                if (product.Name== null |product.Price==0|product.Category==null|product.InStock==0)
+
+                if (product.Name == null | product.Price == 0 | product.Category == null | product.InStock == 0)
                     throw new PlInvalideData("invalid data");
-              
+
                 bl.Product.Add(product);
                 MessageBox.Show("the product was added successfully!!!");
                 this.Hide();
@@ -133,6 +135,11 @@ namespace PL
             {
                 MessageBox.Show(exc.Message + " " + exc.InnerException.Message);
             }
+        }
+
+        private void addToCartBtn_Click(object sender, RoutedEventArgs e)
+        {
+            cart = bl.Cart.Add(cart, productItem.ID);
         }
     }
 

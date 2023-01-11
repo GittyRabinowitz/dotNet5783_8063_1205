@@ -22,15 +22,24 @@ namespace PL
     public partial class MainWindow : Window
     {
         private BlApi.IBl bl = BlApi.Factory.Get();
+        BO.Cart cart = new BO.Cart();
+        
         public MainWindow()
         {
+            
             InitializeComponent();
+            cart.CustomerName = "gitty";
+            cart.CustomerEmail = "g@g";
+            cart.CustomerAddress = "kjkj";
+            cart.TotalPrice = 99;
+            cart.Items = new List<BO.OrderItem?>();
+         
         }
 
         private void BtnEntry_Click(object sender, RoutedEventArgs e) => new ProductListWindow(bl).Show();
 
         private void OrderTracking(object sender, RoutedEventArgs e) => new Order.OrderTracking(bl, int.Parse(orderIDTxt.Text)).Show();
 
-        private void NewOrder(object sender, RoutedEventArgs e)=>new Product.ProductCatalog(bl).Show();
+        private void NewOrder(object sender, RoutedEventArgs e)=>new Product.ProductCatalog(bl, cart).Show();
     }
 }
