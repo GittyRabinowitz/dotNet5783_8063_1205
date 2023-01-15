@@ -39,7 +39,7 @@
     <ID>100011</ID>
     <Name>cc</Name>
     <Price>3</Price>
-    <Category>Kitchen</Category>
+    <Category>kitchen</Category>
     <InStock>33</InStock>
   </Product>
   <Product>
@@ -48,5 +48,19 @@
     <Price>4</Price>
     <Category>otherRoom</Category>
     <InStock>44</InStock>
+  </Product>
+  <Product>
+    <ID>100013</ID>
+    <Name>aa</Name>
+    <Price>1</Price>
+    <Category>kitchen</Category>
+    <InStock>11</InStock>
+  </Product>
+  <Product>
+    <ID>100014</ID>
+    <Name>x</Name>
+    <Price>34</Price>
+    <Category>kitchen</Category>
+    <InStock>34</InStock>
   </Product>
 </Products>

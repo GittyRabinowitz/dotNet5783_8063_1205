@@ -21,7 +21,7 @@ internal class DalProduct : IProduct
         product.Price = Convert.ToInt32(xmlProduct?.Element("Price")?.Value);
         switch (xmlProduct?.Element("Category")?.Value)
         {
-            case "Kitchen":
+            case "kitchen":
                 product.Category = eCategory.kitchen;
                 break;
             case "otherRoom":

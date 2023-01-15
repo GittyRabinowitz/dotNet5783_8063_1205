@@ -68,11 +68,20 @@ namespace PL.Product
 
         private void GroupByCategory_Click(object sender, RoutedEventArgs e)
         {
-            //איך עושים שיראו את כל האיברים??????
             var t= bl.Product.GetCatalog();
    
             var w= from item in t group item by item.Category into q orderby q.Count() select q;
-            ProductsListview.ItemsSource = from item in t group item by item.Category into q orderby q.Count() select q;
+
+            List<BO.ProductItem> productItems = new List<BO.ProductItem>();
+            w.ToList().ForEach(group =>
+            {
+                group.ToList().ForEach(item =>
+                {
+                    productItems.Add(item);
+                });
+            });
+
+            ProductsListview.ItemsSource = productItems;
         }
     }
 

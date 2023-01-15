@@ -53,6 +53,7 @@ namespace PL.Cart
         private void deleteOrderItemBtn(object sender, RoutedEventArgs e)
         {
             BO.OrderItem itemToRemove = (BO.OrderItem)((Button)sender).DataContext;
+
             cart?.Items?.Remove(itemToRemove);
 
         }
