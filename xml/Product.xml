@@ -28,4 +28,25 @@
     <Category>washRoom</Category>
     <InStock>3</InStock>
   </Product>
+  <Product>
+    <ID>100008</ID>
+    <Name>fff</Name>
+    <Price>55</Price>
+    <Category>otherRoom</Category>
+    <InStock>5</InStock>
+  </Product>
+  <Product>
+    <ID>100011</ID>
+    <Name>cc</Name>
+    <Price>3</Price>
+    <Category>Kitchen</Category>
+    <InStock>33</InStock>
+  </Product>
+  <Product>
+    <ID>100012</ID>
+    <Name>s</Name>
+    <Price>4</Price>
+    <Category>otherRoom</Category>
+    <InStock>44</InStock>
+  </Product>
 </Products>

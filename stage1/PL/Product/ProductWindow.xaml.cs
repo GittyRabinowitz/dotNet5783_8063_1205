@@ -88,7 +88,6 @@ namespace PL
 
                 bl.Product.Add(product);
                 MessageBox.Show("the product was added successfully!!!");
-                this.Hide();
             }
             catch (BO.BlInvalideData exc)
             {
@@ -140,6 +139,7 @@ namespace PL
         private void addToCartBtn_Click(object sender, RoutedEventArgs e)
         {
             cart = bl.Cart.Add(cart, productItem.ID);
+            MessageBox.Show("successfully added to cart");
         }
     }
 

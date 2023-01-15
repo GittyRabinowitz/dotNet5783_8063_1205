@@ -65,6 +65,15 @@ namespace PL.Product
             Cart.CartWindow cartWindow = new Cart.CartWindow(bl, cart);
             cartWindow.Show();
         }
+
+        private void GroupByCategory_Click(object sender, RoutedEventArgs e)
+        {
+            //איך עושים שיראו את כל האיברים??????
+            var t= bl.Product.GetCatalog();
+   
+            var w= from item in t group item by item.Category into q orderby q.Count() select q;
+            ProductsListview.ItemsSource = from item in t group item by item.Category into q orderby q.Count() select q;
+        }
     }
 
 }

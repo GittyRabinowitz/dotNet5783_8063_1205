@@ -33,6 +33,7 @@ namespace PL
             cart.CustomerAddress = "kjkj";
             cart.TotalPrice = 99;
             cart.Items = new List<BO.OrderItem?>();
+            cart.Items.Add(new BO.OrderItem());
          
         }
 

@@ -115,11 +115,13 @@ internal class BlCart : ICart
                         item.TotalPrice += item.Price * (newAmount - item.Amount);
                         cart.TotalPrice += item.Price * (newAmount - item.Amount);
                         item.Amount = newAmount;
+                        DoProduct.InStock -= (newAmount - item.Amount);
                     }
                     else if (newAmount == 0)
                     {
                         cart.TotalPrice -= item.TotalPrice;
                         cart.Items.Remove(item);
+                        DoProduct.InStock += item.Amount;
                     }
                     else if (newAmount < item.Amount)
                     {
@@ -127,6 +129,8 @@ internal class BlCart : ICart
 
                         item.TotalPrice = item.Price * newAmount;
                         item.Amount = newAmount;
+
+                        DoProduct.InStock+= ( item.Amount- newAmount);
                     }
                 };
             });
@@ -148,7 +152,7 @@ internal class BlCart : ICart
 
 
                 cart.TotalPrice += BoOrderItem.TotalPrice;
-
+                DoProduct.InStock -= newAmount ;
             }
 
             return cart;

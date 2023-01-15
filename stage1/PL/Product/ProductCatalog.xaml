@@ -22,6 +22,7 @@ Width="auto">
             </Grid.ColumnDefinitions >
             <ComboBox Name="AttributeSelector" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" SelectionChanged="AttributeSelector_SelectionChanged" Width="150" Height="30"/>
             <Label Grid.Column="0" Content="Category:" x:Name="Category" Width="130" Height="30" FontSize="14" Grid.ColumnSpan="2" Margin="130,57,180,58"/>
+            <Button x:Name="GroupByCategory" Grid.Column="2" Content="Group By Category" HorizontalAlignment="Left" Margin="91,72,0,0" VerticalAlignment="Top" Click="GroupByCategory_Click"/>
         </Grid>
         <ListView Grid.Row="1" x:Name="ProductsListview" MouseDoubleClick="viewListProductDoubleClick">
             <ListView.View>

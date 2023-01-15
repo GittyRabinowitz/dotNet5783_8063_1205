@@ -34,5 +34,27 @@ namespace PL.Cart
         {
             bl.Cart.CartConfirmation(cart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
         }
+
+        private void EmptyButton_Click(object sender, RoutedEventArgs e)
+        {
+            cart?.Items?.ForEach(item => { cart.Items.Remove(item); });
+            cart.TotalPrice = 0;
+
+        }
+
+        private void updateAmount_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            //להוסיף try and catch
+            BO.OrderItem itemToUpdate = (BO.OrderItem)((Button)sender).DataContext;
+            cart = bl.Cart.Update(cart, itemToUpdate.ID, itemToUpdate.Amount);
+        }
+
+        private void deleteOrderItemBtn(object sender, RoutedEventArgs e)
+        {
+            BO.OrderItem itemToRemove = (BO.OrderItem)((Button)sender).DataContext;
+            cart?.Items?.Remove(itemToRemove);
+
+        }
     }
 }

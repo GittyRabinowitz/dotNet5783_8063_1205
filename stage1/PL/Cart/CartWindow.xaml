@@ -18,7 +18,7 @@
         <TextBox x:Name="totalPriceTxt" HorizontalAlignment="Left" Margin="-54,83,0,0" TextWrapping="Wrap" Text="{Binding Path=TotalPrice}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
 
 
-        <ListView Margin="75,-16,0,220"  x:Name="ProductsListview" >
+        <ListView Margin="-140,114,10,79"  x:Name="ProductsListview">
             <ListView.View>
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Employee Information">
 
@@ -30,12 +30,37 @@
 
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Price}" Header="Price" Width="80"/>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Amount}" Header="Amount" Width="80"/>
-
                     <GridViewColumn DisplayMemberBinding="{Binding Path=TotalPrice}" Header="TotalPrice" Width="80"/>
+
+
+                    <GridViewColumn Header="Amount" Width="80" x:Name="newAmountColounm">
+                        <GridViewColumn.CellTemplate >
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=Amount, Mode=TwoWay}" x:Name="newAmountTxt" Width="80"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+
+                    <GridViewColumn Header="update new amount" Width="150">
+                        <GridViewColumn.CellTemplate >
+                            <DataTemplate>
+                                <Button x:Name="updateNewAmount" Click="updateAmount_Button_Click" Width="150" ></Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="delete me" Width="150">
+                        <GridViewColumn.CellTemplate >
+                            <DataTemplate>
+                                <Button x:Name="deleteBtn" Width="80" Click="deleteOrderItemBtn"></Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="cart confirmation" x:Name="cartConfirmationBtn" HorizontalAlignment="Left" Margin="350,188,0,0" VerticalAlignment="Top" Click="cartConfirmationBtn_Click"/>
+        <Button Content="cart confirmation" x:Name="cartConfirmationBtn" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="cartConfirmationBtn_Click"/>
+        <Button x:Name="emptyBtn" Content="EMP" HorizontalAlignment="Left" Margin="268,-30,0,0" VerticalAlignment="Top" Click="EmptyButton_Click"/>
     </Grid>
 </Window>
