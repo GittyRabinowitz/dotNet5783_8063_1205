@@ -14,7 +14,7 @@ public interface IProduct
     public IEnumerable<ProductItem> GetCatalog(eCategory? category=null);//catalog
     public Product GetProductManager(int id);
     public ProductItem GetProductCustomer(int id, BO.Cart cart);
-    public void Add(Product p);//manager
+    public int Add(Product p);//manager
     public void Delete(int id);//manager
     public void Update(Product p);//manager
 

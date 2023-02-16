@@ -29,6 +29,7 @@ internal class BlCart : ICart
             bool flag = true;
 
 
+
             cart?.Items?.ForEach(item =>
             {
                 if (item?.ProductID == id)
@@ -101,39 +102,76 @@ internal class BlCart : ICart
 
             Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
 
-            cart?.Items?.ForEach(item =>
-            {
 
-                if (item?.ProductID == id)
+
+            int num = cart.Items.Count;
+
+            for (int i = 0; i < num; i++)
+            {
+                if (cart.Items[i]?.ProductID == id)
                 {
                     flag = false;
-                    if (newAmount > item.Amount)
+                    if (newAmount > cart.Items[i].Amount)
                     {
-                        if (newAmount - item.Amount > DoProduct.InStock)
+                        if (newAmount - cart.Items[i].Amount > DoProduct.InStock)
                             throw new BO.BlOutOfStockException("This product is not available in this amount");
 
-                        item.TotalPrice += item.Price * (newAmount - item.Amount);
-                        cart.TotalPrice += item.Price * (newAmount - item.Amount);
-                        item.Amount = newAmount;
-                        DoProduct.InStock -= (newAmount - item.Amount);
+                        cart.Items[i].TotalPrice += cart.Items[i].Price * (newAmount - cart.Items[i].Amount);
+                        cart.TotalPrice += cart.Items[i].Price * (newAmount - cart.Items[i].Amount);
+                        cart.Items[i].Amount = newAmount;
+                        DoProduct.InStock -= (newAmount - cart.Items[i].Amount);
                     }
                     else if (newAmount == 0)
                     {
-                        cart.TotalPrice -= item.TotalPrice;
-                        cart.Items.Remove(item);
-                        DoProduct.InStock += item.Amount;
+                        cart.TotalPrice -= cart.Items[i].TotalPrice;
+                        cart.Items.Remove(cart.Items[i]);
+                        DoProduct.InStock += cart.Items[i].Amount;
                     }
-                    else if (newAmount < item.Amount)
+                    else if (newAmount < cart.Items[i].Amount)
                     {
-                        cart.TotalPrice -= item.Price * (item.Amount - newAmount);
+                        cart.TotalPrice -= cart.Items[i].Price * (cart.Items[i].Amount - newAmount);
 
-                        item.TotalPrice = item.Price * newAmount;
-                        item.Amount = newAmount;
+                        cart.Items[i].TotalPrice = cart.Items[i].Price * newAmount;
+                        cart.Items[i].Amount = newAmount;
 
-                        DoProduct.InStock+= ( item.Amount- newAmount);
+                        DoProduct.InStock += (cart.Items[i].Amount - newAmount);
                     }
+                    break;
                 };
-            });
+            }
+            //cart?.Items?.ForEach(item =>
+            //{
+
+            //    if (item?.ProductID == id)
+            //    {
+            //        flag = false;
+            //        if (newAmount > item.Amount)
+            //        {
+            //            if (newAmount - item.Amount > DoProduct.InStock)
+            //                throw new BO.BlOutOfStockException("This product is not available in this amount");
+
+            //            item.TotalPrice += item.Price * (newAmount - item.Amount);
+            //            cart.TotalPrice += item.Price * (newAmount - item.Amount);
+            //            item.Amount = newAmount;
+            //            DoProduct.InStock -= (newAmount - item.Amount);
+            //        }
+            //        else if (newAmount == 0)
+            //        {
+            //            cart.TotalPrice -= item.TotalPrice;
+            //            cart.Items.Remove(item);
+            //            DoProduct.InStock += item.Amount;
+            //        }
+            //        else if (newAmount < item.Amount)
+            //        {
+            //            cart.TotalPrice -= item.Price * (item.Amount - newAmount);
+
+            //            item.TotalPrice = item.Price * newAmount;
+            //            item.Amount = newAmount;
+
+            //            DoProduct.InStock += (item.Amount - newAmount);
+            //        }
+            //    };
+            //});
 
 
 
@@ -154,7 +192,7 @@ internal class BlCart : ICart
                 cart.TotalPrice += BoOrderItem.TotalPrice;
                 DoProduct.InStock -= newAmount ;
             }
-
+           
             return cart;
         }
         catch (DalApi.DalIdNotFoundException exc)

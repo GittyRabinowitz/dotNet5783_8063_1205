@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +22,17 @@ namespace PL.Order
     {
         private IBl bl;
         private int currentOrderId;
-        public Order(IBl bl, int orderID, bool isDynamic)
+        ObservableCollection<BO.OrderForList> ordersCollection;
+        Window lastWindow;
+        public Order(IBl bl, int orderID, bool isDynamic, Window _lastWindow, ObservableCollection<BO.OrderForList> _ordersCollection = null)
         {
+
+            this.lastWindow = _lastWindow;
+
+            if (_ordersCollection != null)
+            {
+                this.ordersCollection = _ordersCollection;
+            }
             BO.Order order = bl.Order.GetOrderDetails(orderID);
             this.currentOrderId = orderID;
             this.DataContext = order;
@@ -52,6 +62,13 @@ namespace PL.Order
             try
             {
                 BO.Order order = bl.Order.updateShippedOrder(currentOrderId);
+
+
+                ordersCollection?.Remove(ordersCollection?.Where(x => x.ID == currentOrderId)?.FirstOrDefault());
+
+                ordersCollection?.Add(Convert.convertOrderToOrderForList(order));
+
+
                 this.DataContext=order;
             }
             catch (BO.BlNoEntitiesFoundInDal exc)
@@ -74,6 +91,11 @@ namespace PL.Order
             try
             {
                BO.Order order= bl.Order.updateDeliveryedOrder(currentOrderId);
+
+                ordersCollection?.Remove(ordersCollection?.Where(x => x.ID == currentOrderId)?.FirstOrDefault());
+
+                ordersCollection?.Add(Convert.convertOrderToOrderForList(order));
+
                 this.DataContext = order;
             }
             catch (BO.BlNoEntitiesFoundInDal exc)

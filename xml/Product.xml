@@ -1,30 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Products>
   <Product>
-    <ID>100000</ID>
-    <Name>washMachine</Name>
-    <Price>1120</Price>
-    <Category>washRoom</Category>
-    <InStock>50</InStock>
-  </Product>
-  <Product>
-    <ID>100002</ID>
-    <Name>aaa</Name>
-    <Price>1120</Price>
-    <Category>washRoom</Category>
-    <InStock>2</InStock>
-  </Product>
-  <Product>
-    <ID>100003</ID>
-    <Name>sd</Name>
-    <Price>4</Price>
-    <Category>washRoom</Category>
-    <InStock>58</InStock>
-  </Product>
-  <Product>
     <ID>100006</ID>
     <Name>s</Name>
-    <Price>3</Price>
+    <Price>8</Price>
     <Category>washRoom</Category>
     <InStock>3</InStock>
   </Product>
@@ -36,18 +15,11 @@
     <InStock>5</InStock>
   </Product>
   <Product>
-    <ID>100011</ID>
-    <Name>cc</Name>
-    <Price>3</Price>
-    <Category>kitchen</Category>
-    <InStock>33</InStock>
-  </Product>
-  <Product>
     <ID>100012</ID>
     <Name>s</Name>
-    <Price>4</Price>
+    <Price>34</Price>
     <Category>otherRoom</Category>
-    <InStock>44</InStock>
+    <InStock>43</InStock>
   </Product>
   <Product>
     <ID>100013</ID>
@@ -57,10 +29,31 @@
     <InStock>11</InStock>
   </Product>
   <Product>
-    <ID>100014</ID>
-    <Name>x</Name>
-    <Price>34</Price>
+    <ID>100018</ID>
+    <Name>sdsdsdsd</Name>
+    <Price>12</Price>
+    <Category>washRoom</Category>
+    <InStock>45</InStock>
+  </Product>
+  <Product>
+    <ID>100019</ID>
+    <Name>v</Name>
+    <Price>56</Price>
+    <Category>otherRoom</Category>
+    <InStock>56</InStock>
+  </Product>
+  <Product>
+    <ID>100020</ID>
+    <Name>h</Name>
+    <Price>5</Price>
     <Category>kitchen</Category>
-    <InStock>34</InStock>
+    <InStock>5</InStock>
+  </Product>
+  <Product>
+    <ID>100021</ID>
+    <Name>q</Name>
+    <Price>57</Price>
+    <Category>kitchen</Category>
+    <InStock>100</InStock>
   </Product>
 </Products>

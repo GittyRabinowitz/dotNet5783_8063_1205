@@ -258,7 +258,7 @@ internal class BlProduct : IProduct
     /// </summary>
     /// <param name="BoProduct"></param>
     /// <exception cref="BO.BlInvalideData"></exception>
-    public void Add(BO.Product BoProduct)
+    public int Add(BO.Product BoProduct)
     {
 
         Dal.DO.Product DoProduct = new Dal.DO.Product();
@@ -283,8 +283,8 @@ internal class BlProduct : IProduct
         DoProduct.Price = BoProduct.Price;
         DoProduct.Category = (Dal.DO.eCategory)BoProduct.Category;
         DoProduct.InStock = BoProduct.InStock;
-
-        Dal.Product.Add(DoProduct);
+        int productId= Dal.Product.Add(DoProduct);
+        return productId;
 
     }
 

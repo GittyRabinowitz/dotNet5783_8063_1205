@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,18 +24,31 @@ namespace PL
     {
 
         private IBl bl;
-        public ProductListWindow(IBl bl)
+        ObservableCollection<BO.ProductForList> productsCollection;
+        ObservableCollection<BO.OrderForList> ordersCollection;
+        Window lastWindow;
+        public ProductListWindow(IBl bl, Window _lastWindow)
         {
             try
             {
 
                 InitializeComponent();
-                this.bl = bl;
-                ProductsListview.ItemsSource = bl.Product.GetProductList();
 
+                this.lastWindow = _lastWindow;
+
+                this.bl = bl;
                 AttributeSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
 
-                OrderListview.ItemsSource = bl.Order.GetOrderList();
+
+
+
+                productsCollection = new ObservableCollection<BO.ProductForList>(bl.Product.GetProductList());
+                ProductsListview.ItemsSource = productsCollection;
+
+
+
+                ordersCollection = new ObservableCollection<OrderForList>(bl.Order.GetOrderList());
+                OrderListview.ItemsSource = ordersCollection;
 
             }
             catch (BO.BlNoEntitiesFoundInDal exc)
@@ -58,8 +72,9 @@ namespace PL
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-            ProductWindow productWindow = new ProductWindow(bl);
+            ProductWindow productWindow = new ProductWindow(bl, _lastWindow: this, _productsCollection: productsCollection);
             productWindow.Show();
+            this.Hide();
         }
 
 
@@ -69,8 +84,9 @@ namespace PL
             try
             {
 
-            ProductWindow productWindow = new ProductWindow(bl, (ProductsListview.SelectedItem as BO.ProductForList).ID);
-            productWindow.Show();
+                ProductWindow productWindow = new ProductWindow(bl, (ProductsListview.SelectedItem as BO.ProductForList).ID, _lastWindow: this, _productsCollection: productsCollection);
+                productWindow.Show();
+                this.Hide();
             }
             catch (BO.BlIdNotExist exc)
             {
@@ -81,8 +97,9 @@ namespace PL
 
         private void viewListOrderDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            Order.Order orderWindow = new Order.Order(bl, (OrderListview.SelectedItem as BO.OrderForList).ID, true);
+            Order.Order orderWindow = new Order.Order(bl, (OrderListview.SelectedItem as BO.OrderForList).ID, true, this, ordersCollection);
             orderWindow.Show();
+            this.Hide();
         }
     }
 

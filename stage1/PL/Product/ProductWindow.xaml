@@ -18,8 +18,8 @@
         <Button Content="Update" x:Name="UpdateBtn" HorizontalAlignment="Left" Margin="93,328,0,0" VerticalAlignment="Top" Click="UpdateBtn_Click" Width="150" Height="30" Background="#FF62CBDE" BorderBrush="#FF1C2279" FontSize="14"/>
         <Button Content="Delete" x:Name="DeleteBtn" HorizontalAlignment="Left" Margin="273,328,0,0" VerticalAlignment="Top" Click="Delete_Click" Width="150" Height="30" Background="#FF62CBDE" BorderBrush="#FF1C2279" FontSize="14"/>
         <Label Content="Category" x:Name="Category" HorizontalAlignment="Left" Margin="178,127,0,0" VerticalAlignment="Top" Width="150" Height="30" FontSize="14"/>
-        <TextBox x:Name="AmountTxt" Text="{Binding Path=Amount}" HorizontalAlignment="Left" Margin="181,282,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" Height="30"/>
-        <Label x:Name="AmountLbl" Content="Amount" HorizontalAlignment="Left" Margin="123,270,0,0" VerticalAlignment="Top"/>
+        <!--<TextBox x:Name="AmountTxt" Text="{Binding Path=Amount}" HorizontalAlignment="Left" Margin="181,282,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" Height="30"/>
+        <Label x:Name="AmountLbl" Content="Amount" HorizontalAlignment="Left" Margin="123,270,0,0" VerticalAlignment="Top"/>-->
         <Button x:Name="addToCartBtn" Content="Add to Cart" HorizontalAlignment="Left" Margin="478,182,0,0" VerticalAlignment="Top" Click="addToCartBtn_Click"/>
 
     </Grid>

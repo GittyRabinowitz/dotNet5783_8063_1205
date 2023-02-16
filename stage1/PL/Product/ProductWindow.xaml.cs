@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using PL.Product;
+
 namespace PL
 {
     /// <summary>
@@ -24,8 +27,19 @@ namespace PL
         BO.Product product = new BO.Product();
         BO.ProductItem productItem = new BO.ProductItem();
         BO.Cart cart = new BO.Cart();
-        public ProductWindow(IBl bl, int id = 0, bool isDynamic = true, BO.Cart cart = null)
+
+        ObservableCollection<BO.ProductForList> productsCollection;
+        Window lastWindow;
+        ProductCatalog ProductCatalog;
+        public ProductWindow(IBl bl, int id = 0, bool isDynamic = true, BO.Cart cart = null, Window _lastWindow,
+            ObservableCollection<BO.ProductForList> _productsCollection = null)
         {
+            lastWindow = _lastWindow;
+ 
+            if (_productsCollection != null)
+            {
+                this.productsCollection = _productsCollection;
+            }
             if (cart != null) { this.cart = cart; }
             this.bl = bl;
             InitializeComponent();
@@ -36,8 +50,8 @@ namespace PL
                 UpdateBtn.Visibility = Visibility.Hidden;
                 DeleteBtn.Visibility = Visibility.Hidden;
                 CategoriesSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
-                AmountLbl.Visibility = Visibility.Hidden;
-                AmountTxt.Visibility = Visibility.Hidden;
+                //AmountLbl.Visibility = Visibility.Hidden;
+                //  AmountTxt.Visibility = Visibility.Hidden;
                 addToCartBtn.Visibility = Visibility.Hidden;
 
             }
@@ -59,7 +73,7 @@ namespace PL
                     PriceTxt.IsReadOnly = true;
                     CategoriesSelector.IsEnabled = false;
                     InStockTxt.IsReadOnly = true;
-                    AmountTxt.IsReadOnly = true;
+                    // AmountTxt.IsReadOnly = true;
 
                 }
                 else
@@ -67,8 +81,8 @@ namespace PL
                     //update
                     product = bl.Product.GetProductManager(id);
                     this.DataContext = product;
-                    AmountLbl.Visibility = Visibility.Hidden;
-                    AmountTxt.Visibility = Visibility.Hidden;
+                    // AmountLbl.Visibility = Visibility.Hidden;
+                    // AmountTxt.Visibility = Visibility.Hidden;
                     addToCartBtn.Visibility = Visibility.Hidden;
                 }
 
@@ -86,8 +100,12 @@ namespace PL
                 if (product.Name == null | product.Price == 0 | product.Category == null | product.InStock == 0)
                     throw new PlInvalideData("invalid data");
 
-                bl.Product.Add(product);
+                int id = bl.Product.Add(product);
+                product.ID = id;
+                productsCollection?.Add(Convert.convertProductToProductForList(product));
                 MessageBox.Show("the product was added successfully!!!");
+                lastWindow.Show();
+                this.Close();
             }
             catch (BO.BlInvalideData exc)
             {
@@ -107,6 +125,10 @@ namespace PL
                 if (product.Name == null | product.Price == 0 | product.Category == null | product.InStock == 0)
                     throw new PlInvalideData("invalid data");
                 bl.Product.Update(product);
+
+                productsCollection?.Remove(productsCollection?.Where(x => x.ID == product?.ID)?.FirstOrDefault());
+                productsCollection?.Add(Convert.convertProductToProductForList(product));
+
                 MessageBox.Show("the product was updated successfully!!!");
             }
             catch (BO.BlIdNotExist exc)
@@ -124,6 +146,8 @@ namespace PL
             try
             {
                 bl.Product.Delete(product.ID);
+                productsCollection?.Remove(productsCollection?.Where(x => x.ID == product?.ID)?.FirstOrDefault());
+
                 MessageBox.Show("the product was deleted successfully!!!");
             }
             catch (BO.BlProductExistInOrders exc)
@@ -140,6 +164,9 @@ namespace PL
         {
             cart = bl.Cart.Add(cart, productItem.ID);
             MessageBox.Show("successfully added to cart");
+            lastWindow.Show();
+            this.Close();
+
         }
     }
 

@@ -21,9 +21,11 @@ namespace PL.Product
     {
         private IBl bl;
         private BO.Cart cart;
-        public ProductCatalog(IBl bl ,BO.Cart cart)
+        Window lastWindow;
+        public ProductCatalog(IBl bl ,BO.Cart cart, Window _lastWindow)
         {
             InitializeComponent();
+            this.lastWindow = _lastWindow;
             this.bl = bl;
             this.cart = cart;
             ProductsListview.ItemsSource = bl.Product.GetCatalog();
@@ -49,7 +51,7 @@ namespace PL.Product
             try
             {
 
-                ProductWindow productWindow = new ProductWindow(bl, (ProductsListview.SelectedItem as BO.ProductItem).ID, false);
+                ProductWindow productWindow = new ProductWindow(bl, (ProductsListview.SelectedItem as BO.ProductItem).ID, false, cart, _lastWindow:this);
                 productWindow.Show();
             }
             catch (BO.BlIdNotExist exc)
@@ -62,7 +64,7 @@ namespace PL.Product
 
         private void ViewCart_Click(object sender, RoutedEventArgs e)
         {
-            Cart.CartWindow cartWindow = new Cart.CartWindow(bl, cart);
+            Cart.CartWindow cartWindow = new Cart.CartWindow(bl, cart, this);
             cartWindow.Show();
         }
 

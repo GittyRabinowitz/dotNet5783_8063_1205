@@ -23,7 +23,7 @@ Width="auto">
             <ComboBox Name="AttributeSelector" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" SelectionChanged="AttributeSelector_SelectionChanged" Width="150" Height="30"/>
             <Label Grid.Column="0" Content="Category:" x:Name="Category" Width="130" Height="30" FontSize="14" Grid.ColumnSpan="2" Margin="130,57,180,58"/>
         </Grid>
-        <ListView Grid.Row="1" x:Name="ProductsListview" MouseDoubleClick="viewListProductDoubleClick" Margin="0,0,406,18">
+        <ListView Grid.Row="1" x:Name="ProductsListview" MouseDoubleClick="viewListProductDoubleClick" Margin="0,0,383,107" Grid.RowSpan="2">
             <ListView.View>
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Employee Information">
 
@@ -38,7 +38,7 @@ Width="auto">
             </ListView.View>
         </ListView>
         <Button x:Name="AddProduct" Content="AddProduct" Grid.Row="2" Click="AddProduct_Click" HorizontalAlignment="Left" Margin="159,43,0,0" VerticalAlignment="Top" Width="150" Height="30" Background="#FF62CBDE" BorderBrush="#FF1C2279" FontSize="14"/>
-        <ListView x:Name="OrderListview" Grid.Row="1" Margin="399,0,0,0" MouseDoubleClick="viewListOrderDoubleClick">
+        <ListView x:Name="OrderListview" Grid.Row="1" Margin="374,0,-6,107" MouseDoubleClick="viewListOrderDoubleClick" Grid.RowSpan="2">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Header="ID" Width="80"/>

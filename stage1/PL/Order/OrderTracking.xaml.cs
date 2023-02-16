@@ -22,9 +22,11 @@ namespace PL.Order
     {
         private IBl bl;
         private int orderID;
-        public OrderTracking(IBl bl, int orderID)
+        Window lastWindow;
+        public OrderTracking(IBl bl, int orderID, Window _lastWindow)
         {
             InitializeComponent();
+            this.lastWindow = _lastWindow;
             this.orderID = orderID;
             this.bl=bl;
             BO.OrderTracking ot = bl.Order.orderTracking(orderID);
@@ -35,6 +37,6 @@ namespace PL.Order
             
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e) => new Order(bl,orderID, false).Show();
+        private void Button_Click(object sender, RoutedEventArgs e) => new Order(bl,orderID, false,_lastWindow:this).Show();
     }
 }

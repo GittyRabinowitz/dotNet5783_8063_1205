@@ -28,7 +28,7 @@ internal class BlOrder : IOrder
             {
                 BO.OrderForList orderForList = new BO.OrderForList();
 
-                orderForList.ID = BO.BoConfig.OrderForListID;
+                orderForList.ID = order.ID;
                 orderForList.CustomerName = order.CustomerName;
                 orderForList.TotalPrice = 0;
                 orderForList.AmountOfItems = 0;
