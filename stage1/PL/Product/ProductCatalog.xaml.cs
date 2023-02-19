@@ -51,8 +51,9 @@ namespace PL.Product
             try
             {
 
-                ProductWindow productWindow = new ProductWindow(bl, (ProductsListview.SelectedItem as BO.ProductItem).ID, false, cart, _lastWindow:this);
+                ProductWindow productWindow = new ProductWindow(bl, this, (ProductsListview.SelectedItem as BO.ProductItem).ID, false, cart);
                 productWindow.Show();
+                this.Hide();
             }
             catch (BO.BlIdNotExist exc)
             {
@@ -66,6 +67,7 @@ namespace PL.Product
         {
             Cart.CartWindow cartWindow = new Cart.CartWindow(bl, cart, this);
             cartWindow.Show();
+            this.Hide();
         }
 
         private void GroupByCategory_Click(object sender, RoutedEventArgs e)
@@ -84,6 +86,12 @@ namespace PL.Product
             });
 
             ProductsListview.ItemsSource = productItems;
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            lastWindow.Show();
+            this.Close();
         }
     }
 

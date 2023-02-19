@@ -69,7 +69,7 @@ namespace PL.Order
                 ordersCollection?.Add(Convert.convertOrderToOrderForList(order));
 
 
-                this.DataContext=order;
+                this.DataContext = order;
             }
             catch (BO.BlNoEntitiesFoundInDal exc)
             {
@@ -83,6 +83,11 @@ namespace PL.Order
             {
                 MessageBox.Show(exc.Message);
             }
+            finally
+            {
+                lastWindow.Show();
+                this.Close();
+            }
 
         }
 
@@ -90,7 +95,7 @@ namespace PL.Order
         {
             try
             {
-               BO.Order order= bl.Order.updateDeliveryedOrder(currentOrderId);
+                BO.Order order = bl.Order.updateDeliveryedOrder(currentOrderId);
 
                 ordersCollection?.Remove(ordersCollection?.Where(x => x.ID == currentOrderId)?.FirstOrDefault());
 
@@ -110,6 +115,17 @@ namespace PL.Order
             {
                 MessageBox.Show(exc.Message);
             }
+            finally
+            {
+                lastWindow.Show();
+                this.Close();
+            }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            lastWindow.Show();
+            this.Close();
         }
     }
 }

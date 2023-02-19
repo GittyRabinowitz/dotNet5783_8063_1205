@@ -30,19 +30,19 @@ namespace PL
 
         ObservableCollection<BO.ProductForList> productsCollection;
         Window lastWindow;
-        ProductCatalog ProductCatalog;
-        public ProductWindow(IBl bl, int id = 0, bool isDynamic = true, BO.Cart cart = null, Window _lastWindow,
+        public ProductWindow(IBl bl, Window _lastWindow, int id = 0, bool isDynamic = true, BO.Cart cart = null,
             ObservableCollection<BO.ProductForList> _productsCollection = null)
         {
-            lastWindow = _lastWindow;
- 
+            InitializeComponent();
+            this.lastWindow = _lastWindow;
+
             if (_productsCollection != null)
             {
                 this.productsCollection = _productsCollection;
             }
             if (cart != null) { this.cart = cart; }
             this.bl = bl;
-            InitializeComponent();
+       
             if (id == 0)
             {
                 //add
@@ -104,8 +104,7 @@ namespace PL
                 product.ID = id;
                 productsCollection?.Add(Convert.convertProductToProductForList(product));
                 MessageBox.Show("the product was added successfully!!!");
-                lastWindow.Show();
-                this.Close();
+
             }
             catch (BO.BlInvalideData exc)
             {
@@ -115,6 +114,11 @@ namespace PL
             catch (PlInvalideData exc)
             {
                 MessageBox.Show(exc.Message);
+            }
+            finally
+            {
+                lastWindow.Show();
+                this.Close();
             }
         }
 
@@ -130,6 +134,7 @@ namespace PL
                 productsCollection?.Add(Convert.convertProductToProductForList(product));
 
                 MessageBox.Show("the product was updated successfully!!!");
+  
             }
             catch (BO.BlIdNotExist exc)
             {
@@ -138,6 +143,11 @@ namespace PL
             catch (PlInvalideData exc)
             {
                 MessageBox.Show(exc.Message);
+            }
+            finally
+            {
+                lastWindow.Show();
+                this.Close();
             }
         }
 
@@ -149,14 +159,21 @@ namespace PL
                 productsCollection?.Remove(productsCollection?.Where(x => x.ID == product?.ID)?.FirstOrDefault());
 
                 MessageBox.Show("the product was deleted successfully!!!");
+
             }
             catch (BO.BlProductExistInOrders exc)
             {
                 MessageBox.Show(exc.Message);
+
             }
             catch (BO.BlIdNotExist exc)
             {
                 MessageBox.Show(exc.Message + " " + exc.InnerException.Message);
+            }
+            finally
+            {
+                lastWindow.Show();
+                this.Close();
             }
         }
 
@@ -167,6 +184,12 @@ namespace PL
             lastWindow.Show();
             this.Close();
 
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            lastWindow.Show();
+            this.Close();
         }
     }
 

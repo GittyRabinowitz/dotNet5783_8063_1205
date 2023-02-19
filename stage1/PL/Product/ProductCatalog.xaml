@@ -43,6 +43,7 @@ Width="auto">
             </ListView.View>
         </ListView>
         <Button x:Name="ViewCart" Content="View Cart" Grid.Row="2" HorizontalAlignment="Left" Margin="276,43,0,0" VerticalAlignment="Top" Width="150" Height="30" Background="#FF62CBDE" BorderBrush="#FF1C2279" FontSize="14" Click="ViewCart_Click"/>
+        <Button Content="Back" HorizontalAlignment="Left" Margin="18,11,0,0" VerticalAlignment="Top" Click="BackButton_Click"/>
 
     </Grid>
 </Window>

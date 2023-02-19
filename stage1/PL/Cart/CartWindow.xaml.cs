@@ -37,32 +37,41 @@ namespace PL.Cart
 
             items = new ObservableCollection<BO.OrderItem>(cart.Items);
             ProductsListview.ItemsSource = items;
+           
         }
 
         private void cartConfirmationBtn_Click(object sender, RoutedEventArgs e)
         {
             bl.Cart.CartConfirmation(cart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
-        }
-        private void decreaseProductBtn_Click(object sender, RoutedEventArgs e)
-        {
-            BO.OrderItem itemToUpdate = (BO.OrderItem)((Button)sender).DataContext;
-            cart = bl.Cart.Update(cart, itemToUpdate.ProductID, itemToUpdate.Amount - 1);
-
-            this.DataContext = cart;
-            items = new ObservableCollection<BO.OrderItem>(cart.Items);
-            ProductsListview.ItemsSource = items;
+            lastWindow.Show();
+            this.Close();
         }
 
-        private void addProductBtn_Click(object sender, RoutedEventArgs e)
+
+        private void decreaseQuantityBtn_Click(object sender, RoutedEventArgs e)
+        {
+            BO.OrderItem itemToUpdate = (BO.OrderItem)((Button)sender).DataContext;
+            cart = bl.Cart.Update(cart, itemToUpdate.ProductID, itemToUpdate.Amount - 1, items);
+
+            this.DataContext = cart;
+
+
+
+          //  items = new ObservableCollection<BO.OrderItem>(cart.Items);
+         //   ProductsListview.ItemsSource = items;
+        }
+
+
+        private void IncreaseQuantityBtn_Click(object sender, RoutedEventArgs e)
         {
 
             BO.OrderItem itemToUpdate = (BO.OrderItem)((Button)sender).DataContext;
-            cart = bl.Cart.Update(cart, itemToUpdate.ProductID, itemToUpdate.Amount + 1);
+            cart = bl.Cart.Update(cart, itemToUpdate.ProductID, itemToUpdate.Amount + 1, items);
 
             this.DataContext = cart;
-            items = new ObservableCollection<BO.OrderItem>(cart.Items);
-            ProductsListview.ItemsSource = items;
-
+           // items = new ObservableCollection<BO.OrderItem>(cart.Items);
+           // ProductsListview.ItemsSource = items;
+       
         }
         private void EmptyButton_Click(object sender, RoutedEventArgs e)
         {
@@ -76,21 +85,8 @@ namespace PL.Cart
             //cart?.Items?.ForEach(item => { cart.Items.Remove(item); });
             //לטפל ב פור הזה
             cart.TotalPrice = 0;
-            this.DataContext = cart;
-            ProductsListview.ItemsSource = null;
-        }
-
-        private void updateAmount_Button_Click(object sender, RoutedEventArgs e)
-        {
-
-            //להוסיף try and catch
-            BO.OrderItem itemToUpdate = (BO.OrderItem)((Button)sender).DataContext;
-            cart = bl.Cart.Update(cart, itemToUpdate.ProductID, itemToUpdate.Amount);
-
-            this.DataContext = cart;
-            items = new ObservableCollection<BO.OrderItem>(cart.Items);
-            ProductsListview.ItemsSource = items;
-
+         //   this.DataContext = cart;
+          
         }
 
         private void deleteOrderItemBtn(object sender, RoutedEventArgs e)
@@ -100,10 +96,17 @@ namespace PL.Cart
             cart.TotalPrice -= itemToRemove.TotalPrice;
             cart?.Items?.Remove(itemToRemove);
 
-            this.DataContext = cart;
-            items = new ObservableCollection<BO.OrderItem>(cart.Items);
-            ProductsListview.ItemsSource = items;
+         //   this.DataContext = cart;
+            items.Remove(itemToRemove);
+         
+          
 
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            lastWindow.Show();
+            this.Close();
         }
     }
 }

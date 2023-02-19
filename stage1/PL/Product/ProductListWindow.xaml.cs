@@ -72,7 +72,7 @@ namespace PL
 
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-            ProductWindow productWindow = new ProductWindow(bl, _lastWindow: this, _productsCollection: productsCollection);
+            ProductWindow productWindow = new ProductWindow(bl, this, _productsCollection: productsCollection);
             productWindow.Show();
             this.Hide();
         }
@@ -84,7 +84,7 @@ namespace PL
             try
             {
 
-                ProductWindow productWindow = new ProductWindow(bl, (ProductsListview.SelectedItem as BO.ProductForList).ID, _lastWindow: this, _productsCollection: productsCollection);
+                ProductWindow productWindow = new ProductWindow(bl, _lastWindow: this,(ProductsListview.SelectedItem as BO.ProductForList).ID,  _productsCollection: productsCollection);
                 productWindow.Show();
                 this.Hide();
             }
@@ -100,6 +100,12 @@ namespace PL
             Order.Order orderWindow = new Order.Order(bl, (OrderListview.SelectedItem as BO.OrderForList).ID, true, this, ordersCollection);
             orderWindow.Show();
             this.Hide();
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            lastWindow.Show();
+            this.Close();
         }
     }
 

@@ -23,19 +23,34 @@ namespace PL
     {
         private BlApi.IBl bl = BlApi.Factory.Get();
         BO.Cart cart = new BO.Cart();
-        
+
         public MainWindow()
         {
-            
+
             InitializeComponent();
             cart.Items = new List<BO.OrderItem?>();
-         
+
         }
 
-        private void BtnEntry_Click(object sender, RoutedEventArgs e) => new ProductListWindow(bl, this).Show();
+        private void BtnEntry_Click(object sender, RoutedEventArgs e)
+        {
+            ProductListWindow productListWindow = new ProductListWindow(bl, this);
+            productListWindow.Show();
+            this.Hide();
+        }
 
-        private void OrderTracking(object sender, RoutedEventArgs e) => new Order.OrderTracking(bl, int.Parse(orderIDTxt.Text), this).Show();
+        private void OrderTracking(object sender, RoutedEventArgs e)
+        {
+            Order.OrderTracking ot = new Order.OrderTracking(bl, int.Parse(orderIDTxt.Text), this);
+            ot.Show();
+            this.Hide();
+        }
 
-        private void NewOrder(object sender, RoutedEventArgs e) => new Product.ProductCatalog(bl, cart, this).Show();
+        private void NewOrder(object sender, RoutedEventArgs e)
+        {
+            Product.ProductCatalog productCatalog = new Product.ProductCatalog(bl, cart, this);
+            productCatalog.Show();
+            this.Hide();
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using BlApi;
-
+using System.Collections.ObjectModel;
 
 namespace BlImplementation;
 
@@ -92,13 +92,13 @@ internal class BlCart : ICart
     /// <returns></returns>
     /// <exception cref="BO.BlOutOfStockException"></exception>
     /// <exception cref="BO.BlIdNotExist"></exception>
-    public BO.Cart Update(BO.Cart cart, int id, int newAmount)
+    public BO.Cart Update(BO.Cart cart, int id, int newAmount, ObservableCollection<BO.OrderItem> items)
     {
         try
         {
             bool flag = true;
 
-            // Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
+          
 
             Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
 
@@ -124,8 +124,9 @@ internal class BlCart : ICart
                     else if (newAmount == 0)
                     {
                         cart.TotalPrice -= cart.Items[i].TotalPrice;
-                        cart.Items.Remove(cart.Items[i]);
+                       
                         DoProduct.InStock += cart.Items[i].Amount;
+                        cart.Items.Remove(cart.Items[i]);
                     }
                     else if (newAmount < cart.Items[i].Amount)
                     {

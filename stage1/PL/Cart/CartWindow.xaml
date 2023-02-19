@@ -36,7 +36,7 @@
                     <GridViewColumn Header="Amount" Width="80" x:Name="newAmountColounm">
                         <GridViewColumn.CellTemplate >
                             <DataTemplate>
-                                <TextBox Text="{Binding Path=Amount, Mode=TwoWay}" x:Name="newAmountTxt" Width="80"/>
+                                <TextBox Text="{Binding Path=Amount}" x:Name="newAmountTxt" Width="80"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -51,9 +51,9 @@
                                         <ColumnDefinition Width="2*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Button x:Name="addProductAmount" Content="+" Margin="10,30,0,0"  VerticalAlignment="Stretch" Click="addProductBtn_Click" FontFamily="Amatic SC" FontSize="16" Background="#FFB19578"/>
+                                    <Button x:Name="addProductAmount" Content="+" Margin="10,30,0,0"  VerticalAlignment="Stretch" Click="IncreaseQuantityBtn_Click" FontFamily="Amatic SC" FontSize="16" Background="#FFB19578"/>
 
-                                    <Button x:Name="decreaseProductAmount" Content="-" HorizontalAlignment="Right" Margin="0,30,9,0"  VerticalAlignment="Top" Click="decreaseProductBtn_Click" FontFamily="Amatic SC" FontSize="16" Background="#FFB19578"/>
+                                    <Button x:Name="decreaseProductAmount" Content="-" HorizontalAlignment="Right" Margin="0,30,9,0"  VerticalAlignment="Top" Click="decreaseQuantityBtn_Click" FontFamily="Amatic SC" FontSize="16" Background="#FFB19578"/>
                                     <StackPanel Grid.Column="1" HorizontalAlignment="Right">
                                     </StackPanel>
                                 </Grid>
@@ -62,15 +62,6 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
-
-                    <!--<GridViewColumn Header="update new amount" Width="150">
-                        <GridViewColumn.CellTemplate >
-                            <DataTemplate>
-                                <Button x:Name="updateNewAmount" Click="updateAmount_Button_Click" Width="150" ></Button>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>-->
 
                     <GridViewColumn Header="delete me" Width="150">
                         <GridViewColumn.CellTemplate >
@@ -84,5 +75,6 @@
         </ListView>
         <Button Content="cart confirmation" x:Name="cartConfirmationBtn" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="cartConfirmationBtn_Click"/>
         <Button x:Name="emptyBtn" Content="EMP" HorizontalAlignment="Left" Margin="268,-30,0,0" VerticalAlignment="Top" Click="EmptyButton_Click"/>
+        <Button Content="Back" HorizontalAlignment="Left" Margin="-201,-99,0,0" VerticalAlignment="Top" Click="BackButton_Click"/>
     </Grid>
 </Window>

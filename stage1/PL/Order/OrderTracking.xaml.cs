@@ -28,15 +28,26 @@ namespace PL.Order
             InitializeComponent();
             this.lastWindow = _lastWindow;
             this.orderID = orderID;
-            this.bl=bl;
+            this.bl = bl;
             BO.OrderTracking ot = bl.Order.orderTracking(orderID);
             this.DataContext = ot;
-            var a= new ObservableCollection<Tuple<DateTime, BO.eOrderStatus>>(ot.DateAndTrack);
+            var a = new ObservableCollection<Tuple<DateTime, BO.eOrderStatus>>(ot.DateAndTrack);
             statusDetailes.ItemsSource = a;
 
-            
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e) => new Order(bl,orderID, false,_lastWindow:this).Show();
+        private void OrderDetialsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Order order = new Order(bl, orderID, false, this);
+            order.Show();
+            this.Hide();
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            lastWindow.Show();
+            this.Close();
+        }
     }
 }
