@@ -42,7 +42,7 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (eOrderStatus)value == 0 ? "Visible" : "Hidden";
+            return (eOrderStatus)value == (eOrderStatus)1 ? "Visible" : "Hidden";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -55,7 +55,7 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (eOrderStatus)value == (eOrderStatus)1 ? "Visible" : "Hidden";
+            return (eOrderStatus)value == (eOrderStatus)2 ? "Visible" : "Hidden";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -63,5 +63,19 @@ namespace PL
             throw new NotImplementedException();
         }
     }
+
+    public class TrueToVisible : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (bool)value == true ? "Visible" : "Hidden";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 
 }

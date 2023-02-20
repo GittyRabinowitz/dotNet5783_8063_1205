@@ -9,16 +9,16 @@
     <Grid Margin="229,108,0,0">
 
         <Label x:Name="customerNameLbl" Content="customer name" HorizontalAlignment="Left" Margin="-172,-23,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="customerNameTxt" HorizontalAlignment="Left" Margin="-54,-15,0,0" TextWrapping="Wrap" Text="{Binding Path=CustomerName}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="customerNameTxt" HorizontalAlignment="Left" Margin="-54,-15,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.CustomerName}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
         <Label x:Name="customerAddressLbl" Content="customer address" HorizontalAlignment="Left" Margin="-178,8,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="customerAddressTxt" HorizontalAlignment="Left" Margin="-54,16,0,0" TextWrapping="Wrap" Text="{Binding Path=CustomerAddress}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="customerAddressTxt" HorizontalAlignment="Left" Margin="-54,16,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.CustomerAddress}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
         <Label x:Name="customerEmailLbl" Content="customer email" HorizontalAlignment="Left" Margin="-172,44,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="customerEmailTxt" HorizontalAlignment="Left" Margin="-54,48,0,0" TextWrapping="Wrap" Text="{Binding Path=CustomerEmail}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="customerEmailTxt" HorizontalAlignment="Left" Margin="-54,48,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.CustomerEmail}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
         <Label x:Name="totalPriceLbl" Content="total price" HorizontalAlignment="Left" Margin="-172,83,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="totalPriceTxt" HorizontalAlignment="Left" Margin="-54,83,0,0" TextWrapping="Wrap" Text="{Binding Path=TotalPrice}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="totalPriceTxt" HorizontalAlignment="Left" Margin="-54,83,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.TotalPrice, Mode=TwoWay}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
 
 
-        <ListView Margin="-140,114,10,79"  x:Name="ProductsListview">
+        <ListView Margin="-140,114,10,79"  x:Name="ProductsListview" ItemsSource="{Binding items}">
             <ListView.View>
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Employee Information">
 
@@ -43,7 +43,7 @@
 
 
 
-                    <GridViewColumn Header="" Width="100">
+                    <GridViewColumn Header="change amount" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch">

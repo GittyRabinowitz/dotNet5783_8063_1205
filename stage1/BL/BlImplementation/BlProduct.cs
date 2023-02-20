@@ -301,7 +301,6 @@ internal class BlProduct : IProduct
     {
         try
         {
-            //Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
             Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
 
 

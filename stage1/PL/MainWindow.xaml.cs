@@ -26,11 +26,10 @@ namespace PL
 
         public MainWindow()
         {
-
             InitializeComponent();
             cart.Items = new List<BO.OrderItem?>();
-
         }
+
 
         private void BtnEntry_Click(object sender, RoutedEventArgs e)
         {
@@ -39,12 +38,15 @@ namespace PL
             this.Hide();
         }
 
+
         private void OrderTracking(object sender, RoutedEventArgs e)
         {
             Order.OrderTracking ot = new Order.OrderTracking(bl, int.Parse(orderIDTxt.Text), this);
             ot.Show();
+            
             this.Hide();
         }
+
 
         private void NewOrder(object sender, RoutedEventArgs e)
         {

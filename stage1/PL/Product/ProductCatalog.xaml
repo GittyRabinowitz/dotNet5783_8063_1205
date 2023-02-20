@@ -36,8 +36,6 @@ Width="auto">
 
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Category}" Header="category" Width="100"/>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Amount}" Header="Amount" Width="100"/>
-
                     <GridViewColumn DisplayMemberBinding="{Binding Path=InStock}" Header="InStock" Width="100"/>
                 </GridView>
             </ListView.View>

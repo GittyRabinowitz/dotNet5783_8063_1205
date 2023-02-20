@@ -5,28 +5,28 @@
     <Name>s</Name>
     <Price>8</Price>
     <Category>washRoom</Category>
-    <InStock>3</InStock>
+    <InStock>37</InStock>
   </Product>
   <Product>
     <ID>100008</ID>
     <Name>fff</Name>
     <Price>55</Price>
     <Category>otherRoom</Category>
-    <InStock>5</InStock>
+    <InStock>3</InStock>
   </Product>
   <Product>
     <ID>100012</ID>
     <Name>s</Name>
     <Price>34</Price>
     <Category>otherRoom</Category>
-    <InStock>42</InStock>
+    <InStock>40</InStock>
   </Product>
   <Product>
     <ID>100018</ID>
     <Name>sdsdsdsd</Name>
     <Price>12</Price>
     <Category>washRoom</Category>
-    <InStock>43</InStock>
+    <InStock>455</InStock>
   </Product>
   <Product>
     <ID>100019</ID>
@@ -34,13 +34,6 @@
     <Price>56</Price>
     <Category>otherRoom</Category>
     <InStock>22</InStock>
-  </Product>
-  <Product>
-    <ID>100020</ID>
-    <Name>h</Name>
-    <Price>5</Price>
-    <Category>kitchen</Category>
-    <InStock>5</InStock>
   </Product>
   <Product>
     <ID>100021</ID>
@@ -51,7 +44,7 @@
   </Product>
   <Product>
     <ID>100022</ID>
-    <Name>a</Name>
+    <Name>קק</Name>
     <Price>1</Price>
     <Category>washRoom</Category>
     <InStock>2</InStock>
@@ -62,5 +55,68 @@
     <Price>3</Price>
     <Category>washRoom</Category>
     <InStock>4</InStock>
+  </Product>
+  <Product>
+    <ID>100025</ID>
+    <Name>gh</Name>
+    <Price>3</Price>
+    <Category>kitchen</Category>
+    <InStock>33</InStock>
+  </Product>
+  <Product>
+    <ID>100026</ID>
+    <Name>ww</Name>
+    <Price>4</Price>
+    <Category>washRoom</Category>
+    <InStock>44</InStock>
+  </Product>
+  <Product>
+    <ID>100027</ID>
+    <Name>cc</Name>
+    <Price>1</Price>
+    <Category>kitchen</Category>
+    <InStock>2</InStock>
+  </Product>
+  <Product>
+    <ID>100028</ID>
+    <Name>gfhgh</Name>
+    <Price>4</Price>
+    <Category>kitchen</Category>
+    <InStock>5</InStock>
+  </Product>
+  <Product>
+    <ID>100029</ID>
+    <Name>aaaaaaaa</Name>
+    <Price>3</Price>
+    <Category>kitchen</Category>
+    <InStock>33</InStock>
+  </Product>
+  <Product>
+    <ID>100030</ID>
+    <Name>r</Name>
+    <Price>4</Price>
+    <Category>washRoom</Category>
+    <InStock>44</InStock>
+  </Product>
+  <Product>
+    <ID>100031</ID>
+    <Name>89</Name>
+    <Price>7</Price>
+    <Category>kitchen</Category>
+    <InStock>1</InStock>
+  </Product>
+  <Product>
+    <ID>100032</ID>
+    <Name>ee</Name>
+    <Price>4</Price>
+    <Category>kitchen</Category>
+    <InStock>44</InStock>
+  </Product>
+  <Product>
+    <ID>100033</ID>
+    <Name>iiii</Name>
+    <Price>78</Price>
+    <Category>washRoom</Category>
+    <InStock>8</InStock>
   </Product>
 </Products>

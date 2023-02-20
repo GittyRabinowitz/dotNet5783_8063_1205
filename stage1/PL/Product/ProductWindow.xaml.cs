@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using BO;
 using PL.Product;
 
 namespace PL
@@ -30,63 +31,62 @@ namespace PL
 
         ObservableCollection<BO.ProductForList> productsCollection;
         Window lastWindow;
+        public Array enumValues { get; set; }
+
+
+
         public ProductWindow(IBl bl, Window _lastWindow, int id = 0, bool isDynamic = true, BO.Cart cart = null,
             ObservableCollection<BO.ProductForList> _productsCollection = null)
         {
-            InitializeComponent();
-            this.lastWindow = _lastWindow;
-
-            if (_productsCollection != null)
+            try
             {
-                this.productsCollection = _productsCollection;
-            }
-            if (cart != null) { this.cart = cart; }
-            this.bl = bl;
-       
-            if (id == 0)
-            {
-                //add
-                this.DataContext = product;
-                UpdateBtn.Visibility = Visibility.Hidden;
-                DeleteBtn.Visibility = Visibility.Hidden;
-                CategoriesSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
-                //AmountLbl.Visibility = Visibility.Hidden;
-                //  AmountTxt.Visibility = Visibility.Hidden;
-                addToCartBtn.Visibility = Visibility.Hidden;
-
-            }
-            else
-            {
-                AddBtn.Visibility = Visibility.Hidden;
-                CategoriesSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
-                if (!isDynamic)
+                InitializeComponent();
+                this.lastWindow = _lastWindow;
+                if (_productsCollection != null)
                 {
-
-                    //תצוגה בלבד
-
-                    productItem = bl.Product.GetProductCustomer(id, cart);
-                    this.DataContext = productItem;
+                    this.productsCollection = _productsCollection;
+                }
+                if (cart != null) { this.cart = cart; }
+                this.bl = bl;
+                CategoriesSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
+                if (id == 0)
+                {
+                    //add
+                    this.DataContext = product;
                     UpdateBtn.Visibility = Visibility.Hidden;
                     DeleteBtn.Visibility = Visibility.Hidden;
 
-                    NameTxt.IsReadOnly = true;
-                    PriceTxt.IsReadOnly = true;
-                    CategoriesSelector.IsEnabled = false;
-                    InStockTxt.IsReadOnly = true;
-                    // AmountTxt.IsReadOnly = true;
-
+                    addToCartBtn.Visibility = Visibility.Hidden;
                 }
                 else
                 {
-                    //update
-                    product = bl.Product.GetProductManager(id);
-                    this.DataContext = product;
-                    // AmountLbl.Visibility = Visibility.Hidden;
-                    // AmountTxt.Visibility = Visibility.Hidden;
-                    addToCartBtn.Visibility = Visibility.Hidden;
+                    AddBtn.Visibility = Visibility.Hidden;
+                    if (!isDynamic)
+                    {
+                        //Display only
+                        productItem = bl.Product.GetProductCustomer(id, cart);
+                        this.DataContext = productItem;
+                        UpdateBtn.Visibility = Visibility.Hidden;
+                        DeleteBtn.Visibility = Visibility.Hidden;
+
+                        NameTxt.IsReadOnly = true;
+                        PriceTxt.IsReadOnly = true;
+                        CategoriesSelector.IsEnabled = false;
+                        InStockTxt.IsReadOnly = true;
+
+                    }
+                    else
+                    {
+                        //update
+                        product = bl.Product.GetProductManager(id);
+                        this.DataContext = product;
+                        addToCartBtn.Visibility = Visibility.Hidden;
+                    }
                 }
-
-
+            }
+            catch (BlIdNotExist exc)
+            {
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
             }
         }
 
@@ -96,7 +96,6 @@ namespace PL
         {
             try
             {
-
                 if (product.Name == null | product.Price == 0 | product.Category == null | product.InStock == 0)
                     throw new PlInvalideData("invalid data");
 
@@ -108,7 +107,6 @@ namespace PL
             }
             catch (BO.BlInvalideData exc)
             {
-
                 MessageBox.Show(exc.Message);
             }
             catch (PlInvalideData exc)
@@ -122,6 +120,8 @@ namespace PL
             }
         }
 
+
+
         private void UpdateBtn_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -134,7 +134,6 @@ namespace PL
                 productsCollection?.Add(Convert.convertProductToProductForList(product));
 
                 MessageBox.Show("the product was updated successfully!!!");
-  
             }
             catch (BO.BlIdNotExist exc)
             {
@@ -151,15 +150,14 @@ namespace PL
             }
         }
 
+
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 bl.Product.Delete(product.ID);
                 productsCollection?.Remove(productsCollection?.Where(x => x.ID == product?.ID)?.FirstOrDefault());
-
                 MessageBox.Show("the product was deleted successfully!!!");
-
             }
             catch (BO.BlProductExistInOrders exc)
             {
@@ -177,14 +175,23 @@ namespace PL
             }
         }
 
+
         private void addToCartBtn_Click(object sender, RoutedEventArgs e)
         {
-            cart = bl.Cart.Add(cart, productItem.ID);
-            MessageBox.Show("successfully added to cart");
-            lastWindow.Show();
-            this.Close();
+            try
+            {
+                cart = bl.Cart.Add(cart, productItem.ID);
+                MessageBox.Show("successfully added to cart");
+                lastWindow.Show();
+                this.Close();
+            }
+            catch (BlIdNotExist exc)
+            {
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
+            }
 
         }
+
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {

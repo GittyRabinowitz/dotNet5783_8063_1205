@@ -24,36 +24,31 @@ namespace PL
     {
 
         private IBl bl;
-        ObservableCollection<BO.ProductForList> productsCollection;
-        ObservableCollection<BO.OrderForList> ordersCollection;
+        public ObservableCollection<BO.ProductForList> productsCollection { get; set; }
+        public ObservableCollection<BO.OrderForList> ordersCollection { get; set; }
+        public Array enumValues { get; set; }
         Window lastWindow;
+
+
+
         public ProductListWindow(IBl bl, Window _lastWindow)
         {
             try
             {
-
                 InitializeComponent();
 
                 this.lastWindow = _lastWindow;
-
                 this.bl = bl;
-                AttributeSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
-
-
-
+                enumValues = Enum.GetValues(typeof(BO.eCategory));
 
                 productsCollection = new ObservableCollection<BO.ProductForList>(bl.Product.GetProductList());
-                ProductsListview.ItemsSource = productsCollection;
-
-
-
                 ordersCollection = new ObservableCollection<OrderForList>(bl.Order.GetOrderList());
-                OrderListview.ItemsSource = ordersCollection;
 
+                this.DataContext = this;
             }
             catch (BO.BlNoEntitiesFoundInDal exc)
             {
-                MessageBox.Show(exc.Message);
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
             }
         }
 
@@ -66,15 +61,23 @@ namespace PL
             }
             catch (BO.BlNoEntitiesFoundInDal exc)
             {
-                MessageBox.Show(exc.Message);
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
             }
         }
 
+
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-            ProductWindow productWindow = new ProductWindow(bl, this, _productsCollection: productsCollection);
-            productWindow.Show();
-            this.Hide();
+            try
+            {
+                ProductWindow productWindow = new ProductWindow(bl, this, _productsCollection: productsCollection);
+                productWindow.Show();
+                this.Hide();
+            }
+            catch (BO.BlIdNotExist exc)
+            {
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
+            }
         }
 
 
@@ -83,15 +86,14 @@ namespace PL
 
             try
             {
-
-                ProductWindow productWindow = new ProductWindow(bl, _lastWindow: this,(ProductsListview.SelectedItem as BO.ProductForList).ID,  _productsCollection: productsCollection);
+                ProductWindow productWindow = new ProductWindow(bl, _lastWindow: this, (ProductsListview.SelectedItem as BO.ProductForList).ID, _productsCollection: productsCollection);
                 productWindow.Show();
                 this.Hide();
             }
             catch (BO.BlIdNotExist exc)
             {
 
-                MessageBox.Show(exc.Message);
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
             }
         }
 
@@ -108,7 +110,4 @@ namespace PL
             this.Close();
         }
     }
-
-
-
 }

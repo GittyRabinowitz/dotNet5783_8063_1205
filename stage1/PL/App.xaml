@@ -4,6 +4,16 @@
              xmlns:local="clr-namespace:PL"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <local:ShipedToVisible x:Key="ShipedToVisible"/>
         <local:DeliveryToVisible x:Key="DeliveryToVisible"/>
+        <local:TrueToVisible x:Key="TrueToVisible"/>
+
+
+
+
+        <LinearGradientBrush x:Key ="MyButtonBackground" EndPoint =" 0.504,1.50" StartPoint =" 0.504,0.03">
+            <GradientStop Color ="#FFFFC934"  Offset ="0"/>
+            <GradientStop Color ="#FFFFFFFF" Offset ="0.567"/>
+        </LinearGradientBrush>
     </Application.Resources>
 </Application>

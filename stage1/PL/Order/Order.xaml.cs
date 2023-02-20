@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using BO;
+
 namespace PL.Order
 {
     /// <summary>
@@ -22,40 +24,37 @@ namespace PL.Order
     {
         private IBl bl;
         private int currentOrderId;
-        ObservableCollection<BO.OrderForList> ordersCollection;
         Window lastWindow;
+        public bool isDynamic { get; set; }
+        public BO.Order order { get; set; }
+        ObservableCollection<BO.OrderForList> ordersCollection;
+
+
+
         public Order(IBl bl, int orderID, bool isDynamic, Window _lastWindow, ObservableCollection<BO.OrderForList> _ordersCollection = null)
         {
-
-            this.lastWindow = _lastWindow;
-
-            if (_ordersCollection != null)
+            try
             {
-                this.ordersCollection = _ordersCollection;
+                InitializeComponent();
+                this.isDynamic = isDynamic;
+                this.lastWindow = _lastWindow;
+                if (_ordersCollection != null)
+                    this.ordersCollection = _ordersCollection;
+                this.order = bl.Order.GetOrderDetails(orderID);
+                this.currentOrderId = orderID;
+                this.DataContext = this;
+                this.bl = bl;
             }
-            BO.Order order = bl.Order.GetOrderDetails(orderID);
-            this.currentOrderId = orderID;
-            this.DataContext = order;
-
-            InitializeComponent();
-
-            this.bl = bl;
-
-            ProductsListview.ItemsSource = order.Items;
-            if (!isDynamic)
+            catch (BO.BlIdNotExist exc)
             {
-                nameTxt.IsReadOnly = true;
-                emailTxt.IsReadOnly = true;
-                addressTxt.IsReadOnly = true;
-                orderDateTxt.IsReadOnly = true;
-                shipDateTxt.IsReadOnly = true;
-                deliveryTxt.IsReadOnly = true;
-                statusTxt.IsReadOnly = true;
-                totalPriceTxt.IsReadOnly = true;
-                updateDeliveryBtn.Visibility = Visibility.Hidden;
-                updateShippingBtn.Visibility = Visibility.Hidden;
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
+            }
+            catch (BO.BlNoEntitiesFoundInDal exc)
+            {
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
             }
         }
+
 
         private void updateShippingBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -63,11 +62,9 @@ namespace PL.Order
             {
                 BO.Order order = bl.Order.updateShippedOrder(currentOrderId);
 
-
                 ordersCollection?.Remove(ordersCollection?.Where(x => x.ID == currentOrderId)?.FirstOrDefault());
 
                 ordersCollection?.Add(Convert.convertOrderToOrderForList(order));
-
 
                 this.DataContext = order;
             }
@@ -88,8 +85,8 @@ namespace PL.Order
                 lastWindow.Show();
                 this.Close();
             }
-
         }
+
 
         private void updateDeliveryBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -121,6 +118,7 @@ namespace PL.Order
                 this.Close();
             }
         }
+
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using BO;
+
 namespace PL.Product
 {
     /// <summary>
@@ -22,16 +24,28 @@ namespace PL.Product
         private IBl bl;
         private BO.Cart cart;
         Window lastWindow;
-        public ProductCatalog(IBl bl ,BO.Cart cart, Window _lastWindow)
-        {
-            InitializeComponent();
-            this.lastWindow = _lastWindow;
-            this.bl = bl;
-            this.cart = cart;
-            ProductsListview.ItemsSource = bl.Product.GetCatalog();
 
-            AttributeSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
+
+
+        public ProductCatalog(IBl bl, BO.Cart cart, Window _lastWindow)
+        {
+            try
+            {
+                InitializeComponent();
+                this.lastWindow = _lastWindow;
+                this.bl = bl;
+                this.cart = cart;
+
+                ProductsListview.ItemsSource = bl.Product.GetCatalog();
+                AttributeSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
+            }
+            catch (BlNoEntitiesFoundInDal exc)
+            {
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
+            }
         }
+
+
 
         private void AttributeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -42,23 +56,23 @@ namespace PL.Product
             }
             catch (BO.BlNoEntitiesFoundInDal exc)
             {
-                MessageBox.Show(exc.Message);
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
             }
         }
+
+
 
         private void viewListProductDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
             {
-
                 ProductWindow productWindow = new ProductWindow(bl, this, (ProductsListview.SelectedItem as BO.ProductItem).ID, false, cart);
                 productWindow.Show();
                 this.Hide();
             }
             catch (BO.BlIdNotExist exc)
             {
-
-                MessageBox.Show(exc.Message);
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
             }
         }
 
@@ -70,23 +84,32 @@ namespace PL.Product
             this.Hide();
         }
 
+
+
         private void GroupByCategory_Click(object sender, RoutedEventArgs e)
         {
-            var t= bl.Product.GetCatalog();
-   
-            var w= from item in t group item by item.Category into q orderby q.Count() select q;
-
-            List<BO.ProductItem> productItems = new List<BO.ProductItem>();
-            w.ToList().ForEach(group =>
+            try
             {
-                group.ToList().ForEach(item =>
-                {
-                    productItems.Add(item);
-                });
-            });
+                var products = bl.Product.GetCatalog();
+                var groupedProducts = from item in products group item by item.Category into q orderby q.Count() select q;
 
-            ProductsListview.ItemsSource = productItems;
+                List<BO.ProductItem> productItems = new List<BO.ProductItem>();
+                groupedProducts.ToList().ForEach(group =>
+                {
+                    group.ToList().ForEach(item =>
+                    {
+                        productItems.Add(item);
+                    });
+                });
+
+                ProductsListview.ItemsSource = productItems;
+            }
+            catch (BlNoEntitiesFoundInDal exc)
+            {
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
+            }
         }
+
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
@@ -94,7 +117,6 @@ namespace PL.Product
             this.Close();
         }
     }
-
 }
 
 

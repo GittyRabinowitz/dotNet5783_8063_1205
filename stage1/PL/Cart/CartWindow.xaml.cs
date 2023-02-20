@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using BO;
+
 namespace PL.Cart
 {
     /// <summary>
@@ -21,81 +23,94 @@ namespace PL.Cart
     public partial class CartWindow : Window
     {
         IBl bl;
-        BO.Cart cart;
-        ObservableCollection<BO.OrderItem> items = new ObservableCollection<BO.OrderItem>();
+        public BO.Cart cart { get; set; }
+        public ObservableCollection<BO.OrderItem> items { get; set; }
         Window lastWindow;
-        public CartWindow(IBl bl, BO.Cart cart, Window _lastWindow)
 
+
+
+        public CartWindow(IBl bl, BO.Cart cart, Window _lastWindow)
         {
             InitializeComponent();
 
             this.lastWindow = _lastWindow;
-
             this.bl = bl;
             this.cart = cart;
-            this.DataContext = cart;
-
             items = new ObservableCollection<BO.OrderItem>(cart.Items);
-            ProductsListview.ItemsSource = items;
-           
+            this.DataContext = this;
         }
+
 
         private void cartConfirmationBtn_Click(object sender, RoutedEventArgs e)
         {
-            bl.Cart.CartConfirmation(cart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
-            lastWindow.Show();
-            this.Close();
+            try
+            {
+                bl.Cart.CartConfirmation(cart, cart.CustomerName, cart.CustomerEmail, cart.CustomerAddress);
+            }
+            catch (BO.BlIdNotExist exc)
+            {
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
+            }
+            finally
+            {
+                lastWindow.Show();
+                this.Close();
+            }
         }
 
 
         private void decreaseQuantityBtn_Click(object sender, RoutedEventArgs e)
         {
-            BO.OrderItem itemToUpdate = (BO.OrderItem)((Button)sender).DataContext;
-            cart = bl.Cart.Update(cart, itemToUpdate.ProductID, itemToUpdate.Amount - 1, items);
-
-            this.DataContext = cart;
-
+            try
+            {
+                BO.OrderItem itemToUpdate = (BO.OrderItem)((Button)sender).DataContext;
+                cart = bl.Cart.Update(cart, itemToUpdate.ProductID, itemToUpdate.Amount - 1, items);
+                totalPriceTxt.Text = cart.TotalPrice.ToString();
+            }
+            catch (BO.BlIdNotExist exc)
+            {
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
+            }
         }
 
 
         private void IncreaseQuantityBtn_Click(object sender, RoutedEventArgs e)
         {
-
-            BO.OrderItem itemToUpdate = (BO.OrderItem)((Button)sender).DataContext;
-            cart = bl.Cart.Update(cart, itemToUpdate.ProductID, itemToUpdate.Amount + 1, items);
-
-            this.DataContext = cart;
-            totalPriceTxt.Text = cart.TotalPrice.ToString();
-
-
+            try
+            {
+                BO.OrderItem itemToUpdate = (BO.OrderItem)((Button)sender).DataContext;
+                cart = bl.Cart.Update(cart, itemToUpdate.ProductID, itemToUpdate.Amount + 1, items);
+                totalPriceTxt.Text = cart.TotalPrice.ToString();
+            }
+            catch (BO.BlIdNotExist exc)
+            {
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
+            }
         }
+
+
         private void EmptyButton_Click(object sender, RoutedEventArgs e)
         {
-
             int numOfItems = cart.Items.Count;
             for (int i = 0; i < numOfItems; i++)
             {
                 cart.Items.Remove(cart.Items[0]);
                 items.RemoveAt(0);
             }
-
-            //cart?.Items?.ForEach(item => { cart.Items.Remove(item); });
-            //לטפל ב פור הזה
             cart.TotalPrice = 0;
-            this.DataContext = cart;
-          
+            totalPriceTxt.Text = cart.TotalPrice.ToString();
         }
+
 
         private void deleteOrderItemBtn(object sender, RoutedEventArgs e)
         {
             BO.OrderItem itemToRemove = (BO.OrderItem)((Button)sender).DataContext;
-
-            cart.TotalPrice -= itemToRemove.TotalPrice;
+            cart.TotalPrice = cart.TotalPrice - itemToRemove.TotalPrice;
             cart?.Items?.Remove(itemToRemove);
-
             items.Remove(itemToRemove);
-         
+            totalPriceTxt.Text = cart.TotalPrice.ToString();
         }
+
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {

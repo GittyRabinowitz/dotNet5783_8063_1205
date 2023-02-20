@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
 using System.Collections.ObjectModel;
+using BO;
+
 namespace PL.Order
 {
     /// <summary>
@@ -23,19 +25,29 @@ namespace PL.Order
         private IBl bl;
         private int orderID;
         Window lastWindow;
+
+
+
         public OrderTracking(IBl bl, int orderID, Window _lastWindow)
         {
-            InitializeComponent();
-            this.lastWindow = _lastWindow;
-            this.orderID = orderID;
-            this.bl = bl;
-            BO.OrderTracking ot = bl.Order.orderTracking(orderID);
-            this.DataContext = ot;
-            var a = new ObservableCollection<Tuple<DateTime, BO.eOrderStatus>>(ot.DateAndTrack);
-            statusDetailes.ItemsSource = a;
+            try
+            {
+                InitializeComponent();
+                this.lastWindow = _lastWindow;
+                this.orderID = orderID;
+                this.bl = bl;
+                BO.OrderTracking ot = bl.Order.orderTracking(orderID);
+                this.DataContext = ot;
+                var a = new ObservableCollection<Tuple<DateTime, BO.eOrderStatus>>(ot.DateAndTrack);
+                statusDetailes.ItemsSource = a;
+            }
+            catch (BO.BlIdNotExist exc)
+            {
+                MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
 
-
+            }
         }
+
 
         private void OrderDetialsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -43,6 +55,8 @@ namespace PL.Order
             order.Show();
             this.Hide();
         }
+
+
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
