@@ -26,14 +26,14 @@
     <Name>sdsdsdsd</Name>
     <Price>12</Price>
     <Category>washRoom</Category>
-    <InStock>45</InStock>
+    <InStock>43</InStock>
   </Product>
   <Product>
     <ID>100019</ID>
     <Name>v</Name>
     <Price>56</Price>
     <Category>otherRoom</Category>
-    <InStock>23</InStock>
+    <InStock>22</InStock>
   </Product>
   <Product>
     <ID>100020</ID>

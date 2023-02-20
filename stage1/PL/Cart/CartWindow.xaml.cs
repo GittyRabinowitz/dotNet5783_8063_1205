@@ -55,10 +55,6 @@ namespace PL.Cart
 
             this.DataContext = cart;
 
-
-
-          //  items = new ObservableCollection<BO.OrderItem>(cart.Items);
-         //   ProductsListview.ItemsSource = items;
         }
 
 
@@ -69,9 +65,9 @@ namespace PL.Cart
             cart = bl.Cart.Update(cart, itemToUpdate.ProductID, itemToUpdate.Amount + 1, items);
 
             this.DataContext = cart;
-           // items = new ObservableCollection<BO.OrderItem>(cart.Items);
-           // ProductsListview.ItemsSource = items;
-       
+            totalPriceTxt.Text = cart.TotalPrice.ToString();
+
+
         }
         private void EmptyButton_Click(object sender, RoutedEventArgs e)
         {
@@ -80,12 +76,13 @@ namespace PL.Cart
             for (int i = 0; i < numOfItems; i++)
             {
                 cart.Items.Remove(cart.Items[0]);
+                items.RemoveAt(0);
             }
 
             //cart?.Items?.ForEach(item => { cart.Items.Remove(item); });
             //לטפל ב פור הזה
             cart.TotalPrice = 0;
-         //   this.DataContext = cart;
+            this.DataContext = cart;
           
         }
 
@@ -96,11 +93,8 @@ namespace PL.Cart
             cart.TotalPrice -= itemToRemove.TotalPrice;
             cart?.Items?.Remove(itemToRemove);
 
-         //   this.DataContext = cart;
             items.Remove(itemToRemove);
          
-          
-
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

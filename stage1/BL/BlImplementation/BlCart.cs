@@ -98,7 +98,7 @@ internal class BlCart : ICart
         {
             bool flag = true;
 
-          
+
 
             Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
 
@@ -115,26 +115,38 @@ internal class BlCart : ICart
                     {
                         if (newAmount - cart.Items[i].Amount > DoProduct.InStock)
                             throw new BO.BlOutOfStockException("This product is not available in this amount");
-
+                        BO.OrderItem item = items[i];
                         cart.Items[i].TotalPrice += cart.Items[i].Price * (newAmount - cart.Items[i].Amount);
+
+                        item.TotalPrice = cart.Items[i].TotalPrice;
+
                         cart.TotalPrice += cart.Items[i].Price * (newAmount - cart.Items[i].Amount);
                         cart.Items[i].Amount = newAmount;
+                        item.Amount = newAmount;
                         DoProduct.InStock -= (newAmount - cart.Items[i].Amount);
+                        items.RemoveAt(i);
+
+                        items.Insert(i, item);
                     }
                     else if (newAmount == 0)
                     {
                         cart.TotalPrice -= cart.Items[i].TotalPrice;
-                       
+
                         DoProduct.InStock += cart.Items[i].Amount;
                         cart.Items.Remove(cart.Items[i]);
+                        items.RemoveAt(i);
                     }
                     else if (newAmount < cart.Items[i].Amount)
                     {
                         cart.TotalPrice -= cart.Items[i].Price * (cart.Items[i].Amount - newAmount);
-
+                        BO.OrderItem item = items[i];
                         cart.Items[i].TotalPrice = cart.Items[i].Price * newAmount;
                         cart.Items[i].Amount = newAmount;
+                        item.TotalPrice = cart.Items[i].TotalPrice;
+                        item.Amount = newAmount;
+                        items.RemoveAt(i);
 
+                        items.Insert(i, item);
                         DoProduct.InStock += (cart.Items[i].Amount - newAmount);
                     }
                     break;
@@ -187,13 +199,15 @@ internal class BlCart : ICart
                 BoOrderItem.Amount = newAmount;
                 BoOrderItem.TotalPrice = DoProduct.Price * newAmount;
                 cart.Items.Add(BoOrderItem);
+                items.Add(BoOrderItem);
+
 
 
 
                 cart.TotalPrice += BoOrderItem.TotalPrice;
-                DoProduct.InStock -= newAmount ;
+                DoProduct.InStock -= newAmount;
             }
-           
+
             return cart;
         }
         catch (DalApi.DalIdNotFoundException exc)
