@@ -11,6 +11,7 @@
         <TextBox x:Name="orderIDTxt" HorizontalAlignment="Left" Margin="420,141,0,0" TextWrapping="Wrap" Text="enter order id" VerticalAlignment="Top" Width="120"/>
         <Button Content="Track" HorizontalAlignment="Left" Margin="468,194,0,0" VerticalAlignment="Top" Click="OrderTracking"/>
         <Button Content="NewOrder" HorizontalAlignment="Left" Margin="224,166,0,0" VerticalAlignment="Top" Height="31" Width="108" Click="NewOrder"/>
+        <Button Content="Simulator" HorizontalAlignment="Left" Margin="647,166,0,0" VerticalAlignment="Top" Click="SimulatorButton_Click"/>
 
     </Grid>
 </Window>

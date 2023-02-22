@@ -1,5 +1,6 @@
 ﻿using Dal.DO;
 using DalApi;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
 namespace Dal;
@@ -13,6 +14,7 @@ internal class DalProduct : IProduct
     /// </summary>
     /// <param name="xmlProduct"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Dal.DO.Product deepCopy(XElement? xmlProduct)
     {
         Dal.DO.Product product = new Product();
@@ -44,6 +46,7 @@ internal class DalProduct : IProduct
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Add(Product obj)
     {
         XElement? configRoot = XDocument.Load("../../xml/config.xml").Root;
@@ -71,6 +74,7 @@ internal class DalProduct : IProduct
     /// </summary>
     /// <param name="id"></param>
     /// <param name="amountToDecrease"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void decreaseInStock(int id, int amountToDecrease)
     {
         XElement? root = XDocument.Load("../../xml/Product.xml").Root;
@@ -90,6 +94,7 @@ internal class DalProduct : IProduct
     /// the function gets product id and deletes it from the xml file
     /// </summary>
     /// <param name="id"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
         XElement? root = XDocument.Load("../../xml/Product.xml").Root;
@@ -107,6 +112,7 @@ internal class DalProduct : IProduct
     /// </summary>
     /// <param name="func"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<Product> Get(Func<Product, bool> func = null)
     {
         if (func == null)
@@ -142,6 +148,7 @@ internal class DalProduct : IProduct
     /// </summary>
     /// <param name="func"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Product GetSingle(Func<Product, bool> func)
     {
         XElement? root = XDocument.Load("../../xml/Product.xml").Root;
@@ -160,6 +167,7 @@ internal class DalProduct : IProduct
     /// the function gets product and updates it to the xml file
     /// </summary>
     /// <param name="obj"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(Product obj)
     {
         XElement? root = XDocument.Load("../../xml/Product.xml").Root;

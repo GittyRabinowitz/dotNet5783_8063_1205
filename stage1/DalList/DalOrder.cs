@@ -1,6 +1,8 @@
 ﻿
 using Dal.DO;
 using DalApi;
+using System.Runtime.CompilerServices;
+
 namespace Dal.UseObjects;
 
 /// <summary>
@@ -16,6 +18,7 @@ internal class DalOrder : IOrder
     /// <param name="obj"></param>
     /// <returns>the object's id</returns>
     /// <exception cref="NotImplementedException"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Add(Order obj)
     {
         obj.ID = DataSource.Config.OrderID;
@@ -29,6 +32,7 @@ internal class DalOrder : IOrder
     /// </summary>
     /// <param name="Id"></param>
     /// <exception cref="NotImplementedException"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int Id)
     {
         bool flag = true;
@@ -52,6 +56,7 @@ internal class DalOrder : IOrder
     /// </summary>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<Order> Get(Func<Order, bool> func = null)
     {
         //List<Order> OrderList = new List<Order>();
@@ -67,7 +72,7 @@ internal class DalOrder : IOrder
         return (func == null ? DataSource.OrderList : DataSource.OrderList.Where(func).ToList());
     }
 
-
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Order GetSingle(Func<Order, bool> func)
     {
         if (DataSource.OrderList.Where(func).ToList().Count() == 0)
@@ -81,6 +86,7 @@ internal class DalOrder : IOrder
     /// </summary>
     /// <param name="obj"></param>
     /// <exception cref="NotImplementedException"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(Order obj)
     {
         bool flag = true;

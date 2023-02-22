@@ -1,6 +1,7 @@
 ﻿
 using Dal.DO;
 using DalApi;
+using System.Runtime.CompilerServices;
 //using lin
 namespace Dal.UseObjects;
 /// <summary>
@@ -17,6 +18,7 @@ internal class DalProduct : IProduct
     /// <param name="obj"></param>
     /// <returns>the object's id</returns>
     /// <exception cref="NotImplementedException"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Add(Product obj)
     {
         obj.ID = DataSource.Config.ProductID;
@@ -30,6 +32,7 @@ internal class DalProduct : IProduct
     /// </summary>
     /// <param name="Id"></param>
     /// <exception cref="NotImplementedException"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int Id)
     {
         bool flag = true;
@@ -51,6 +54,7 @@ internal class DalProduct : IProduct
     /// </summary>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<Product> Get(Func<Product,bool> func=null)
     {
         //List<Product> ProductList = new List<Product>();
@@ -71,6 +75,7 @@ internal class DalProduct : IProduct
     /// </summary>
     /// <param name="obj"></param>
     /// <exception cref="NotImplementedException"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(Product obj)
     {
         bool flag = true;
@@ -94,6 +99,7 @@ internal class DalProduct : IProduct
     /// </summary>
     /// <param name="id"></param>
     /// <param name="amountToDecrease"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void decreaseInStock(int id, int amountToDecrease)
     {
 
@@ -109,7 +115,7 @@ internal class DalProduct : IProduct
         }
     }
 
-
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Product GetSingle(Func<Product, bool> func)
     {
         if(DataSource.ProductList.Where(func).ToList().Count()==0)

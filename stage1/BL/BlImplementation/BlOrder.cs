@@ -1,5 +1,5 @@
 ﻿using BlApi;
-
+using System.Runtime.CompilerServices;
 
 namespace BlImplementation;
 
@@ -15,6 +15,7 @@ internal class BlOrder : IOrder
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BO.BlNoEntitiesFoundInDal"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<BO.OrderForList> GetOrderList()
     {
         try
@@ -84,6 +85,7 @@ internal class BlOrder : IOrder
     /// <returns></returns>
     /// <exception cref="BO.BlInvalideData"></exception>
     /// <exception cref="BO.BlIdNotExist"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.Order GetOrderDetails(int id)
     {
         try
@@ -165,6 +167,7 @@ internal class BlOrder : IOrder
     /// <returns></returns>
     /// <exception cref="BO.BlUpdateException"></exception>
     /// <exception cref="BO.BlIdNotExist"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.Order updateShippedOrder(int orderId)
     {
         try
@@ -243,6 +246,7 @@ internal class BlOrder : IOrder
     /// <returns></returns>
     /// <exception cref="BO.BlUpdateException"></exception>
     /// <exception cref="BO.BlIdNotExist"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.Order updateDeliveryedOrder(int orderId)
     {
         try
@@ -325,6 +329,7 @@ internal class BlOrder : IOrder
     /// <param name="orderId"></param>
     /// <returns></returns>
     /// <exception cref="BO.BlIdNotExist"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.OrderTracking orderTracking(int orderId)
     {
         try

@@ -119,4 +119,11 @@
     <Category>washRoom</Category>
     <InStock>8</InStock>
   </Product>
+  <Product>
+    <ID>100034</ID>
+    <Name>tova</Name>
+    <Price>1212</Price>
+    <Category>kitchen</Category>
+    <InStock>33</InStock>
+  </Product>
 </Products>

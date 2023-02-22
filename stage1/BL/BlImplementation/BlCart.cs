@@ -1,5 +1,6 @@
 ﻿using BlApi;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace BlImplementation;
 
@@ -17,6 +18,7 @@ internal class BlCart : ICart
     /// <returns></returns>
     /// <exception cref="BO.BlOutOfStockException"></exception>
     /// <exception cref="BO.BlIdNotExist"></exception>
+     [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.Cart Add(BO.Cart cart, int id)
     {
         try
@@ -92,6 +94,7 @@ internal class BlCart : ICart
     /// <returns></returns>
     /// <exception cref="BO.BlOutOfStockException"></exception>
     /// <exception cref="BO.BlIdNotExist"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.Cart Update(BO.Cart cart, int id, int newAmount, ObservableCollection<BO.OrderItem> items)
     {
         try
@@ -235,6 +238,7 @@ internal class BlCart : ICart
     /// <exception cref="BO.BlInvalideData"></exception>
     /// <exception cref="BO.BlOutOfStockException"></exception>
     /// <exception cref="BO.BlIdNotExist"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void CartConfirmation(BO.Cart cart, string customerName, string customerEmail, string customerAddress)
     {
         try

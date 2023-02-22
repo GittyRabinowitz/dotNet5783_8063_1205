@@ -1,4 +1,6 @@
 ﻿using BlApi;
+using System.Runtime.CompilerServices;
+
 namespace BlImplementation;
 
 internal class BlProduct : IProduct
@@ -13,6 +15,7 @@ internal class BlProduct : IProduct
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BO.BlNoEntitiesFound"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<BO.ProductForList> GetProductList()
     {
         try
@@ -47,6 +50,8 @@ internal class BlProduct : IProduct
             throw new BO.BlNoEntitiesFoundInDal(exc);
         }
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<BO.ProductForList> GetProductByCategoty(BO.eCategory category)
     {
         try
@@ -93,6 +98,7 @@ internal class BlProduct : IProduct
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BO.BlNoEntitiesFound"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<BO.ProductItem> GetCatalog(BO.eCategory? category)
     {
         try
@@ -155,6 +161,7 @@ internal class BlProduct : IProduct
     /// <returns>BO.Product</returns>
     /// <exception cref="BO.BlInvalideData"></exception>
     /// <exception cref="BO.BlIdNotExist"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.Product GetProductManager(int id)
     {
         try
@@ -202,6 +209,7 @@ internal class BlProduct : IProduct
     /// <returns>BO.Product</returns>
     /// <exception cref="BO.BlInvalideData"></exception>
     /// <exception cref="BO.BlIdNotExist"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public BO.ProductItem GetProductCustomer(int id, BO.Cart cart)
     {
         try
@@ -258,6 +266,7 @@ internal class BlProduct : IProduct
     /// </summary>
     /// <param name="BoProduct"></param>
     /// <exception cref="BO.BlInvalideData"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Add(BO.Product BoProduct)
     {
 
@@ -297,6 +306,7 @@ internal class BlProduct : IProduct
     /// <param name="id"></param>
     /// <exception cref="BO.BlIdNotExist"></exception>
     /// <exception cref="BO.BlProductExistInOrders"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
         try
@@ -347,6 +357,7 @@ internal class BlProduct : IProduct
     /// </summary>
     /// <param name="BOProduct"></param>
     /// <exception cref="BO.BlIdNotExist"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(BO.Product BOProduct)
     {
         try

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PL.Simulator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,6 +53,12 @@ namespace PL
         {
             Product.ProductCatalog productCatalog = new Product.ProductCatalog(bl, cart, this);
             productCatalog.Show();
+            this.Hide();
+        }
+
+        private void SimulatorButton_Click(object sender, RoutedEventArgs e)
+        {
+            new SimulatorWindow(this).Show(); 
             this.Hide();
         }
     }

@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 using DalApi;
 using Dal.DO;
+using System.Runtime.CompilerServices;
 
 namespace Dal;
 
@@ -15,6 +16,7 @@ internal class DalOrder : IOrder
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Add(Order obj)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
@@ -47,6 +49,7 @@ internal class DalOrder : IOrder
     /// the function gets order id and deletes it from the xml file
     /// </summary>
     /// <param name="id"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
@@ -73,6 +76,7 @@ internal class DalOrder : IOrder
     /// </summary>
     /// <param name="func"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<Order> Get(Func<Order, bool> func = null)
     {
         if (func == null)
@@ -110,6 +114,7 @@ internal class DalOrder : IOrder
     /// </summary>
     /// <param name="func"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Order GetSingle(Func<Order, bool> func)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
@@ -131,6 +136,7 @@ internal class DalOrder : IOrder
     /// the function gets order and updates it to the xml file
     /// </summary>
     /// <param name="obj"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(Order obj)
     {
         XmlRootAttribute xRoot = new XmlRootAttribute();
