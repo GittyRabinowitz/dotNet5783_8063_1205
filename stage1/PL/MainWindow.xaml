@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Background="{StaticResource MyButtonBackground}" Name="BtnEntry" Content="admin" HorizontalAlignment="Left" Margin="35,160,0,0" VerticalAlignment="Top" Click="BtnEntry_Click" Width="150" Height="40" BorderBrush="#FF1C2279" FontSize="14"/>
-        <TextBox x:Name="orderIDTxt" HorizontalAlignment="Left" Margin="420,141,0,0" TextWrapping="Wrap" Text="enter order id" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Track" HorizontalAlignment="Left" Margin="468,194,0,0" VerticalAlignment="Top" Click="OrderTracking"/>
-        <Button Content="NewOrder" HorizontalAlignment="Left" Margin="224,166,0,0" VerticalAlignment="Top" Height="31" Width="108" Click="NewOrder"/>
-        <Button Content="Simulator" HorizontalAlignment="Left" Margin="647,166,0,0" VerticalAlignment="Top" Click="SimulatorButton_Click"/>
+        <Button Name="BtnEntry" Content="admin" HorizontalAlignment="Left" Margin="123,100,0,0" VerticalAlignment="Top" Click="BtnEntry_Click" Width="150" Height="70"/>
+        <TextBox x:Name="orderIDTxt" HorizontalAlignment="Left" Margin="372,135,0,0" TextWrapping="Wrap" Text="enter order id" VerticalAlignment="Top" Width="95" Height="35"/>
+        <Button Content="Track" HorizontalAlignment="Left" Margin="354,194,0,0" VerticalAlignment="Top" Click="OrderTracking" Width="150" Height="70"/>
+        <Button Content="NewOrder" HorizontalAlignment="Left" Margin="123,194,0,0" VerticalAlignment="Top" Height="70" Width="150" Click="NewOrder"/>
+        <Button Content="Simulator" HorizontalAlignment="Left" Margin="599,148,0,0" VerticalAlignment="Top" Click="SimulatorButton_Click" Width="150" Height="70"/>
 
     </Grid>
 </Window>

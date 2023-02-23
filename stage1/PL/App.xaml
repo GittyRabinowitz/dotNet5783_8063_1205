@@ -11,9 +11,48 @@
 
 
 
-        <LinearGradientBrush x:Key ="MyButtonBackground" EndPoint =" 0.504,1.50" StartPoint =" 0.504,0.03">
-            <GradientStop Color ="#FFFFC934"  Offset ="0"/>
-            <GradientStop Color ="#FFFFFFFF" Offset ="0.567"/>
-        </LinearGradientBrush>
+
+
+
+
+
+
+
+
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <!--<Setter Property="Background" Value="Gray"/>-->
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.0" Color="#90DDDD" />
+                            <GradientStop Offset="0.5" Color="#FF31D8AE" />
+                            <GradientStop Offset="1.0" Color="#FF0C906F" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="12"/>
+            <!--<Setter Property="Background" Value="Gray"/>-->
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.0" Color="#90DDDD" />
+                            <GradientStop Offset="0.5" Color="#FF31D8AE" />
+                            <GradientStop Offset="1.0" Color="#FF0C906F" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
     </Application.Resources>
 </Application>

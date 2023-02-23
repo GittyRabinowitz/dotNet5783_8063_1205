@@ -1,4 +1,5 @@
 ﻿using BlApi;
+using BO;
 using System.Runtime.CompilerServices;
 
 namespace BlImplementation;
@@ -379,6 +380,39 @@ internal class BlOrder : IOrder
             throw new BO.BlIdNotExist(exc);
         }
     }
-}
 
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public int? ChooseOrder()
+    {
+        DateTime minDate = DateTime.Now;
+        int? orderId = null;
+        List<OrderForList>? orderList = GetOrderList().ToList();
+        orderList?.ForEach(o =>
+
+        {
+            switch (o.Status)
+            {
+                case BO.eOrderStatus.ordered:
+                    if (GetOrderDetails(o.ID).OrderDate < minDate)
+                    {
+                        orderId = o.ID;
+                        minDate = (DateTime)GetOrderDetails(o.ID).OrderDate;
+                    }
+                    break;
+                case BO.eOrderStatus.shipped:
+                    if (GetOrderDetails(o.ID).ShipDate < minDate)
+                    {
+                        orderId = o.ID;
+                        minDate = (DateTime)GetOrderDetails(o.ID).ShipDate;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+        return orderId;
+    }
+
+}
 

@@ -1,0 +1,40 @@
+﻿<Window x:Class="PL.SimulatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="SimulatorWindow" Height="500" Width="800">
+    <Grid>
+        <Button Content="Stop Simulation" HorizontalAlignment="Left" Height="64" Margin="641,15,0,0" VerticalAlignment="Top" Width="135" Click="StopSimulatorBTN_Click"/>
+        <TextBlock x:Name="SimulatorTXTB" Text="00:00:00" HorizontalAlignment="Left" Height="80" Margin="22,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="230" FontSize="48" FontFamily="adam" FontWeight="Bold"/>
+        <Grid Margin="0,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Current Order:" Grid.Row="1" Grid.Column="0" Margin="200,83,120,78" Grid.RowSpan="2"/>
+            <TextBlock x:Name="currentOrder" Grid.Row="1" Grid.Column="1" Margin="0,83,238,75" Grid.RowSpan="2" Text="{Binding Item1.ID}"></TextBlock>
+            <TextBlock Text="Previous Status:" Grid.Row="2" Grid.Column="0" Margin="200,20,12,46"/>
+            <TextBlock x:Name="PreviousStatus" Text="{Binding Item3}" Grid.Row="2" Grid.Column="1" Margin="0,17,238,47"/>
+            <TextBlock Text="Next Status:" Grid.Row="2" Grid.Column="0" Margin="201,51,11,0" Height="23" VerticalAlignment="Top"></TextBlock>
+            <TextBlock x:Name="NextStatus" Text="{Binding Item4}" Grid.Row="2" Grid.Column="1" Margin="0,51,0,16"></TextBlock>
+            <TextBlock Text="Estimated time to complete:" Grid.Row="3" Grid.Column="0" Margin="195,33,17,32"/>
+            <TextBlock x:Name="EstimatedTime" Text="{Binding Item2}" Grid.Row="3" Grid.Column="1" Margin="0,33,0,32"/>
+        </Grid>
+        <StatusBar Name="SBar" Grid.Column="0" Grid.Row="5" VerticalAlignment="Bottom" Background="LightBlue">
+            <StatusBarItem Height="80">
+                <TextBlock Width="72" FontSize="20">Status:</TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        <!-- <ProgressBar Margin="181,333,0,0" Name="ProgressBar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Height="30" />-->
+    </Grid>
+</Window>

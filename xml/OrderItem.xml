@@ -98,4 +98,11 @@
     <Price>55</Price>
     <Amount>2</Amount>
   </OrderItem>
+  <OrderItem>
+    <ID>100014</ID>
+    <ProductID>100018</ProductID>
+    <OrderID>100013</OrderID>
+    <Price>12</Price>
+    <Amount>1</Amount>
+  </OrderItem>
 </OrderItems>

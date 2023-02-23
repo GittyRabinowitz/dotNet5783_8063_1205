@@ -8,22 +8,22 @@
         Title="Order" Height="450" Width="800">
     <Grid>
 
-        <Label x:Name="nameLbl" Content="customer name" HorizontalAlignment="Left" Margin="66,0,0,354" VerticalAlignment="Bottom" Width="150" Height="30"/>
+        <Label x:Name="nameLbl" Content="customer name" HorizontalAlignment="Left" Margin="61,0,0,383" VerticalAlignment="Bottom" Width="100" Height="30"/>
         <TextBox x:Name="nameTxt" IsReadOnly="True" HorizontalAlignment="Left" Margin="184,35,0,0" TextWrapping="Wrap" Text="{Binding Path=order.CustomerName}" VerticalAlignment="Top" Width="120" Height="18"/>
-        <Label x:Name="addressLbl" Content="customer address" HorizontalAlignment="Left" Margin="66,58,0,0" VerticalAlignment="Top" Width="150" Height="30"/>
+        <Label x:Name="addressLbl" Content="customer address" HorizontalAlignment="Left" Margin="59,55,0,0" VerticalAlignment="Top" Width="100" Height="30"/>
         <TextBox x:Name="addressTxt" IsReadOnly="True" HorizontalAlignment="Left" Margin="184,62,0,0" TextWrapping="Wrap" Text="{Binding Path=order.CustomerAddress}" VerticalAlignment="Top" Width="120" Height="18"/>
-        <Label x:Name="emailLbl" Content="customer email" HorizontalAlignment="Left" Margin="66,88,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.442,1.831" Height="30" Width="150"/>
+        <Label x:Name="emailLbl" Content="customer email" HorizontalAlignment="Left" Margin="66,88,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.442,1.831" Height="30" Width="100"/>
         <TextBox x:Name="emailTxt" IsReadOnly="True" HorizontalAlignment="Left" Margin="184,92,0,0" TextWrapping="Wrap" Text="{Binding Path=order.CustomerEmail}" VerticalAlignment="Top" Width="120" Height="18"/>
-        <Label x:Name="statusLbl" Content="status" HorizontalAlignment="Left" Margin="66,124,0,0" VerticalAlignment="Top" Width="150" Height="30"/>
+        <Label x:Name="statusLbl" Content="status" HorizontalAlignment="Left" Margin="66,124,0,0" VerticalAlignment="Top" Width="100" Height="30"/>
         <TextBox x:Name="statusTxt" IsReadOnly="True" HorizontalAlignment="Left" Margin="184,128,0,0" TextWrapping="Wrap" Text="{Binding Path=order.Status}" VerticalAlignment="Top" Width="120" Height="18"/>
-        <Label x:Name="orderDateLbl" Content="order date" HorizontalAlignment="Left" Margin="66,154,0,0" VerticalAlignment="Top" Width="150" Height="30"/>
+        <Label x:Name="orderDateLbl" Content="order date" HorizontalAlignment="Left" Margin="66,154,0,0" VerticalAlignment="Top" Width="100" Height="30"/>
         <TextBox x:Name="orderDateTxt" IsReadOnly="True" HorizontalAlignment="Left" Margin="184,160,0,0" TextWrapping="Wrap" Text="{Binding Path=order.OrderDate}" VerticalAlignment="Top" Width="120" Height="18"/>
-        <Label x:Name="shipDateLbl" Content="ship date" HorizontalAlignment="Left" Margin="66,192,0,0" VerticalAlignment="Top" Width="150" Height="30"/>
+        <Label x:Name="shipDateLbl" Content="ship date" HorizontalAlignment="Left" Margin="66,192,0,0" VerticalAlignment="Top" Width="100" Height="30"/>
         <TextBox x:Name="shipDateTxt" IsReadOnly="True" HorizontalAlignment="Left" Margin="184,198,0,0" TextWrapping="Wrap" Text="{Binding Path=order.ShipDate}" VerticalAlignment="Top" Width="120" Height="18"/>
-        <Label x:Name="deliveryLbl" Content="delivery date" HorizontalAlignment="Left" Margin="66,232,0,0" VerticalAlignment="Top" Width="150" Height="30"/>
+        <Label x:Name="deliveryLbl" Content="delivery date" HorizontalAlignment="Left" Margin="66,232,0,0" VerticalAlignment="Top" Width="100" Height="30"/>
         <TextBox x:Name="deliveryTxt" IsReadOnly="True" HorizontalAlignment="Left" Margin="184,238,0,0" TextWrapping="Wrap" Text="{Binding Path=order.DeliveryDate}" VerticalAlignment="Top" Width="120" Height="18"/>
-        <Label x:Name="totalPriceLbl" Content="total price" HorizontalAlignment="Left" Margin="66,274,0,0" VerticalAlignment="Top" Width="150" Height="30"/>
-        <TextBox x:Name="totalPriceTxt" IsReadOnly="True" HorizontalAlignment="Left" Margin="184,280,0,0" TextWrapping="Wrap" Text="{Binding Path=order.TotalPrice}" VerticalAlignment="Top" Width="120" Height="18"/>
+        <Label x:Name="totalPriceLbl" Content="total price" HorizontalAlignment="Left" Margin="66,274,0,0" VerticalAlignment="Top" Width="100" Height="30"/>
+        <TextBox x:Name="totalPriceTxt" IsReadOnly="True" HorizontalAlignment="Left" Margin="184,280,0,0" TextWrapping="Wrap" Text="{Binding Path=order.TotalPrice}" VerticalAlignment="Top" Width="100" Height="30"/>
 
 
         <ListView x:Name="ProductsListview" ItemsSource="{Binding order.Items}" Margin="32,322,252,34">
@@ -44,11 +44,15 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Content="Order Details" HorizontalAlignment="Left" Margin="446,43,0,0" VerticalAlignment="Top" Width="300" Height="60" FontSize="22"/>
+        <Label Content="Order Details" HorizontalAlignment="Left" Margin="446,43,0,0" VerticalAlignment="Top" Width="150" Height="45" FontSize="22"/>
 
-        <Grid Visibility="{Binding Path=isDynamic , Mode=Default, Converter={StaticResource TrueToVisible}}">
-            <Button Content="update shipping" Visibility="{Binding Path=order.Status, Mode=Default, Converter={StaticResource ShipedToVisible}}"   x:Name="updateShippingBtn" HorizontalAlignment="Left" Margin="682,256,0,0" VerticalAlignment="Top" Click="updateShippingBtn_Click"/>
-            <Button Content="update delivery" Visibility="{Binding Path=order.Status, Mode=Default, Converter={StaticResource DeliveryToVisible}}" x:Name="updateDeliveryBtn" HorizontalAlignment="Left" Margin="684,289,0,0" VerticalAlignment="Top" Click="updateDeliveryBtn_Click"/>
+        <Grid Visibility="{Binding Path=isDynamic , Mode=Default, Converter={StaticResource TrueToVisible}}" Margin="0,1,0,-1">
+            <!--<Grid.ColumnDefinitions>
+                <ColumnDefinition Width="119*"/>
+                <ColumnDefinition Width="81*"/>
+            </Grid.ColumnDefinitions>-->
+            <Button Content="update shipping" Visibility="{Binding Path=order.Status, Mode=Default, Converter={StaticResource ShipedToVisible}}"   x:Name="updateShippingBtn" HorizontalAlignment="Left" Margin="654,225,0,0" VerticalAlignment="Top" Click="updateShippingBtn_Click"/>
+            <Button Content="update delivery" Visibility="{Binding Path=order.Status, Mode=Default, Converter={StaticResource DeliveryToVisible}}" x:Name="updateDeliveryBtn" HorizontalAlignment="Left" Margin="576,268,0,0" VerticalAlignment="Top" Click="updateDeliveryBtn_Click" Width="192"/>
         </Grid>
         <Button Content="Back" HorizontalAlignment="Left" Margin="22,20,0,0" VerticalAlignment="Top" Click="BackButton_Click"/>
 

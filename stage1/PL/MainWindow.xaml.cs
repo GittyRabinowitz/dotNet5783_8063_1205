@@ -1,4 +1,4 @@
-﻿using PL.Simulator;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,8 +58,8 @@ namespace PL
 
         private void SimulatorButton_Click(object sender, RoutedEventArgs e)
         {
-            new SimulatorWindow(this).Show(); 
-            this.Hide();
+            new SimulatorWindow(bl).Show(); 
+            
         }
     }
 }
