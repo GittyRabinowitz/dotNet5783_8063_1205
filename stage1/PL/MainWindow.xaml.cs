@@ -58,7 +58,7 @@ namespace PL
 
         private void SimulatorButton_Click(object sender, RoutedEventArgs e)
         {
-            new SimulatorWindow(bl).Show(); 
+            new SimulatorWindow(bl).Show();
             
         }
     }

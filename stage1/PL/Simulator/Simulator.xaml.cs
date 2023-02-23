@@ -58,7 +58,7 @@ namespace PL
         public SimulatorWindow(BlApi.IBl Bl)
         {
             InitializeComponent();
-            bl = Bl;
+            this.bl = Bl;
             Loaded += ToolWindow_Loaded;
             TimerStart();
         }
@@ -87,7 +87,6 @@ namespace PL
             worker.ProgressChanged += TimerProgressChanged;
             worker.WorkerReportsProgress = true;
             worker.WorkerSupportsCancellation = true;
-            //Simulator.Simulator.StartSimulator();
             stopWatch.Restart();
             isTimerRun = true;
             worker.RunWorkerAsync();
@@ -118,7 +117,7 @@ namespace PL
             if (!(e is Details))
                 return;
 
-           this.details = e as Details;
+            this.details = e as Details;
             this.previousStatus = (details.order.ShipDate == DateTime.MinValue) ? BO.eOrderStatus.ordered.ToString() : BO.eOrderStatus.shipped.ToString();
             this.nextStatus = (details.order.ShipDate == DateTime.MinValue) ? BO.eOrderStatus.shipped.ToString() : BO.eOrderStatus.delivered.ToString();
             dcT = new Tuple<BO.Order, int, string, string>(details.order, details.seconds / 1000, previousStatus, nextStatus);
@@ -129,7 +128,7 @@ namespace PL
             else
             {
                 DataContext = dcT;
-                timer(details.seconds/1000);
+                timer(details.seconds / 1000);
                 ProgressBarStart(details.seconds / 1000);
 
             }
@@ -166,7 +165,7 @@ namespace PL
                 isTimerRun = false;
             }
             Simulator.Simulator.DoStop();
-            
+
             this.Close();
 
         }
@@ -179,20 +178,34 @@ namespace PL
         //}
         public void Stop(object sender, EventArgs e)
         {
-            //Simulator.Simulator.ProgressChange -= changeOrder;
-            //Simulator.Simulator.StopSimulator -= Stop;
-            if (isTimerRun)
-            {
-                stopWatch.Stop();
-                isTimerRun = false;
-            }
-            if (worker.WorkerSupportsCancellation == true) { worker.CancelAsync(); }
-            while (!CheckAccess())
+            Simulator.Simulator.ProgressChange -= changeOrder;
+            Simulator.Simulator.StopSimulator -= Stop;
+            //if (isTimerRun)
+            //{
+            //    stopWatch.Stop();
+            //    isTimerRun = false;
+            //}
+            //if (worker.WorkerSupportsCancellation == true)
+            //{ worker.CancelAsync(); }
+            //while (!CheckAccess())
+            //{
+            //    Dispatcher.BeginInvoke(Stop, sender, e);
+            //}
+            //// MessageBox.Show("successfuly finished updating all orders!!!!!!!!!");
+            //this.Close();
+
+
+
+            if (!CheckAccess())
             {
                 Dispatcher.BeginInvoke(Stop, sender, e);
             }
-           // MessageBox.Show("successfuly finished updating all orders!!!!!!!!!");
-            this.Close();
+            else
+            {
+                MessageBox.Show("complete updating");
+                this.Close();
+            }
+
         }
     }
 }

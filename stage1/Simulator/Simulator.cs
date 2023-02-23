@@ -18,7 +18,9 @@ public static class Simulator
     public static void DoStop()
     {
         finishFlag = true;
-        StopSimulator("",EventArgs.Empty);
+        if (StopSimulator != null)
+            StopSimulator("", EventArgs.Empty);
+
     }
     public static void run()
     {
@@ -63,6 +65,5 @@ public class Details : EventArgs
     {
         order = ord;
         seconds = sec;
-        
     }
 }
