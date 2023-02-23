@@ -10,7 +10,7 @@
 
         <Label Content="{Binding Path=Status}" HorizontalAlignment="Left" Margin="116,63,0,0" VerticalAlignment="Top" Height="40" Width="126"/>
         <Label  Content="status:" HorizontalAlignment="Left" Margin="55,63,0,0" VerticalAlignment="Top"/>
-        <ListView x:Name="statusDetailes" Margin="475,83,134,243">
+        <ListView x:Name="statusDetailes" Margin="348,47,98,181">
             <ListView.View>
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Employee Information">
 

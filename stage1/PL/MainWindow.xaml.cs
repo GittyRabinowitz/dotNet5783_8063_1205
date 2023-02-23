@@ -22,6 +22,7 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
+
         private BlApi.IBl bl = BlApi.Factory.Get();
         BO.Cart cart = new BO.Cart();
 

@@ -20,7 +20,6 @@ public static class Simulator
         finishFlag = true;
         if (StopSimulator != null)
             StopSimulator("", EventArgs.Empty);
-
     }
     public static void run()
     {

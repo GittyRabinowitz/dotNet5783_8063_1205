@@ -106,11 +106,11 @@ namespace PL
             Simulator.Simulator.ProgressChange += changeOrder;
             Simulator.Simulator.StopSimulator += Stop;
             Simulator.Simulator.run();
-            while (isTimerRun)
-            {
-                worker.ReportProgress(1);
-                Thread.Sleep(1000);
-            }
+            //while (isTimerRun)
+            //{
+            //    worker.ReportProgress(1);
+            //    Thread.Sleep(1000);
+            //}
         }
         private void changeOrder(object sender, EventArgs e)
         {
@@ -187,14 +187,6 @@ namespace PL
             //}
             //if (worker.WorkerSupportsCancellation == true)
             //{ worker.CancelAsync(); }
-            //while (!CheckAccess())
-            //{
-            //    Dispatcher.BeginInvoke(Stop, sender, e);
-            //}
-            //// MessageBox.Show("successfuly finished updating all orders!!!!!!!!!");
-            //this.Close();
-
-
 
             if (!CheckAccess())
             {
