@@ -63,6 +63,6 @@ public class Details : EventArgs
     {
         order = ord;
         seconds = sec;
-        third = 3
+        
     }
 }
