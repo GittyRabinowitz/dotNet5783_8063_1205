@@ -12,14 +12,14 @@
     <Name>fff</Name>
     <Price>55</Price>
     <Category>otherRoom</Category>
-    <InStock>3</InStock>
+    <InStock>1</InStock>
   </Product>
   <Product>
     <ID>100012</ID>
     <Name>s</Name>
     <Price>34</Price>
     <Category>otherRoom</Category>
-    <InStock>40</InStock>
+    <InStock>39</InStock>
   </Product>
   <Product>
     <ID>100018</ID>
@@ -33,7 +33,7 @@
     <Name>v</Name>
     <Price>56</Price>
     <Category>otherRoom</Category>
-    <InStock>22</InStock>
+    <InStock>20</InStock>
   </Product>
   <Product>
     <ID>100021</ID>
