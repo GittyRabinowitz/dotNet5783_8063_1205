@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BlApi;
 using BO;
-using PL.Product;
 
 namespace PL
 {
@@ -31,56 +20,57 @@ namespace PL
 
         ObservableCollection<BO.ProductForList> productsCollection;
         Window lastWindow;
-        public Array enumValues { get; set; }
+       // public Array enumValues { get; set; }
 
 
-
+      //  public bool isUpdateAndDelete { get; set; }
         public ProductWindow(IBl bl, Window _lastWindow, int id = 0, bool isDynamic = true, BO.Cart cart = null,
             ObservableCollection<BO.ProductForList> _productsCollection = null)
         {
             try
             {
                 InitializeComponent();
+               // bool isUpdateAndDelete;
+                this.bl = bl;
                 this.lastWindow = _lastWindow;
                 if (_productsCollection != null)
-                {
                     this.productsCollection = _productsCollection;
-                }
-                if (cart != null) { this.cart = cart; }
-                this.bl = bl;
+                if (cart != null)
+                    this.cart = cart;
                 CategoriesSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
-                if (id == 0)
+                if (id == 0)//add
                 {
-                    //add
                     this.DataContext = product;
                     UpdateBtn.Visibility = Visibility.Hidden;
                     DeleteBtn.Visibility = Visibility.Hidden;
 
                     addToCartBtn.Visibility = Visibility.Hidden;
+                   // isUpdateAndDelete = false;
                 }
                 else
                 {
                     AddBtn.Visibility = Visibility.Hidden;
-                    if (!isDynamic)
+                    if (!isDynamic)//Display only
                     {
-                        //Display only
                         productItem = bl.Product.GetProductCustomer(id, cart);
                         this.DataContext = productItem;
                         UpdateBtn.Visibility = Visibility.Hidden;
                         DeleteBtn.Visibility = Visibility.Hidden;
-
+                       // isUpdateAndDelete = false;
                         NameTxt.IsReadOnly = true;
                         PriceTxt.IsReadOnly = true;
                         CategoriesSelector.IsEnabled = false;
                         InStockTxt.IsReadOnly = true;
-
+                        
                     }
                     else
                     {
                         //update
+                       // isUpdateAndDelete = true;
                         product = bl.Product.GetProductManager(id);
                         this.DataContext = product;
                         addToCartBtn.Visibility = Visibility.Hidden;
+                        
                     }
                 }
             }

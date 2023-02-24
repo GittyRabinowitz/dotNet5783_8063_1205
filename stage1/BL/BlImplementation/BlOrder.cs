@@ -344,9 +344,9 @@ internal class BlOrder : IOrder
             BO.OrderTracking orderTracking = new BO.OrderTracking();
             orderTracking.DateAndTrack = new();
 
-            orderTracking.ID = BO.BoConfig.OrderTrackingID;
+            orderTracking.ID = order.ID;
             orderTracking.DateAndTrack.Add(new Tuple<DateTime, BO.eOrderStatus>(order.OrderDate, BO.eOrderStatus.ordered));
-
+            orderTracking.Status = BO.eOrderStatus.ordered;
 
             if (order.ShipDate != DateTime.MinValue)
             {
@@ -360,11 +360,6 @@ internal class BlOrder : IOrder
             {
                 orderTracking.Status = BO.eOrderStatus.delivered;
                 orderTracking.DateAndTrack.Add(new Tuple<DateTime, BO.eOrderStatus>(order.DeliveryDate, BO.eOrderStatus.delivered));
-
-            }
-            else
-            {
-                orderTracking.Status = BO.eOrderStatus.ordered;
             }
 
             return orderTracking;

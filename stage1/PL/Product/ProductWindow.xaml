@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="ProductWindow" Height="450" Width="800">
+
     <Grid RenderTransformOrigin="0.519,0.542">
         <Label Content="Name" HorizontalAlignment="Left" Margin="178,2,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14"/>
         <TextBox x:Name="NameTxt" Text="{Binding Path=Name}" HorizontalAlignment="Left" Margin="178,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="30" FontSize="14"/>
@@ -20,6 +21,5 @@
         <Label Content="Category" x:Name="Category" HorizontalAlignment="Left" Margin="178,154,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14"/>
         <Button x:Name="addToCartBtn" Content="Add to Cart" HorizontalAlignment="Left" Margin="451,234,0,0" VerticalAlignment="Top" Click="addToCartBtn_Click"/>
         <Button Content="Back" HorizontalAlignment="Left" Margin="42,20,0,0" VerticalAlignment="Top" Click="BackButton_Click"/>
-
     </Grid>
 </Window>

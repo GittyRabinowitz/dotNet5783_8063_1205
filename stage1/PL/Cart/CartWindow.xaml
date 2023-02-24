@@ -18,17 +18,17 @@
             <ColumnDefinition Width="333*"/>
         </Grid.ColumnDefinitions>-->
 
-        <Label x:Name="customerNameLbl" Content="customer name" HorizontalAlignment="Left" Margin="-178,-22,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
-        <TextBox x:Name="customerNameTxt" HorizontalAlignment="Left" Margin="-54,-19,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.CustomerName}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
-        <Label x:Name="customerAddressLbl" Content="customer address" HorizontalAlignment="Left" Margin="-178,11,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
-        <TextBox x:Name="customerAddressTxt" HorizontalAlignment="Left" Margin="-54,14,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.CustomerAddress}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
-        <Label x:Name="customerEmailLbl" Content="customer email" HorizontalAlignment="Left" Margin="-178,44,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
-        <TextBox x:Name="customerEmailTxt" HorizontalAlignment="Left" Margin="-54,48,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.CustomerEmail}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
-        <Label x:Name="totalPriceLbl" Content="total price" HorizontalAlignment="Left" Margin="-178,77,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
-        <TextBox x:Name="totalPriceTxt" HorizontalAlignment="Left" Margin="-54,79,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.TotalPrice, Mode=TwoWay}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <Label x:Name="customerNameLbl" Content="customer name" HorizontalAlignment="Left" Margin="-178,-59,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
+        <TextBox x:Name="customerNameTxt" HorizontalAlignment="Left" Margin="-54,-51,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.CustomerName}" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="customerAddressLbl" Content="customer address" HorizontalAlignment="Left" Margin="-178,-29,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
+        <TextBox x:Name="customerAddressTxt" HorizontalAlignment="Left" Margin="-54,-22,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.CustomerAddress}" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="customerEmailLbl" Content="customer email" HorizontalAlignment="Left" Margin="-178,5,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
+        <TextBox x:Name="customerEmailTxt" HorizontalAlignment="Left" Margin="-54,9,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.CustomerEmail}" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="totalPriceLbl" Content="total price" HorizontalAlignment="Left" Margin="-178,35,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
+        <TextBox x:Name="totalPriceTxt" HorizontalAlignment="Left" Margin="-54,37,0,0" TextWrapping="Wrap" Text="{Binding Path=cart.TotalPrice, Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
 
 
-        <ListView Margin="-178,124,36,10"  x:Name="ProductsListview" ItemsSource="{Binding items}" Grid.ColumnSpan="3">
+        <ListView Margin="-222,60,10,10"  x:Name="ProductsListview" ItemsSource="{Binding items}">
             <ListView.View>
                 <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Employee Information">
 
@@ -67,16 +67,16 @@
                     </GridViewColumn>
 
                     <GridViewColumn Header="delete me" Width="150">
-                        <GridViewColumn.CellTemplate >
+                        <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="deleteBtn" Width="80" Click="deleteOrderItemBtn"></Button>
+                                <Button x:Name="deleteBtn" Width="100" Height="50" Click="deleteOrderItemBtn"></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="cart confirmation" x:Name="cartConfirmationBtn" HorizontalAlignment="Left" Margin="335,-36,0,0" VerticalAlignment="Top" Click="cartConfirmationBtn_Click"/>
+        <Button Content="cart confirmation" x:Name="cartConfirmationBtn" HorizontalAlignment="Left" Margin="388,-54,0,0" VerticalAlignment="Top" Click="cartConfirmationBtn_Click"/>
         <Button x:Name="emptyBtn" Content="EMPTY" HorizontalAlignment="Left" Margin="451,-99,0,0" VerticalAlignment="Top" Click="EmptyButton_Click"/>
         <Button Content="Back" HorizontalAlignment="Left" Margin="-201,-99,0,0" VerticalAlignment="Top" Click="BackButton_Click"/>
     </Grid>

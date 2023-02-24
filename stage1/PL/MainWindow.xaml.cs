@@ -1,18 +1,5 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 
 namespace PL
@@ -33,7 +20,7 @@ namespace PL
         }
 
 
-        private void BtnEntry_Click(object sender, RoutedEventArgs e)
+        private void BtnAdmin_Click(object sender, RoutedEventArgs e)
         {
             ProductListWindow productListWindow = new ProductListWindow(bl, this);
             productListWindow.Show();
@@ -41,7 +28,7 @@ namespace PL
         }
 
 
-        private void OrderTracking(object sender, RoutedEventArgs e)
+        private void BtnOrderTracking_Click(object sender, RoutedEventArgs e)
         {
             Order.OrderTracking ot = new Order.OrderTracking(bl, int.Parse(orderIDTxt.Text), this);
             ot.Show();
@@ -50,7 +37,7 @@ namespace PL
         }
 
 
-        private void NewOrder(object sender, RoutedEventArgs e)
+        private void BtnNewOrder_Click(object sender, RoutedEventArgs e)
         {
             Product.ProductCatalog productCatalog = new Product.ProductCatalog(bl, cart, this);
             productCatalog.Show();

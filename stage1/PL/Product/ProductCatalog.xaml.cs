@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,8 @@ namespace PL.Product
         Window lastWindow;
 
 
+        public ObservableCollection<BO.ProductItem> productItemsCollection { get; set; }
+        public Array enumValues { get; set; }
 
         public ProductCatalog(IBl bl, BO.Cart cart, Window _lastWindow)
         {
@@ -35,9 +38,9 @@ namespace PL.Product
                 this.lastWindow = _lastWindow;
                 this.bl = bl;
                 this.cart = cart;
-
-                ProductsListview.ItemsSource = bl.Product.GetCatalog();
-                AttributeSelector.ItemsSource = Enum.GetValues(typeof(BO.eCategory));
+                this.productItemsCollection = new ObservableCollection<ProductItem>(bl.Product.GetCatalog());
+                this.DataContext = this;
+                enumValues = Enum.GetValues(typeof(BO.eCategory));
             }
             catch (BlNoEntitiesFoundInDal exc)
             {
@@ -52,7 +55,20 @@ namespace PL.Product
             try
             {
                 object SelectedItem = AttributeSelector.SelectedItem;
-                ProductsListview.ItemsSource = bl.Product.GetCatalog((BO.eCategory)SelectedItem);
+                // ProductsListview.ItemsSource = bl.Product.GetCatalog((BO.eCategory)SelectedItem);
+                int num=productItemsCollection.Count;
+                for (int i = 0; i < num; i++)
+                {
+                    productItemsCollection.RemoveAt(0);
+                }
+                //foreach (var item in productItemsCollection)
+                //{
+                //    productItemsCollection.Remove(item);
+                //}
+                foreach (var item in bl.Product.GetCatalog((BO.eCategory)SelectedItem))
+                {
+                    productItemsCollection.Add(item);
+                }
             }
             catch (BO.BlNoEntitiesFoundInDal exc)
             {

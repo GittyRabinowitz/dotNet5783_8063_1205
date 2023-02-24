@@ -57,6 +57,8 @@ namespace PL
             try
             {
                 object SelectedItem = AttributeSelector.SelectedItem;
+              //  productsCollection.Add((ObservableCollection<BO.ProductForList>)bl.Product.GetProductByCategoty((BO.eCategory)SelectedItem));
+               //אותה בעיה כמו ב-productcatalog
                 ProductsListview.ItemsSource = bl.Product.GetProductByCategoty((BO.eCategory)SelectedItem);
             }
             catch (BO.BlNoEntitiesFoundInDal exc)
