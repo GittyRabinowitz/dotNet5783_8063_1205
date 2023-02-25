@@ -7,8 +7,8 @@ public static class Simulator
 
     static BO.Order order;
     static Thread myThread { get; set; }
-    static Stopwatch myStopWatch { get; set; }
-    static event EventHandler propsChanged;
+   // static Stopwatch myStopWatch { get; set; }
+   // static event EventHandler propsChanged;
     private static string? previousState;
     private static string? afterState;
     static bool finishFlag = false;

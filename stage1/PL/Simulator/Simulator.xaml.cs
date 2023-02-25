@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -61,7 +62,12 @@ namespace PL
             Loaded += ToolWindow_Loaded;
             TimerStart();
         }
-
+        void ToolWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Code to remove close box from window
+            var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
+        }
         void ProgressBarStart(int sec)
         {
             if (ProgressBar != null)
@@ -90,27 +96,45 @@ namespace PL
             isTimerRun = true;
             worker.RunWorkerAsync();
         }
-        //void workerStart()
-        //{
-        //    worker = new BackgroundWorker();
-        //    worker.DoWork += WorkerDoWork;
-        //    worker.WorkerReportsProgress = true;
-        //    worker.WorkerSupportsCancellation = true;
-        //    // worker.ProgressChanged += workerProgressChanged;
-        //    worker.RunWorkerCompleted += RunWorkerCompleted;
-        //    worker.RunWorkerAsync();
-        //}
+
         void TimerDoWork(object sender, DoWorkEventArgs e)
         {
             Simulator.Simulator.ProgressChange += changeOrder;
             Simulator.Simulator.StopSimulator += Stop;
             Simulator.Simulator.run();
-            //while (isTimerRun)
-            //{
-            //    worker.ReportProgress(1);
-            //    Thread.Sleep(1000);
-            //}
+            while (isTimerRun)
+            {
+                worker.ReportProgress(1);
+                Thread.Sleep(1000);
+            }
         }
+        void TimerProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            string timerText = stopWatch.Elapsed.ToString();
+            timerText = timerText.Substring(0, 8);
+            SimulatorTXTB.Text = timerText;
+
+
+            //timer(details.seconds);
+        }
+
+
+
+
+
+        private void StopSimulatorBTN_Click(object sender, RoutedEventArgs e)
+        {
+            if (isTimerRun)
+            {
+                stopWatch.Stop();
+                isTimerRun = false;
+            }
+            Simulator.Simulator.DoStop();
+
+            this.Close();
+
+        }
+
         private void changeOrder(object sender, EventArgs e)
         {
             if (!(e is Details))
@@ -132,49 +156,6 @@ namespace PL
 
             }
         }
-        //void WorkerDoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    while (!worker.CancellationPending)
-        //    {
-        //        worker.ReportProgress(1);
-        //        Thread.Sleep(1000);
-        //    }
-        //}
-        void TimerProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            string timerText = stopWatch.Elapsed.ToString();
-            timerText = timerText.Substring(0, 8);
-            SimulatorTXTB.Text = timerText;
-
-
-            //timer(details.seconds);
-        }
-        void ToolWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Code to remove close box from window
-            var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
-            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
-        }
-
-        private void StopSimulatorBTN_Click(object sender, RoutedEventArgs e)
-        {
-            if (isTimerRun)
-            {
-                stopWatch.Stop();
-                isTimerRun = false;
-            }
-            Simulator.Simulator.DoStop();
-
-            this.Close();
-
-        }
-
-        //    void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //    {
-        //        Simulator.Simulator.StopSimulator();
-        //        this.Close();
-        //    }
-        //}
         public void Stop(object sender, EventArgs e)
         {
             Simulator.Simulator.ProgressChange -= changeOrder;
