@@ -39,6 +39,10 @@ namespace PL.Cart
             {
                 MessageBox.Show("inner exception: " + exc.InnerException.Message + "\n" + "exception: " + exc.Message);
             }
+            catch (BO.BlOutOfStockException exc)
+            {
+                MessageBox.Show("exception: " + exc.Message);
+            }
             finally
             {
                 lastWindow.Show();
