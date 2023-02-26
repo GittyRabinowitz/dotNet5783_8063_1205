@@ -1,129 +1,101 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Products>
   <Product>
-    <ID>100006</ID>
-    <Name>s</Name>
-    <Price>8</Price>
+    <ID>100000</ID>
+    <Name>Refrigerator</Name>
+    <Price>2000</Price>
+    <Category>kitchen</Category>
+    <InStock>28</InStock>
+  </Product>
+  <Product>
+    <ID>100001</ID>
+    <Name>Mixer</Name>
+    <Price>850</Price>
+    <Category>kitchen</Category>
+    <InStock>44</InStock>
+  </Product>
+  <Product>
+    <ID>100002</ID>
+    <Name>Night Light</Name>
+    <Price>150</Price>
+    <Category>otherRoom</Category>
+    <InStock>129</InStock>
+  </Product>
+  <Product>
+    <ID>100003</ID>
+    <Name>I robot</Name>
+    <Price>850</Price>
     <Category>washRoom</Category>
-    <InStock>37</InStock>
+    <InStock>12</InStock>
   </Product>
   <Product>
-    <ID>100008</ID>
-    <Name>fff</Name>
-    <Price>55</Price>
-    <Category>otherRoom</Category>
-    <InStock>0</InStock>
-  </Product>
-  <Product>
-    <ID>100012</ID>
-    <Name>s</Name>
-    <Price>34</Price>
-    <Category>otherRoom</Category>
-    <InStock>38</InStock>
-  </Product>
-  <Product>
-    <ID>100018</ID>
-    <Name>sdsdsdsd</Name>
-    <Price>12</Price>
+    <ID>100004</ID>
+    <Name>Vacuum Cleaner</Name>
+    <Price>620</Price>
     <Category>washRoom</Category>
-    <InStock>449</InStock>
-  </Product>
-  <Product>
-    <ID>100019</ID>
-    <Name>v</Name>
-    <Price>56</Price>
-    <Category>otherRoom</Category>
     <InStock>18</InStock>
   </Product>
   <Product>
-    <ID>100021</ID>
-    <Name>q</Name>
-    <Price>57</Price>
-    <Category>kitchen</Category>
-    <InStock>100</InStock>
+    <ID>100005</ID>
+    <Name>Air Conditioner</Name>
+    <Price>3000</Price>
+    <Category>otherRoom</Category>
+    <InStock>87</InStock>
   </Product>
   <Product>
-    <ID>100022</ID>
-    <Name>קק</Name>
-    <Price>1</Price>
+    <ID>100006</ID>
+    <Name>Microwave</Name>
+    <Price>350</Price>
+    <Category>kitchen</Category>
+    <InStock>89</InStock>
+  </Product>
+  <Product>
+    <ID>100007</ID>
+    <Name>Oven</Name>
+    <Price>3500</Price>
+    <Category>kitchen</Category>
+    <InStock>48</InStock>
+  </Product>
+  <Product>
+    <ID>100008</ID>
+    <Name>Kettel</Name>
+    <Price>69</Price>
+    <Category>kitchen</Category>
+    <InStock>120</InStock>
+  </Product>
+  <Product>
+    <ID>100009</ID>
+    <Name>Washing Machine</Name>
+    <Price>4000</Price>
     <Category>washRoom</Category>
-    <InStock>2</InStock>
+    <InStock>34</InStock>
   </Product>
   <Product>
-    <ID>100023</ID>
-    <Name>d</Name>
-    <Price>3</Price>
+    <ID>100010</ID>
+    <Name>Venta</Name>
+    <Price>230</Price>
+    <Category>otherRoom</Category>
+    <InStock>16</InStock>
+  </Product>
+  <Product>
+    <ID>100011</ID>
+    <Name>Drayer</Name>
+    <Price>2700</Price>
     <Category>washRoom</Category>
-    <InStock>3</InStock>
+    <InStock>18</InStock>
   </Product>
   <Product>
-    <ID>100025</ID>
-    <Name>gh</Name>
-    <Price>3</Price>
+    <ID>100012</ID>
+    <Name>Ninja</Name>
+    <Price>450</Price>
     <Category>kitchen</Category>
-    <InStock>33</InStock>
+    <InStock>30</InStock>
   </Product>
   <Product>
-    <ID>100026</ID>
-    <Name>ww</Name>
-    <Price>4</Price>
-    <Category>washRoom</Category>
-    <InStock>44</InStock>
-  </Product>
-  <Product>
-    <ID>100027</ID>
-    <Name>cc</Name>
-    <Price>1</Price>
-    <Category>kitchen</Category>
-    <InStock>2</InStock>
-  </Product>
-  <Product>
-    <ID>100028</ID>
-    <Name>gfhgh</Name>
-    <Price>4</Price>
-    <Category>kitchen</Category>
-    <InStock>5</InStock>
-  </Product>
-  <Product>
-    <ID>100029</ID>
-    <Name>aaaaaaaa</Name>
-    <Price>3</Price>
-    <Category>kitchen</Category>
-    <InStock>33</InStock>
-  </Product>
-  <Product>
-    <ID>100030</ID>
-    <Name>r</Name>
-    <Price>4</Price>
-    <Category>washRoom</Category>
-    <InStock>44</InStock>
-  </Product>
-  <Product>
-    <ID>100031</ID>
-    <Name>89</Name>
-    <Price>7</Price>
-    <Category>kitchen</Category>
-    <InStock>1</InStock>
-  </Product>
-  <Product>
-    <ID>100032</ID>
-    <Name>ee</Name>
-    <Price>4</Price>
-    <Category>kitchen</Category>
-    <InStock>44</InStock>
-  </Product>
-  <Product>
-    <ID>100033</ID>
-    <Name>ykfyul</Name>
-    <Price>90</Price>
-    <Category>washRoom</Category>
-    <InStock>4</InStock>
-  </Product>
-  <Product>
-    <ID>100034</ID>
-    <Name>tova</Name>
-    <Price>1212</Price>
-    <Category>kitchen</Category>
-    <InStock>27</InStock>
+    <ID>100013</ID>
+    <Name>Fan</Name>
+    <Price>670</Price>
+    <Category>otherRoom</Category>
+    <InStock>8</InStock>
   </Product>
 </Products>
