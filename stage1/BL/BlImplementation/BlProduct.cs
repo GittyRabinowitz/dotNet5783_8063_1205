@@ -60,10 +60,11 @@ internal class BlProduct : IProduct
     {
         try
         {
-
-
-            // IEnumerable<Dal.DO.Product> lst = Dal.Product.GetProductByCategory((Dal.DO.eCategory)category);
-            IEnumerable<Dal.DO.Product> lst = Dal.Product.Get(p => p.Category == (Dal.DO.eCategory)category);
+            IEnumerable<Dal.DO.Product> lst;
+            lock (Dal)
+            {
+                lst = Dal.Product.Get(p => p.Category == (Dal.DO.eCategory)category);
+            }
             List<BO.ProductForList> productsForList = new List<BO.ProductForList>();
 
 
