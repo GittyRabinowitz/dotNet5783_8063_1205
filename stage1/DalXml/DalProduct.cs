@@ -53,6 +53,7 @@ internal class DalProduct : IProduct
         int productId = Convert.ToInt32(configRoot?.Element("ProductID")?.Value);
         configRoot?.Element("ProductID")?.SetValue(productId + 1);
         configRoot?.Save("../../xml/config.xml");
+
         XElement product = new("Product",
                 new XElement("ID", productId),
                 new XElement("Name", obj.Name),

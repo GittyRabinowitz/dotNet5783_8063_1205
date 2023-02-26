@@ -27,8 +27,8 @@
             <TextBlock x:Name="PreviousStatus" Text="{Binding Item3}" Grid.Row="2" Grid.Column="1" Margin="0,17,238,47"/>
             <TextBlock Text="Next Status:" Grid.Row="2" Grid.Column="0" Margin="201,51,11,0" Height="23" VerticalAlignment="Top"></TextBlock>
             <TextBlock x:Name="NextStatus" Text="{Binding Item4}" Grid.Row="2" Grid.Column="1" Margin="0,51,0,16"></TextBlock>
-            <TextBlock Text="Estimated time to complete:" Grid.Row="3" Grid.Column="0" Margin="195,33,17,32"/>
-            <TextBlock x:Name="EstimatedTime" Text="{Binding Item2}" Grid.Row="3" Grid.Column="1" Margin="0,33,0,32"/>
+            <TextBlock Text="Estimated time to complete:" Grid.Row="2" Grid.Column="0" Margin="195,87,17,70" Grid.RowSpan="2"/>
+            <TextBlock x:Name="EstimatedTime" Text="{Binding Item2}" Grid.Row="2" Grid.Column="1" Margin="0,85,0,72" Grid.RowSpan="2"/>
         </Grid>
         <StatusBar Name="SBar" Grid.Column="0" Grid.Row="5" VerticalAlignment="Bottom" Background="LightBlue">
             <StatusBarItem Height="80">

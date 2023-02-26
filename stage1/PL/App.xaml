@@ -8,17 +8,6 @@
         <local:DeliveryToVisible x:Key="DeliveryToVisible"/>
         <local:TrueToVisible x:Key="TrueToVisible"/>
 
-
-
-
-
-
-
-
-
-
-
-
         <Style TargetType="Button">
             <Setter Property="FontSize" Value="14"/>
             <!--<Setter Property="Background" Value="Gray"/>-->

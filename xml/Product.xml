@@ -5,7 +5,7 @@
     <Name>Refrigerator</Name>
     <Price>2000</Price>
     <Category>kitchen</Category>
-    <InStock>28</InStock>
+    <InStock>26</InStock>
   </Product>
   <Product>
     <ID>100001</ID>
@@ -19,14 +19,14 @@
     <Name>Night Light</Name>
     <Price>150</Price>
     <Category>otherRoom</Category>
-    <InStock>38</InStock>
+    <InStock>45</InStock>
   </Product>
   <Product>
     <ID>100003</ID>
     <Name>I robot</Name>
     <Price>850</Price>
     <Category>washRoom</Category>
-    <InStock>12</InStock>
+    <InStock>11</InStock>
   </Product>
   <Product>
     <ID>100004</ID>
@@ -34,13 +34,6 @@
     <Price>620</Price>
     <Category>washRoom</Category>
     <InStock>18</InStock>
-  </Product>
-  <Product>
-    <ID>100005</ID>
-    <Name>Air Conditioner</Name>
-    <Price>3000</Price>
-    <Category>otherRoom</Category>
-    <InStock>87</InStock>
   </Product>
   <Product>
     <ID>100006</ID>
@@ -97,5 +90,12 @@
     <Price>670</Price>
     <Category>otherRoom</Category>
     <InStock>8</InStock>
+  </Product>
+  <Product>
+    <ID>100014</ID>
+    <Name>asa</Name>
+    <Price>34</Price>
+    <Category>washRoom</Category>
+    <InStock>45</InStock>
   </Product>
 </Products>
