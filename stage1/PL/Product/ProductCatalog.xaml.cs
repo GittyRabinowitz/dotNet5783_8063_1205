@@ -54,17 +54,8 @@ namespace PL.Product
         {
             try
             {
-                object SelectedItem = AttributeSelector.SelectedItem;
-                // ProductsListview.ItemsSource = bl.Product.GetCatalog((BO.eCategory)SelectedItem);
-                int num=productItemsCollection.Count;
-                for (int i = 0; i < num; i++)
-                {
-                    productItemsCollection.RemoveAt(0);
-                }
-                //foreach (var item in productItemsCollection)
-                //{
-                //    productItemsCollection.Remove(item);
-                //}
+                object SelectedItem = AttributeSelector.SelectedItem;  
+                productItemsCollection.Clear();
                 foreach (var item in bl.Product.GetCatalog((BO.eCategory)SelectedItem))
                 {
                     productItemsCollection.Add(item);
@@ -106,19 +97,18 @@ namespace PL.Product
         {
             try
             {
+                productItemsCollection.Clear();
+
                 var products = bl.Product.GetCatalog();
                 var groupedProducts = from item in products group item by item.Category into q orderby q.Count() select q;
 
-                List<BO.ProductItem> productItems = new List<BO.ProductItem>();
                 groupedProducts.ToList().ForEach(group =>
                 {
                     group.ToList().ForEach(item =>
                     {
-                        productItems.Add(item);
+                        productItemsCollection.Add(item);
                     });
                 });
-
-                ProductsListview.ItemsSource = productItems;
             }
             catch (BlNoEntitiesFoundInDal exc)
             {

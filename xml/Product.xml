@@ -19,7 +19,7 @@
     <Name>s</Name>
     <Price>34</Price>
     <Category>otherRoom</Category>
-    <InStock>38</InStock>
+    <InStock>36</InStock>
   </Product>
   <Product>
     <ID>100018</ID>
@@ -33,7 +33,7 @@
     <Name>v</Name>
     <Price>56</Price>
     <Category>otherRoom</Category>
-    <InStock>18</InStock>
+    <InStock>17</InStock>
   </Product>
   <Product>
     <ID>100021</ID>

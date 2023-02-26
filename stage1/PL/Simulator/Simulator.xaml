@@ -8,7 +8,7 @@
         Title="SimulatorWindow" Height="500" Width="800">
     <Grid>
         <Button Content="Stop Simulation" HorizontalAlignment="Left" Height="64" Margin="641,15,0,0" VerticalAlignment="Top" Width="135" Click="StopSimulatorBTN_Click"/>
-        <TextBlock x:Name="SimulatorTXTB" Text="00:00:00" HorizontalAlignment="Left" Height="80" Margin="22,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="230" FontSize="48" FontFamily="adam" FontWeight="Bold"/>
+        <TextBlock x:Name="SimulatorTXTB" Text="00:00:00" HorizontalAlignment="Left" Height="80" Margin="22,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="526" FontSize="48" FontFamily="adam" FontWeight="Bold"/>
         <Grid Margin="0,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
