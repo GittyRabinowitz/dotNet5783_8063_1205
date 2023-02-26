@@ -25,7 +25,11 @@ internal class BlCart : ICart
         {
             //Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
 
-            Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
+            Dal.DO.Product DoProduct;
+            lock (Dal)
+            {
+                DoProduct = Dal.Product.GetSingle(p => p.ID == id);
+            }
 
 
             bool flag = true;
@@ -102,11 +106,12 @@ internal class BlCart : ICart
             bool flag = true;
 
 
-
-            Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
-
-
-
+            Dal.DO.Product DoProduct;
+            lock(Dal)
+            { 
+                DoProduct = Dal.Product.GetSingle(p => p.ID == id); 
+            }
+             
             int num = cart.Items.Count;
 
             for (int i = 0; i < num; i++)
@@ -267,15 +272,18 @@ internal class BlCart : ICart
             DoOrder.CustomerName = customerName;
             DoOrder.CustomerEmail = customerEmail;
             DoOrder.CustomerAdress = customerAddress;
-
-            int orderId = Dal.Order.Add(DoOrder);
+            int orderId;
+            lock (Dal) { 
+            orderId = Dal.Order.Add(DoOrder);
+            }
 
             cart?.Items?.ForEach(oi =>
             {
 
-
-
-                Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == oi.ProductID);
+                Dal.DO.Product DoProduct;
+                lock (Dal) { 
+                    DoProduct = Dal.Product.GetSingle(p => p.ID == oi.ProductID);
+                }
 
                 if (oi.Amount < 0)
                 {
@@ -295,9 +303,17 @@ internal class BlCart : ICart
                     DoOrderItem.Amount = oi.Amount;
                     DoOrderItem.Price = oi.Price;
 
-                    Dal.OrderItem.Add(DoOrderItem);
 
-                    Dal.Product.decreaseInStock(DoProduct.ID, oi.Amount);
+                    lock (Dal)
+                    {
+                        Dal.OrderItem.Add(DoOrderItem);
+                    }
+
+                    lock (Dal)
+                    {
+                        Dal.Product.decreaseInStock(DoProduct.ID, oi.Amount);
+                    }
+                   
 
                 }
 
