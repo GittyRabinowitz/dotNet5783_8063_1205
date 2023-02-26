@@ -21,8 +21,10 @@ internal class BlOrder : IOrder
     {
         try
         {
-            IEnumerable<Dal.DO.Order> DoOrders = Dal.Order.Get();
-
+            IEnumerable<Dal.DO.Order> DoOrders;
+            lock (Dal) { 
+            DoOrders = Dal.Order.Get();
+            }
             List<BO.OrderForList> orderList = new List<BO.OrderForList>();
 
 
@@ -35,7 +37,12 @@ internal class BlOrder : IOrder
                 orderForList.TotalPrice = 0;
                 orderForList.AmountOfItems = 0;
 
-                List<Dal.DO.OrderItem> orderItems = Dal.OrderItem.Get(oi => oi.OrderID == order.ID).ToList();
+                List<Dal.DO.OrderItem> orderItems;
+                lock (Dal)
+                {
+                    orderItems = Dal.OrderItem.Get(oi => oi.OrderID == order.ID).ToList();
+                }
+                
 
 
                 orderForList.TotalPrice = (from oi in orderItems
@@ -97,11 +104,18 @@ internal class BlOrder : IOrder
 
             if (id <= 0)
                 throw new BO.BlInvalideData("id cant be negative");
+            lock (Dal)
+            {
+                DoOrder = Dal.Order.GetSingle(o => o.ID == id);
+            }
 
-            //DoOrder = Dal.Order.GetSingle(id);
-            DoOrder = Dal.Order.GetSingle(o => o.ID == id);
-            //IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(id);
-            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi => oi.OrderID == id).ToList();
+
+            IEnumerable<Dal.DO.OrderItem> DoOrderItems;
+            lock (Dal)
+            {
+                DoOrderItems = Dal.OrderItem.Get(oi => oi.OrderID == id).ToList();
+            }
+           
 
 
             BoOrder.ID = DoOrder.ID;
@@ -127,7 +141,11 @@ internal class BlOrder : IOrder
 
                 BoOrderItem.ID = BO.BoConfig.OrderItemID;
                 BoOrderItem.ProductID = DoOrderItem.ProductID;
-                BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == DoOrderItem.ProductID).Name;
+                lock (Dal)
+                {
+                    BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == DoOrderItem.ProductID).Name;
+                }
+                
                 BoOrderItem.Amount = DoOrderItem.Amount;
                 BoOrderItem.Price = DoOrderItem.Price;
                 BoOrderItem.TotalPrice = DoOrderItem.Price * DoOrderItem.Amount;
@@ -174,15 +192,23 @@ internal class BlOrder : IOrder
         try
         {
 
-            // Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
 
-            Dal.DO.Order DoOrder = Dal.Order.GetSingle(o => o.ID == orderId);
+            Dal.DO.Order DoOrder;
+            lock (Dal)
+            {
+                DoOrder = Dal.Order.GetSingle(o => o.ID == orderId);
+            }
+           
 
             if (DoOrder.ShipDate != DateTime.MinValue)
                 throw new BO.BlUpdateException("The order has already been updated");
 
             DoOrder.ShipDate = DateTime.Now;
-            Dal.Order.Update(DoOrder);
+            lock (Dal)
+            {
+                Dal.Order.Update(DoOrder);
+            }
+           
 
             BO.Order BoOrder = new BO.Order();
 
@@ -196,8 +222,12 @@ internal class BlOrder : IOrder
             BoOrder.DeliveryDate = DateTime.MinValue;
             BoOrder.TotalPrice = 0;
 
-            //IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
-            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi => oi.OrderID == orderId).ToList();
+            IEnumerable<Dal.DO.OrderItem> DoOrderItems;
+            lock (Dal)
+            {
+                DoOrderItems = Dal.OrderItem.Get(oi => oi.OrderID == orderId).ToList();
+            }
+            
 
             BoOrder.Items = new List<BO.OrderItem>();
 
@@ -207,7 +237,10 @@ internal class BlOrder : IOrder
 
                        BoOrderItem.ID = BO.BoConfig.OrderItemID;
                        BoOrderItem.ProductID = oi.ProductID;
-                       BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == oi.ProductID).Name;
+                       lock (Dal)
+                       {
+                           BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == oi.ProductID).Name;
+                       }
                        BoOrderItem.Amount = oi.Amount;
                        BoOrderItem.Price = oi.Price;
                        BoOrderItem.TotalPrice = oi.Amount * oi.Price;
@@ -252,17 +285,23 @@ internal class BlOrder : IOrder
     {
         try
         {
-            // Dal.DO.Order DoOrder = Dal.Order.GetSingle(orderId);
-
-            Dal.DO.Order DoOrder = Dal.Order.GetSingle(o => o.ID == orderId);
-
+            Dal.DO.Order DoOrder;
+            lock (Dal)
+            {
+                DoOrder = Dal.Order.GetSingle(o => o.ID == orderId);
+            }
+           
             if (DoOrder.ShipDate == DateTime.MinValue)
                 throw new BO.BlUpdateException("The order delivered before shipping");
             if (DoOrder.DeliveryDate != DateTime.MinValue)
                 throw new BO.BlUpdateException("The order has already been updated");
 
             DoOrder.DeliveryDate = DateTime.Now;
-            Dal.Order.Update(DoOrder);
+            lock (Dal)
+            {
+                Dal.Order.Update(DoOrder);
+            }
+         
 
             BO.Order BoOrder = new BO.Order();
 
@@ -276,10 +315,13 @@ internal class BlOrder : IOrder
             BoOrder.Status = BO.eOrderStatus.delivered;
             BoOrder.TotalPrice = 0;
 
-            //IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.GetOrderItemByOrderId(orderId);
 
-            IEnumerable<Dal.DO.OrderItem> DoOrderItems = Dal.OrderItem.Get(oi => oi.OrderID == orderId).ToList();
-
+            IEnumerable<Dal.DO.OrderItem> DoOrderItems;
+            lock (Dal)
+            {
+                DoOrderItems = Dal.OrderItem.Get(oi => oi.OrderID == orderId).ToList();
+            }
+          
 
             BoOrder.Items = new List<BO.OrderItem>();
 
@@ -291,8 +333,10 @@ internal class BlOrder : IOrder
 
                 BoOrderItem.ID = BO.BoConfig.OrderItemID;
                 BoOrderItem.ProductID = oi.ProductID;
-                BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == oi.ProductID).Name;
-
+                lock (Dal)
+                {
+                    BoOrderItem.Name = Dal.Product.GetSingle(p => p.ID == oi.ProductID).Name;
+                }
                 BoOrderItem.Amount = oi.Amount;
                 BoOrderItem.Price = oi.Price;
                 BoOrderItem.TotalPrice = oi.Amount * oi.Price;
@@ -335,11 +379,11 @@ internal class BlOrder : IOrder
     {
         try
         {
-
-
-            //Dal.DO.Order order = Dal.Order.GetSingle(orderId);
-
-            Dal.DO.Order order = Dal.Order.GetSingle(o => o.ID == orderId);
+            Dal.DO.Order order;
+            lock (Dal)
+            {
+                order = Dal.Order.GetSingle(o => o.ID == orderId);
+            }
 
             BO.OrderTracking orderTracking = new BO.OrderTracking();
             orderTracking.DateAndTrack = new();
