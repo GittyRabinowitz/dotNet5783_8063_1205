@@ -20,7 +20,11 @@ internal class BlProduct : IProduct
     {
         try
         {
-            IEnumerable<Dal.DO.Product> existingProductsList = Dal.Product.Get();
+            IEnumerable<Dal.DO.Product> existingProductsList;
+            lock (Dal)
+            {
+                existingProductsList = Dal.Product.Get();
+            }
 
             List<BO.ProductForList> productsForList = new List<BO.ProductForList>();
 
@@ -311,8 +315,11 @@ internal class BlProduct : IProduct
     {
         try
         {
-            Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
-
+            Dal.DO.Product DoProduct;
+            lock (Dal)
+            {
+                DoProduct = Dal.Product.GetSingle(p => p.ID == id);
+            }
 
             IEnumerable<Dal.DO.OrderItem> orderItems = Dal.OrderItem.Get();
 
@@ -363,7 +370,11 @@ internal class BlProduct : IProduct
         try
         {
             //Dal.DO.Product DoProduct = Dal.Product.GetSingle(BOProduct.ID);
-            Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == BOProduct.ID);
+            Dal.DO.Product DoProduct;
+            lock (Dal)
+            {
+                DoProduct = Dal.Product.GetSingle(p => p.ID == BOProduct.ID);
+            }
 
 
 

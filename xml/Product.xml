@@ -19,7 +19,7 @@
     <Name>s</Name>
     <Price>34</Price>
     <Category>otherRoom</Category>
-    <InStock>39</InStock>
+    <InStock>38</InStock>
   </Product>
   <Product>
     <ID>100018</ID>
@@ -54,7 +54,7 @@
     <Name>d</Name>
     <Price>3</Price>
     <Category>washRoom</Category>
-    <InStock>4</InStock>
+    <InStock>3</InStock>
   </Product>
   <Product>
     <ID>100025</ID>
@@ -114,16 +114,16 @@
   </Product>
   <Product>
     <ID>100033</ID>
-    <Name>iiii</Name>
-    <Price>78</Price>
+    <Name>ykfyul</Name>
+    <Price>90</Price>
     <Category>washRoom</Category>
-    <InStock>8</InStock>
+    <InStock>4</InStock>
   </Product>
   <Product>
     <ID>100034</ID>
     <Name>tova</Name>
     <Price>1212</Price>
     <Category>kitchen</Category>
-    <InStock>33</InStock>
+    <InStock>27</InStock>
   </Product>
 </Products>
