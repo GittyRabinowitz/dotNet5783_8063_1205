@@ -21,8 +21,10 @@ internal class BlOrder : IOrder
     {
         try
         {
-            IEnumerable<Dal.DO.Order> DoOrders = Dal.Order.Get();
-
+            IEnumerable<Dal.DO.Order> DoOrders;
+            lock (Dal) { 
+            DoOrders = Dal.Order.Get();
+            }
             List<BO.OrderForList> orderList = new List<BO.OrderForList>();
 
 
