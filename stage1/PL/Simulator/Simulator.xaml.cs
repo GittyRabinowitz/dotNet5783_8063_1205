@@ -37,24 +37,6 @@ namespace PL
         Tuple<BO.Order, int, string, string> dcT;
         Details details;
 
-        DispatcherTimer _timer;
-        TimeSpan _time;
-
-        private void timer(int sec)
-        {
-            _time = TimeSpan.FromSeconds(sec);
-
-            _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
-            {
-                EstimatedTime.Text = string.Format("{0:D2}", _time.Seconds);
-                if (_time == TimeSpan.Zero) _timer.Stop();
-                _time = _time.Add(TimeSpan.FromSeconds(-1));
-            }, Application.Current.Dispatcher);
-
-            _timer.Start();
-        }
-
-
         public SimulatorWindow(BlApi.IBl Bl)
         {
             InitializeComponent();
@@ -110,17 +92,8 @@ namespace PL
         }
         void TimerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            string timerText = stopWatch.Elapsed.ToString();
-            timerText = timerText.Substring(0, 8);
-            SimulatorTXTB.Text = timerText;
-
-
-            //timer(details.seconds);
+            SimulatorTXTB.Text = DateTime.Now.ToString();
         }
-
-
-
-
 
         private void StopSimulatorBTN_Click(object sender, RoutedEventArgs e)
         {
@@ -151,22 +124,18 @@ namespace PL
             else
             {
                 DataContext = dcT;
-                timer(details.seconds / 1000);
                 ProgressBarStart(details.seconds / 1000);
-
             }
         }
         public void Stop(object sender, EventArgs e)
         {
             Simulator.Simulator.ProgressChange -= changeOrder;
             Simulator.Simulator.StopSimulator -= Stop;
-            //if (isTimerRun)
-            //{
-            //    stopWatch.Stop();
-            //    isTimerRun = false;
-            //}
-            //if (worker.WorkerSupportsCancellation == true)
-            //{ worker.CancelAsync(); }
+            if (isTimerRun)
+            {
+                stopWatch.Stop();
+                isTimerRun = false;
+            }
 
             if (!CheckAccess())
             {
@@ -177,7 +146,6 @@ namespace PL
                 MessageBox.Show("complete updating");
                 this.Close();
             }
-
         }
     }
 }

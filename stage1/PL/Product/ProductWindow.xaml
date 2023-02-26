@@ -8,17 +8,17 @@
         Title="ProductWindow" Height="450" Width="800">
 
     <Grid RenderTransformOrigin="0.519,0.542">
-        <Label Content="Name" HorizontalAlignment="Left" Margin="178,2,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14"/>
-        <TextBox x:Name="NameTxt" Text="{Binding Path=Name}" HorizontalAlignment="Left" Margin="178,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="30" FontSize="14"/>
-        <Label Content="Price" HorizontalAlignment="Left" Margin="178,74,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14"/>
-        <TextBox x:Name="PriceTxt" Text="{Binding Path=Price}" HorizontalAlignment="Left" Margin="176,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="30" FontSize="14"/>
-        <ComboBox x:Name="CategoriesSelector" ItemsSource="{Binding enumValues}" Text="{Binding Path=Category}" HorizontalAlignment="Left" Margin="175,184,0,0" VerticalAlignment="Top" Width="120" Height="30" FontSize="14"/>
-        <Label Content="InStock" HorizontalAlignment="Left" Margin="178,242,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14"/>
-        <TextBox x:Name="InStockTxt" Text="{Binding Path=InStock}" HorizontalAlignment="Left" Margin="176,278,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="30" FontSize="14"/>
+        <Label Content="Name" HorizontalAlignment="Left" Margin="266,6,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14"/>
+        <TextBox x:Name="NameTxt" Text="{Binding Path=Name}" HorizontalAlignment="Left" Margin="266,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="30" FontSize="14"/>
+        <Label Content="Price" HorizontalAlignment="Left" Margin="266,74,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14"/>
+        <TextBox x:Name="PriceTxt" Text="{Binding Path=Price}" HorizontalAlignment="Left" Margin="266,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="30" FontSize="14"/>
+        <ComboBox x:Name="CategoriesSelector" ItemsSource="{Binding enumValues}" Text="{Binding Path=Category}" HorizontalAlignment="Left" Margin="266,190,0,0" VerticalAlignment="Top" Width="120" Height="30" FontSize="14"/>
+        <Label Content="InStock" HorizontalAlignment="Left" Margin="266,240,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14"/>
+        <TextBox x:Name="InStockTxt" Text="{Binding Path=InStock}" HorizontalAlignment="Left" Margin="266,272,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="30" FontSize="14"/>
         <Button Content="Add" x:Name="AddBtn"  HorizontalAlignment="Left" Margin="414,178,0,0" VerticalAlignment="Top" Click="AddBtn_Click" Width="150" Height="30" Background="#FF62CBDE" BorderBrush="#FF1C2279" FontSize="14"/>
         <Button Content="Update" x:Name="UpdateBtn" HorizontalAlignment="Left" Margin="414,89,0,0" VerticalAlignment="Top" Click="UpdateBtn_Click" Width="150" Height="30" Background="#FF62CBDE" BorderBrush="#FF1C2279" FontSize="14"/>
         <Button Content="Delete" x:Name="DeleteBtn" HorizontalAlignment="Left" Margin="414,133,0,0" VerticalAlignment="Top" Click="Delete_Click" Width="150" Height="30" Background="#FF62CBDE" BorderBrush="#FF1C2279" FontSize="14"/>
-        <Label Content="Category" x:Name="Category" HorizontalAlignment="Left" Margin="178,154,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14"/>
+        <Label Content="Category" x:Name="Category" HorizontalAlignment="Left" Margin="266,157,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14"/>
         <Button x:Name="addToCartBtn" Content="Add to Cart" HorizontalAlignment="Left" Margin="451,234,0,0" VerticalAlignment="Top" Click="addToCartBtn_Click"/>
         <Button Content="Back" HorizontalAlignment="Left" Margin="42,20,0,0" VerticalAlignment="Top" Click="BackButton_Click"/>
     </Grid>
