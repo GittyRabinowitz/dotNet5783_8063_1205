@@ -60,10 +60,11 @@ internal class BlProduct : IProduct
     {
         try
         {
-
-
-            // IEnumerable<Dal.DO.Product> lst = Dal.Product.GetProductByCategory((Dal.DO.eCategory)category);
-            IEnumerable<Dal.DO.Product> lst = Dal.Product.Get(p => p.Category == (Dal.DO.eCategory)category);
+            IEnumerable<Dal.DO.Product> lst;
+            lock (Dal)
+            {
+                lst = Dal.Product.Get(p => p.Category == (Dal.DO.eCategory)category);
+            }
             List<BO.ProductForList> productsForList = new List<BO.ProductForList>();
 
 
@@ -110,11 +111,17 @@ internal class BlProduct : IProduct
             IEnumerable<Dal.DO.Product> existingProductsList;
             if (category != null)
             {
-                existingProductsList = Dal.Product.Get(p => (BO.eCategory)p.Category == category);
+                lock (Dal)
+                {
+                    existingProductsList = Dal.Product.Get(p => (BO.eCategory)p.Category == category);
+                }
             }
             else
             {
-                existingProductsList = Dal.Product.Get();
+                lock (Dal)
+                {
+                    existingProductsList = Dal.Product.Get();
+                }
             }
 
             List<BO.ProductItem> productItemsList = new List<BO.ProductItem>();
@@ -176,7 +183,12 @@ internal class BlProduct : IProduct
                 //Dal.DO.Product DoProduct = new Dal.DO.Product();
                 //DoProduct = Dal.Product.GetSingle(id);
 
-                Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
+                Dal.DO.Product DoProduct;
+                lock (Dal) 
+                {
+                    DoProduct = Dal.Product.GetSingle(p => p.ID == id);
+                }
+                  
                 BoProduct.ID = DoProduct.ID;
                 BoProduct.Name = DoProduct.Name;
                 BoProduct.Price = DoProduct.Price;
@@ -222,7 +234,11 @@ internal class BlProduct : IProduct
             if (id > 0)
             {
                 //Dal.DO.Product DoProduct = Dal.Product.GetSingle(id);
-                Dal.DO.Product DoProduct = Dal.Product.GetSingle(p => p.ID == id);
+                Dal.DO.Product DoProduct;
+                lock (Dal) 
+                {
+                    DoProduct = Dal.Product.GetSingle(p => p.ID == id);
+                }
 
 
                 BO.ProductItem BoProductItem = new BO.ProductItem();
@@ -296,7 +312,11 @@ internal class BlProduct : IProduct
         DoProduct.Price = BoProduct.Price;
         DoProduct.Category = (Dal.DO.eCategory)BoProduct.Category;
         DoProduct.InStock = BoProduct.InStock;
-        int productId= Dal.Product.Add(DoProduct);
+        int productId;
+        lock (Dal)
+        {
+            productId = Dal.Product.Add(DoProduct);
+        }
         return productId;
 
     }
@@ -330,8 +350,10 @@ internal class BlProduct : IProduct
             {
                 throw new BO.BlProductExistInOrders("this product exist in orders");
             }
-
-            Dal.Product.Delete(id);
+            lock (Dal)
+            {
+                Dal.Product.Delete(id);
+            }
 
         }
         catch (DalApi.DalIdNotFoundException exc)
